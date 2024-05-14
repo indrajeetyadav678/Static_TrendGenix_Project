@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content%}
+<div id="registration_form">
+    <h2 id="form_type"> Registration Form</h2>
+    <form action="{% url 'registerdata' %}" method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Customer Name</label>
+            <input type="text" name="name" value="{{data1}}" class="form-control" id="exampleFormControlInput1" placeholder="Indrajeet Yadav">
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Email address</label>
+            <input type="email" name="email" value="{{data2}}" class="form-control" id="exampleFormControlInput1"
+                placeholder="name@example.com">
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Contact Number</label>
+            <input type="tel" name="number" value="{{data3}}" class="form-control" id="exampleFormControlInput1"
+                placeholder="8323456789">
+        </div>
+        <div class="mb-3">
+            <label for="inputPassword5" class="form-label">Password</label>
+            <input type="password" name="password" id="inputPassword5" class="form-control"
+                aria-describedby="passwordHelpBlock">
+        </div>
+        <div class="mb-3">
+            <label for="inputPassword5" class="form-label">Password</label>
+            <input type="password" name="con_password" id="inputPassword5" class="form-control"
+                aria-describedby="passwordHelpBlock">
+        </div>
+        <div id="submit_box">
+            <input type="submit" value="Create Account" id="submit_btn" onclick="massage()">
+        </div>
+    </form>
+</div>
+
+<!-- <h1>This is Registration page</h1> -->
+{% endblock %}
+<script>
+    function massage(){
+        massage="{{msg}}"
+        alert(massage)
+    }
+</script>
