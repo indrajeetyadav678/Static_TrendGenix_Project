@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content%}
+<form action="{% url 'todotask' pk=user_name.Email %}" method="post">
+ <div>Todo Task</div>   
+</form>
+
+
+<h1>This is Home page</h1>
+{% endblock %}

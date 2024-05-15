@@ -8,4 +8,13 @@ class RegistrationModel(models.Model):
     Password=models.CharField(max_length=20)
 
     def __str__(self):
-        return
+        return self.Email
+    
+class Todolist(models.Model):
+    Title=models.CharField(max_length=200)
+    Task=models.TextField()
+    Date=models.DateField(auto_now=True)
+    Email=models.EmailField()
+
+    def __str__(self):
+        return self.Email
