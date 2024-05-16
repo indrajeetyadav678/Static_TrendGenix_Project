@@ -138,3 +138,41 @@
     text-decoration: none;
     margin-bottom: 15px;
 }
+
+/* =============== Dashboard page ============= */
+
+#dashboard_Body{
+    width: 100%;
+    height: auto;
+}
+
+#todoform_box{
+    width:300px;
+    height: 330px;
+    border: 1px solid black;
+    padding: 30px 20px;
+}
+#titlefield{
+    width:250px;
+    height: 30px;
+    border-radius: 10px;
+    padding-left: 10px;
+}
+#taskfield{
+    width:250px;
+    height: 100px;
+    border-radius: 10px;
+    padding-left: 10px;
+}
+#submitbtn{
+    text-align: center;
+    padding: 4px 15px;
+    margin-left: auto;
+}
+
+/* ================== */
+#showdata_container{
+    width: 75%;
+    height: auto;
+    padding: 40px 10px;
+}

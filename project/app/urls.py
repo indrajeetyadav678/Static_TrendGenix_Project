@@ -12,4 +12,10 @@ urlpatterns=[
     path('logindata/',logindata, name='logindata'),
     path('logout/',logout, name='logout'),
     path('editpro/',editpro, name='editpro'),
+    # ============= dashboard page =============
+    path('todotask/',todotask, name='todotask'),
+    # path('search/',search, name='search'),
+    path('showdata1/<str:pk>/',showdata1, name='showdata1'),
+    path('showdata2/',showdata2, name='showdata2'),
+
 ]

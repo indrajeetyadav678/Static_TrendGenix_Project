@@ -77,3 +77,56 @@ def logout(request):
 def editpro(request):
     return render(request, 'editprofile.html')
     
+def todotask(request):
+    print(request.POST)
+    title = request.POST.get('title')
+    task = request.POST.get('task')
+    email = request.POST.get('email')
+    # password = request.POST.get('password')
+    data=RegistrationModel.objects.get(Email=email)
+    taskcheck=Todolist.objects.filter(Title=title)
+    if taskcheck:
+        msg="This Tutle task Already Saved"  
+        return render(request, 'dashboard.html', {'key1': msg, 'user_name':data})   
+    else:
+        Todolist.objects.create(
+            Title=title,
+            Task=task,
+            Email=email
+        )
+        msg="Your Task is Saved"
+        return render(request, 'dashboard.html', {'key1': msg, 'user_name':data})
+
+
+# def search(request):
+#     date=request.POST.get('date')
+#     print(date)
+#     email=request.POST.get('email')
+#     print(email)
+#     data=RegistrationModel.objects.get(Email=email)
+#     taskdata=Todolist.objects.filter(Date=date) and Todolist.objects.filter(Email=email) 
+#     # if taskdata:
+#     #     return render(request, 'dashboard.html', {'user_name':data, 'tododata':taskdata})
+#     # else:
+#     #     msg="data not found"
+#     #     return render(request, 'dashboard.html', { 'key1':msg, 'user_name':data})
+#     return render(request, 'dashboard.html')
+
+
+def showdata1(request, pk):
+    print(pk)
+    data=RegistrationModel.objects.filter(Email=pk)
+    taskdata=Todolist.objects.filter(Email=pk)
+    return render(request, 'dashboard.html', {'user_name':data, 'tododate':taskdata})
+
+def showdata2(request):
+    email=request.POST.get('email')
+    data=RegistrationModel.objects.get(Email=email)
+    taskdata=Todolist.objects.filter(Email=email)
+    return render(request, 'dashboard.html', {'user_name':data, 'tododate':taskdata})
+
+
+
+
+
+

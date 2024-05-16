@@ -1,10 +1,66 @@
 {% extends 'base.html' %}
 
 {% block content%}
-<form action="{% url 'todotask' pk=user_name.Email %}" method="post">
- <div>Todo Task</div>   
-</form>
+<div id="dashboard_Body">
+    <div id="todoform_box">
+        <form action="{% url 'todotask' %}" method="post">
+            {% csrf_token %}
+            <div style="text-align: center; font-weight: 600; font-size: 20px;">TODO FORM</div>
+            <label for="">Title</label><br />
+            <input type="text" name="title" id="titlefield" /><br />
+            <label for="">Task</label><br />
+            <textarea type="text" name="task" id="taskfield"></textarea><br />
+            <input type="email" name="email" value="{{user_name.Email}}" id="emailfield" hidden />
+            <input type="password" name="password" value="{{user_name.Password}}" id="passfield" hidden /><br />
+            <input type="submit" value="Submit" id="submitbtn" />
+        </form>
+    </div>
+    <div id="showdata_container">
 
+        <div>
+            <button><a href="{% url 'showdata1' pk=user_name.Email %}">Show Data</a></button>
+        </div>
+        <div>
+            <form action="{% url 'showdata2' %}" method="post">
+                {% csrf_token %}
+                <input type="email" name="email" value="{{user_name.Email}}" id="emailfield" hidden />
+                <input type="submit" value="Submit" id="submitbtn" />
+            </form>
+        </div>
+
+
+        <table>
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Data</th>
+                    <th>Title</th>
+                    <th>Task</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in tododate %}
+                <tr>
+                    <td>{{i.id}}</td>
+                    <td>{{i.Date}}</td>
+                    <td>{{i.Title}}</td>
+                    <td>{{i.Task}}</td>
+                    <td><button><a href="">edit</a></button></td>
+                    <td><button><a href="">Delete</a></button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+
+
+        </table>
+
+
+
+    </div>
+</div>
 
 <h1>This is Home page</h1>
 {% endblock %}
