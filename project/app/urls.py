@@ -15,7 +15,9 @@ urlpatterns=[
     # ============= dashboard page =============
     path('todotask/',todotask, name='todotask'),
     # path('search/',search, name='search'),
-    path('showdata1/<str:pk>/',showdata1, name='showdata1'),
     path('showdata2/',showdata2, name='showdata2'),
+    path('edittodo/<int:pk>/',edittodo, name='edittodo'),
+    path('delettodo/<int:pk>/',delettodo, name='delettodo'),
+    path('updatedata/',updatedata, name='updatedata'),
 
 ]

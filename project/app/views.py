@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import*
+from datetime import datetime
 
 # Create your views here.
 
@@ -124,6 +125,46 @@ def showdata2(request):
     data=RegistrationModel.objects.get(Email=email)
     taskdata=Todolist.objects.filter(Email=email)
     return render(request, 'dashboard.html', {'user_name':data, 'tododate':taskdata})
+
+
+def edittodo(request, pk):
+    print(pk)
+    data1=Todolist.objects.get(id=pk)
+    email=data1.Email
+    taskdata=Todolist.objects.filter(Email=email)
+    data=RegistrationModel.objects.get(Email=email)
+    return render(request, 'dashboard.html', {'user_name':data, 'tododate':taskdata, 'taskobject':data1})
+
+def delettodo(request, pk):
+    print(pk)
+    data=Todolist.objects.get(id=pk)
+    email=data.Email
+    data.delete()
+    taskdata=Todolist.objects.filter(Email=email)
+    data=RegistrationModel.objects.get(Email=email)
+    msg="Data deleted successfully"
+    return render(request, 'dashboard.html', {'user_name':data, 'tododate':taskdata, 'key1':msg})
+
+def updatedata(request):
+    pk=request.POST.get('id')
+    print(request.method)
+    Todotask=Todolist.objects.get(id=pk)
+    email=Todotask.Email
+    Todotask.id=pk
+    Todotask.Title=request.POST.get('title')
+    Todotask.Task=request.POST.get('task')
+    Todotask.Date = datetime.now()
+    Todotask.Email=request.POST.get('email')
+    Todotask.save()
+    taskdata=Todolist.objects.filter(Email=email)
+    data=RegistrationModel.objects.get(Email=email)
+    msg="Data update Successfully"
+    return render(request, 'dashboard.html', {'user_name':data, 'tododate':taskdata, 'key1':msg })
+
+
+
+
+
 
 
 
