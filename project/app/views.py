@@ -4,8 +4,8 @@ from datetime import datetime
 
 # Create your views here.
 
-def home(request):
-    return render(request, 'home.html')
+def index(request):
+    return render(request, 'index.html')
 
 def about(request):
     return render(request, 'about.html')
@@ -18,6 +18,8 @@ def register(request):
 
 def login(request):
     return render(request, 'login.html')
+
+# ================ registration function ================
 
 def registerdata(request):
     print(request.method)
@@ -48,7 +50,10 @@ def registerdata(request):
             else:
                 msg="Password and Confirm Password Not Match"
                 return render(request, 'register.html', {'key':msg,'data1':name,'data2':email,'data3':number})
-    
+
+
+# ============= login function =====================
+   
 def logindata(request):
     # print(request.POST)
     # userid=request.POST.get('userid')
@@ -72,11 +77,19 @@ def logindata(request):
         return render(request, 'register.html', {'key1': msg})
 
 def logout(request):
-    return render(request, 'home.html')
+    return render(request, 'index.html')
+
+def forgetpass(request):
+    return render(request, 'forgetpass.html')
 
 
 def editpro(request):
     return render(request, 'editprofile.html')
+
+# ======================= user Dashboard functions ===================
+# ============= user profile function -======================
+def changepass(request):
+    return render(request, 'changepass.html')
     
 def todotask(request):
     print(request.POST)
@@ -146,11 +159,9 @@ def delettodo(request, pk):
     return render(request, 'dashboard.html', {'user_name':data, 'tododate':taskdata, 'key1':msg})
 
 def updatedata(request):
-    pk=request.POST.get('id')
-    print(request.method)
-    Todotask=Todolist.objects.get(id=pk)
+    Todotask=Todolist.objects.get(id=request.POST.get('id'))
     email=Todotask.Email
-    Todotask.id=pk
+    Todotask.id=request.POST.get('id')
     Todotask.Title=request.POST.get('title')
     Todotask.Task=request.POST.get('task')
     Todotask.Date = datetime.now()

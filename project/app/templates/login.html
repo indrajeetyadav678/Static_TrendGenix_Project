@@ -5,7 +5,11 @@
     <h2 id="form_type"> Login</h2>
     <form action="{% url 'logindata' %}" method="post">
         {% csrf_token %}
-
+           <select name="login_type" id="logintype">
+            <option value="None" name="login_type">Choose Login Type</option>
+            <option value="customer" name="login_type">Customer</option>
+            <option value="admin" name="login_type">Admin</option>
+           </select><br/><br/>
         <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">Login with Email/Number</label>
             <input type="email" name="userid" class="form-control" id="exampleFormControlInput1"
@@ -15,7 +19,12 @@
             <label for="inputPassword5" class="form-label">Password</label>
             <input type="password" name="password" id="inputPassword5" class="form-control"
                 aria-describedby="passwordHelpBlock">
-        </div>
+        </div><br/>
+        <div>
+            <input type="checkbox" name="remember" id="checkinput">
+            <label for="checkinput">Remember Me</label>
+            <button id="forgetpass_btn"><a href="{% url 'forgetpass' %}">Forget Password</a></button>
+        </div><br/>
 
         <div id="submit_box">
             <input type="submit" value="login" id="submit_btn" onclick="massage()">

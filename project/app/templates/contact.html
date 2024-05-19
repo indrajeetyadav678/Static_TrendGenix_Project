@@ -1,6 +1,50 @@
 {% extends 'base.html' %}
 
 {% block content%}
+<div id="contact_body">
+    <div id="contact_sect1">
 
-<h1>This is Contact page</h1>
+        <div id="touch_us_text">
+            <label>CONTACT US</label><br />
+            <span>GET IN TOUCH</span><br /><br />
+        </div>
+        <div id="contact_sect1_col">
+            <div id="locat_icon">
+                <i class="fa-solid fa-location-dot"></i>
+            </div>
+            <div id="contac_sect1_cont">
+                Cybrom Technology PVT LTD<br/>
+                BHOPAL
+            </div>
+        </div>
+        <div id="contact_sect1_col">
+            <div id="locat_icon">
+                <i class="fa-solid fa-mobile"></i>
+            </div>
+            <div id="contac_sect1_cont">
+                125-711-811 | 125-668-886
+            </div>
+        </div>
+        <div id="contact_sect1_col">
+            <div id="locat_icon">
+                <i class="fa-regular fa-envelope"></i>
+            </div>
+            <div id="contac_sect1_cont">
+                Cybromtech@gmail.com
+            </div>
+        </div>
+    </div>
+    <div id="contact_usform">
+        <form action="" method="post">
+            {% csrf_token %}
+            <input type="text" name="name" id="cont_text" placeholder="Name" /><br /><br />
+            <input type="email" name="email" id="cont_text" placeholder="Email" /><br /><br />
+            <input type="url" name="urlpath" id="cont_text" placeholder="Website" /><br /><br />
+            <textarea name="address" id="cont_textarea" placeholder="Comment...."></textarea><br /><br />
+            <input type="submit" value="SUBMIT" id="cont_submit_btn" />
+        </form>
+    </div>
+</div>
+
+
 {% endblock %}
