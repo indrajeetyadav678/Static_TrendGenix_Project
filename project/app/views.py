@@ -19,8 +19,19 @@ def register(request):
 def login(request):
     return render(request, 'login.html')
 
-# ================ registration function ================
+def product(request):
+    return render(request, 'product.html')
 
+def men(request):
+    return render(request, 'men.html')
+
+def women(request):
+    return render(request, 'women.html')
+
+def girl(request):
+    return render(request, 'girl.html')
+
+# ================ registration function ================
 def registerdata(request):
     print(request.method)
     name=request.POST.get('name')
@@ -55,26 +66,40 @@ def registerdata(request):
 # ============= login function =====================
    
 def logindata(request):
-    # print(request.POST)
-    # userid=request.POST.get('userid')
-    # username=RegistrationModel.objects.filter(Email=userid)
-    # return render(request, 'register.html')
-
     userid=request.POST.get('userid')
     password=request.POST.get('password')
+    login_type=request.POST.get('login_type')
     username=RegistrationModel.objects.filter(Email=userid)
-    if username:
-        data=RegistrationModel.objects.get(Email=userid)
-        Password= data.Password
-        if Password==password:
-            msg="Welcome To "+data.Name
-            return render(request, 'dashboard.html', {'key1': msg, 'user_name':data})
+    if login_type =="none":
+        msg="Choose your login Type"
+        return render(request, 'dashboard.html', {'key1': msg})
+    elif login_type =="customer":
+        if username:
+            data=RegistrationModel.objects.get(Email=userid)
+            Password= data.Password
+            if Password==password:
+                msg="Welcome To "+data.Name
+                return render(request, 'index.html', {'key1': msg, 'user_name':data})
+            else:
+                msg="Enter Password is Wrong Please Enter Correct Password"
+                return render(request, 'login.html', {'key1': msg})
         else:
-            msg="Enter Password is Wrong Please Enter Correct Password"
-            return render(request, 'login.html', {'key1': msg})
-    else:
-        msg="Userid doesnot exist Please create Account"
-        return render(request, 'register.html', {'key1': msg})
+            msg="Userid doesnot exist Please create Account"
+            return render(request, 'register.html', {'key1': msg})
+    elif login_type =="admin":
+        if username:
+            data=RegistrationModel.objects.get(Email=userid)
+            Password= data.Password
+            if Password==password:
+                msg="Welcome To "+data.Name
+                return render(request, 'dashboard.html', {'key1': msg, 'user_name':data})
+            else:
+                msg="Enter Password is Wrong Please Enter Correct Password"
+                return render(request, 'login.html', {'key1': msg})
+        else:
+            msg="Userid doesnot exist Please create Account"
+            return render(request, 'register.html', {'key1': msg})
+        
 
 def logout(request):
     return render(request, 'index.html')
@@ -87,10 +112,54 @@ def editpro(request):
     return render(request, 'editprofile.html')
 
 # ======================= user Dashboard functions ===================
+def home(request):
+    print(request.POST)
+    email=request.POST.get('email')
+    data=RegistrationModel.objects.get(Email=email)
+    return render(request, 'index.html', {'user_name':data})
+
+def about1(request):
+    print(request.POST)
+    email=request.POST.get('email')
+    data=RegistrationModel.objects.get(Email=email)
+    return render(request, 'about.html', {'user_name':data})
+
+def contact1(request):
+    print(request.POST)
+    email=request.POST.get('email')
+    data=RegistrationModel.objects.get(Email=email)
+    return render(request, 'contact.html', {'user_name':data})
+
+def product1(request):
+    print(request.POST)
+    email=request.POST.get('email')
+    data=RegistrationModel.objects.get(Email=email)
+    return render(request, 'product.html', {'user_name':data})
+
+def men1(request):
+    print(request.POST)
+    email=request.POST.get('email')
+    data=RegistrationModel.objects.get(Email=email)
+    return render(request, 'men.html', {'user_name':data})
+
+def women1(request):
+    print(request.POST)
+    email=request.POST.get('email')
+    data=RegistrationModel.objects.get(Email=email)
+    return render(request, 'women.html', {'user_name':data})
+
+def girl1(request):
+    print(request.POST)
+    email=request.POST.get('email')
+    data=RegistrationModel.objects.get(Email=email)
+    return render(request, 'girl.html', {'user_name':data})
+
 # ============= user profile function -======================
 def changepass(request):
     return render(request, 'changepass.html')
-    
+
+
+# ================ adminDashboard ============================  
 def todotask(request):
     print(request.POST)
     title = request.POST.get('title')

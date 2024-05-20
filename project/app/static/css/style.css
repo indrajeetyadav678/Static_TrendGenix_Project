@@ -3,7 +3,7 @@
     padding: 0px;
     box-sizing: border-box;
 }
-
+/* ============== Navbar Section =============== */
 #Navbar {
     list-style: none;
     width: 100%;
@@ -16,60 +16,113 @@
     position: sticky;
     top: -8px
 }
-#navbar1{
-    width: 30%;
+#navbar1 {
+    width: 400px; 
+    /* border:1px solid white; */
     list-style: none;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
 }
-#navbar2{
-    width: 25%;
+#navbar2 {
+    width: 350px;
+    /* border:1px solid white; */
     list-style: none;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
 }
-
-
-#dropdown_manu{
+#dropdown_manu {
     background-color: rgb(14, 10, 31);
+    z-index: 1000;
 }
-#dropdown_manu li a:hover{
-    background-color:transparent;
+#dropdown_manu li a:hover {
+    background-color: transparent;
     color: red;
 }
-#navbar1 li{
-    margin-left: 15px;
-}
-#navbar1 li a:hover{
+#navbar1 li a:hover {
     color: rgb(255, 0, 0);
 }
-
-#title a{
+#title a {
     color: aliceblue;
     font-size: 25px;
     text-decoration: none;
 }
-#navbar_btn{
+#navbartitle_btn {
+    font-size: 16px;
+    letter-spacing: 1px;
+    font-weight: 800;
     background-color: transparent;
-    color:aliceblue;
+    color: aliceblue;
     border: none;
     outline: none;
 }
-
+#navbar_btn {
+    background-color: transparent;
+    color: aliceblue;
+    border: none;
+    outline: none;
+    letter-spacing: 1px;
+}
+#navbar_btn:hover{
+    color: red;
+}
+#product_btn{
+    position: relative;
+}
+#dropdown_manu_btn{
+    position: absolute;
+    top:4px;
+    right:-15px;
+}
 #login_user {
     color: aliceblue;
     letter-spacing: 1px;
     cursor: pointer;
 }
-
 #Navbar li a {
     text-decoration: none;
     color: aliceblue;
     letter-spacing: 1px;
 }
-
+#manubar_icon_box{
+    width: 50px;
+    height: 70px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    display: none;
+}
+#manubar_icon_close {
+    width: 40px;
+    position: absolute;
+    top:25px;
+    color:aliceblue;
+    display: none;
+    cursor: pointer;
+}
+#manubar_icon_open {
+    width: 50px;
+    position: absolute;
+    top:25px;
+    color:aliceblue;
+    display: none;
+    cursor: pointer;
+}
+#secon_navbar{
+    display: none;
+    list-style: none;
+    padding: 20px 20%;
+    color: aliceblue;
+    background-color:rgb(14, 10, 31);
+}
+#demo{
+    margin: 0%;
+    z-index: -1;
+}
+#secon_navbar li a{
+    color: aliceblue;
+}
 #profile_box {
     width: 250px;
     height: 370px;
@@ -83,24 +136,24 @@
     background-color: rgb(11, 16, 45);
     z-index: 10;
 }
-#profile_box::before{
-content: "";
-width:40px;
-height: 40px;
-display: block;
-background-color: rgb(11, 16, 45);
-/* border: 1px solid black; */
-transform: rotate(40deg);
-position: absolute;
-top: -17px;
-right: 25px;
+#profile_box::before {
+    content: "";
+    width: 40px;
+    height: 40px;
+    display: block;
+    background-color: rgb(11, 16, 45);
+    /* border: 1px solid black; */
+    transform: rotate(40deg);
+    position: absolute;
+    top: -17px;
+    right: 25px;
 }
-#profile_box label{
+#profile_box label {
     font-style: oblique;
     text-align: justify;
 }
-#user_account_info{
-    width:215px;
+#user_account_info {
+    width: 215px;
     height: auto;
     padding-top: 20px 5px;
     margin-top: 20px;
@@ -108,9 +161,7 @@ right: 25px;
     text-align: start;
     margin-left: 20px;
     color: aliceblue;
-
 }
-
 #prof_image {
     width: 70px;
     height: 70px;
@@ -119,7 +170,6 @@ right: 25px;
     margin-top: 30px;
     /* margin-left: 23%; */
 }
-
 #editpro_btn {
     padding: 3px 10px;
     background-color: transparent;
@@ -128,13 +178,60 @@ right: 25px;
     border: none;
     outline: none;
 }
-
-#usericon{
-    width:25px;
+#usericon {
+    width: 25px;
     /* height: 20px; */
 }
 
+@media(max-width: 992px){
+    #title a{
+        font-size: 16px;
+    }
+    #navbar1{
+        width:300px;
+    }
+    #navbar1 li a{
+        font-size: 12px;
+    }
+    #navbar2{
+        width: 290px;
+    }
+    #navbar2 li a{
+        font-size: 12px;
+    }
+    #navbar2 li{
+        font-size: 12px; 
+    }
+}
+@media(max-width: 768px){
+    #Navbar{
+        position: relative;
+    }
+    #manubar_icon_box{
+        display: block;
+    }
+    #manubar_icon_close{
+        display: block;
+    }
+    #navbar1{
+        width: 100%;
+        display: none;
+        padding: 20px 20%;
+        position: absolute;
+        top: 69px;
+        left: 0;
+        background-color:rgb(27, 27, 56) ;
+        border: none;
+        margin: 0%;
+        z-index: 40;
+    }
+    #navbar2{
+        display: none;
+    }
+}
+
 /* ============ Registartion form ======== */
+
 #registration_form {
     width: 400px;
     height: 550px;
@@ -142,23 +239,21 @@ right: 25px;
     padding: 15px 30px;
     margin: 25px 33%;
 }
-
 #form_type {
     text-align: center;
 }
-
 #submit_btn {
     padding: 3px 10px;
     border-radius: 10px;
     background-color: rgb(46, 46, 110);
     color: aliceblue;
 }
-
 #submit_box {
     text-align: center;
 }
 
 /* ============ Login form ======== */
+
 #login_form {
     width: 400px;
     height: 380px;
@@ -166,7 +261,6 @@ right: 25px;
     padding: 5px 30px;
     margin: 120px 33%;
 }
-
 #userid_input {
     width: 100%;
     height: 35px;
@@ -174,22 +268,21 @@ right: 25px;
     outline: none;
     border: none;
 }
-#forgetpass_btn{
+#forgetpass_btn {
     background-color: transparent;
     border: none;
     outline: none;
-    float:right;
+    float: right;
 }
 
-
 /* ========== Footer ======== */
+
 #Footer {
     text-align: center;
     color: aliceblue;
     padding: 15px 10px;
     background-color: rgb(54, 48, 48);
 }
-
 #links_box {
     display: flex;
     justify-content: space-around;
@@ -197,7 +290,6 @@ right: 25px;
     width: 100%;
     height: 150px;
 }
-
 #footlink1 li a,
 #footlink2 li a,
 #footlink3 li a,
@@ -209,73 +301,70 @@ right: 25px;
 
 /* =============== Dashboard page ============= */
 
-#dashboard_Body{
+#dashboard_Body {
     width: 100%;
     height: auto;
 }
-
-#todoform_box{
-    width:300px;
+#todoform_box {
+    width: 300px;
     height: 330px;
     border: 1px solid black;
     padding: 30px 20px;
 }
-#titlefield{
-    width:250px;
+#titlefield {
+    width: 250px;
     height: 30px;
     border-radius: 10px;
     padding-left: 10px;
 }
-#taskfield{
-    width:250px;
+#taskfield {
+    width: 250px;
     height: 100px;
     border-radius: 10px;
     padding-left: 10px;
 }
-#submitbtn{
+#submitbtn {
     text-align: center;
     padding: 4px 15px;
     margin-left: auto;
 }
 
-/* ================== */
-#showdata_container{
+/* ============================================= */
+
+#showdata_container {
     width: 75%;
     height: auto;
     padding: 40px 10px;
 }
-#show_table{
-    width:100%;
+#show_table {
+    width: 100%;
     height: auto;
 }
-
-#datatable_head tr th{
-    border:1px solid black;
+#datatable_head tr th {
+    border: 1px solid black;
     height: 30px;
     text-align: center;
     background-color: rgb(25, 25, 25);
     color: aliceblue;
 }
-#datatable_body tr td{
-    border:1px solid black;
+#datatable_body tr td {
+    border: 1px solid black;
     height: auto;
     text-align: center;
     background-color: aquamarine;
     color: rgb(1, 7, 12);
 }
-
-#showdata_btn{
-    width:100%;
+#showdata_btn {
+    width: 100%;
     height: 40px;
     padding: 10px 0px;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 40px;
-    
 }
-#showdata_btn #submitbtn{
-    width:100px;
+#showdata_btn #submitbtn {
+    width: 100px;
     height: 40px;
     background-color: rgb(68, 64, 64);
     text-align: center;
@@ -283,6 +372,7 @@ right: 25px;
 }
 
 /* ===================== contact us Page ===================== */
+
 #contact_body {
     width: 100%;
     height: auto;
@@ -292,12 +382,10 @@ right: 25px;
     justify-content: space-around;
     padding: 80px 20%;
 }
-
 #contact_sect1 {
     width: 350px;
     height: 420px;
 }
-
 #contact_sect1_col {
     width: 230px;
     height: 80px;
@@ -307,21 +395,17 @@ right: 25px;
     justify-content: space-between;
     align-items: center;
 }
-
 #touch_us_text label {
     font-size: 14px;
     letter-spacing: 1px;
     color: orangered;
-
 }
-
 #touch_us_text span {
     font-size: 30px;
     font-weight: bold;
     letter-spacing: 1px;
     color: aliceblue;
 }
-
 #locat_icon {
     width: 50px;
     height: 50px;
@@ -335,11 +419,9 @@ right: 25px;
     font-size: 18px;
     color: aliceblue;
 }
-
 #contac_sect1_cont {
     color: aliceblue;
 }
-
 #cont_text {
     width: 350px;
     height: 35px;
@@ -347,14 +429,12 @@ right: 25px;
     padding-left: 15px;
     border: 1px solid rgb(95, 88, 88);
 }
-
 #cont_textarea {
     width: 350px;
     height: 100px;
     background-color: transparent;
     padding-left: 15px;
 }
-
 #cont_submit_btn {
     width: 350px;
     height: 35px;
@@ -365,19 +445,41 @@ right: 25px;
 }
 
 /* ================ forget form page ================== */
-#forgetform_body{
+
+#forgetform_body {
     display: flex;
     justify-content: center;
     padding: 50px 3px;
-     
 }
-
-#forgetform_container{
+#forgetform_container {
     width: 500px;
     height: auto;
     padding: 20px 15px;
     background-color: rgb(233, 224, 224);
 }
-#email{
+#email {
     height: 60px;
 }
+
+/* ========================== Index Page =============================== */
+
+#carousel_img_box img{
+  width: 100%;
+  height: 500px;
+}
+#right_arrow,#left_arrow{
+    font-size: 50px;
+    font-weight: bolder;
+    color: rgb(10, 10, 25);
+}
+
+
+
+
+
+
+
+
+
+
+

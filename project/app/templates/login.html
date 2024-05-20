@@ -6,7 +6,7 @@
     <form action="{% url 'logindata' %}" method="post">
         {% csrf_token %}
            <select name="login_type" id="logintype">
-            <option value="None" name="login_type">Choose Login Type</option>
+            <option value="none" name="login_type">Choose Login Type</option>
             <option value="customer" name="login_type">Customer</option>
             <option value="admin" name="login_type">Admin</option>
            </select><br/><br/>
@@ -35,7 +35,7 @@
     tagpro = "{{key1}}"
     if (tagpro) {
         message = "{{key1}}"
-        window.alert(message)
+        alert(message)
     }
 </script>
 {% endblock %}

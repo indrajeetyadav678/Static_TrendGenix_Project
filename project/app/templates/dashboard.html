@@ -3,6 +3,7 @@
 {% block content%}
 <div id="dashboard_Body">
     {% if taskobject %}
+    {{taskobject.Task}}
     <div id="todoform_box">
         <form action="{% url 'updatedata' %}" method="post">
             {% csrf_token %}
@@ -10,7 +11,7 @@
             <label for="">Title</label><br />
             <input type="text" name="title" value="{{taskobject.Title}}" id="titlefield" /><br />
             <label for="">Task</label><br />
-            <textarea type="text" name="task" value="{{taskobject.Task}}" id="taskfield"></textarea><br />
+            <textarea type="text" name="task" id="taskfield">{{taskobject.Task}}</textarea><br />
             <input type="email" name="email" value="{{user_name.Email}}" id="emailfield" hidden />
             <input type="number" name="id" value="{{taskobject.id}}" id="emailfield" hidden />
             <input type="submit" value="update" id="submitbtn" />
