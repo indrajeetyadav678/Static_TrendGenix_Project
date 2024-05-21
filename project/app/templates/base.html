@@ -24,13 +24,24 @@
 
 <body>
     {% if user_name %}
+
     <div id="Navbar">
-        <div id="title">
-            <form action="{% url 'home'%}" method="post">
-                {% csrf_token %}
-                <input type="email" value="{{user_name.Email}}" name="email" id="" hidden>
-                <input id="navbartitle_btn" type="submit" value="TRENDGENIX">
-            </form>
+        <div id="resp_icon_com_title">
+            <div id="manubar_icon_box">
+                <div id="manubar_icon_close" onclick="submanu_box(1)">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+                <div id="manubar_icon_open" onclick="submanu_box(1)">
+                    <i class="fa-solid fa-bars-staggered"></i>
+                </div>
+            </div>
+            <div id="title">
+                <form action="{% url 'home'%}" method="post">
+                    {% csrf_token %}
+                    <input type="email" value="{{user_name.Email}}" name="email" id="" hidden>
+                    <input id="navbartitle_btn" type="submit" value="TRENDGENIX">
+                </form>
+            </div>
         </div>
         <ul id="navbar1">
             <li>
@@ -53,7 +64,8 @@
                     <input type="email" value="{{user_name.Email}}" name="email" id="" hidden>
                     <input id="navbar_btn" type="submit" value="Product">
                 </form>
-                <i class="fa-solid fa-chevron-up" data-bs-toggle="dropdown" style="color: aliceblue;" id="dropdown_manu_btn"></i>
+                <i class="fa-solid fa-chevron-up" data-bs-toggle="dropdown" style="color: aliceblue;"
+                    id="dropdown_manu_btn"></i>
                 <ul class="dropdown-menu" id="dropdown_manu">
                     <li>
                         <form action="{% url 'men1'%}" method="post">
@@ -87,63 +99,33 @@
                 </form>
             </li>
         </ul>
-        <div id="login_user" onclick="pro_info(1)">
-            <img id="usericon" src="https://cdn-icons-png.flaticon.com/512/5087/5087579.png" alt="" />
-            {{ user_name.Name | default:'Welcome Guest'}}
-        </div>
-        <div id="manubar_icon_box">
-            <div id="manubar_icon_close" onclick="submanu_box(1)">
-                <i class="fa-solid fa-bars"></i>
-            </div>
-            <div id="manubar_icon_open" onclick="submanu_box(1)">
-                <i class="fa-solid fa-bars-staggered"></i>
-            </div>
-        </div>
+
+        <ul id="addtocart_like_icon_nav">
+            <li id="liked_icon_container">
+                <div id="add_liked_value">2</div>
+                <form action="{% url 'contact1'%}" method="post">
+                    {% csrf_token %}
+                    <input type="email" value="{{user_name.Email}}" name="email" id="" hidden>
+                    <button id="like_heart_icon" type="submit"><i class="fa-regular fa-heart"></i></button>
+                </form>
+            </li>
+            <li id="addcart_icon_container">
+                <div id="add_cart_value">2</div>
+                <form action="{% url 'contact1'%}" method="post">
+                    {% csrf_token %}
+                    <input type="email" value="{{user_name.Email}}" name="email" id="" hidden>
+                    <button id="shopping_card_icon" type="submit"><i class="fa-solid fa-cart-shopping"></i></button>
+                </form>
+            </li>
+            <li>
+                <img id="usericon" onclick="pro_info(1)"
+                    src="https://static.vecteezy.com/system/resources/thumbnails/004/607/791/small_2x/man-face-emotive-icon-smiling-male-character-in-blue-shirt-flat-illustration-isolated-on-white-happy-human-psychological-portrait-positive-emotions-user-avatar-for-app-web-design-vector.jpg"
+                    alt="" />
+            </li>
+        </ul>
+
     </div>
 
-    {% else %}
-    <div id="Navbar" class="navbar-inverse">
-        <div id="title"><a href="{% url 'index'%}">TRENDGENIX</a></div>
-        <ul id="navbar1">
-            <li><a href="{% url 'index'%}">Home</a></li>
-            <li><a href="{% url 'about'%}">About Us</a></li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="{% url 'product'%}" role="button"
-                    data-bs-toggle="dropdown">Product</a>
-                <ul class="dropdown-menu" id="dropdown_manu">
-                    <li><a href="{% url 'men'%}">Men Accessories</a></li>
-                    <li><a href="{% url 'women'%}">Women Accessories</a></li>
-                    <li><a href="{% url 'girl'%}">Girl Accessories</a></li>
-                </ul>
-            </li>
-            <li><a href="{% url 'contact'%}">Contact Us</a></li>
-        </ul>
-        <ul id="navbar2">
-            <li><a href="{% url 'register'%}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-            <li><a href="{% url 'login'%}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-            <li id="login_user" onclick="pro_info(1)">
-                <img id="usericon" src="https://cdn-icons-png.flaticon.com/512/5087/5087579.png" alt="" />
-                {{ user_name.Name | default:'Welcome Guest'}}
-            </li>
-        </ul>
-        <div id="manubar_icon_box">
-            <div id="manubar_icon_close" onclick="submanu_box(1)">
-                <i class="fa-solid fa-bars"></i>
-            </div>
-            <div id="manubar_icon_open" onclick="submanu_box(1)">
-                <i class="fa-solid fa-bars-staggered"></i>
-            </div>
-        </div>
-    </div>
-    {% endif %}
-    <ul id="secon_navbar">
-        <li id="login_user" onclick="pro_info(1)">
-            <img id="usericon" src="https://cdn-icons-png.flaticon.com/512/5087/5087579.png" alt="" /><br/>
-            <label>{{ user_name.Name | default:'Welcome Guest'}}</label>
-        </li>
-        <li><a href="{% url 'register'%}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-        <li><a href="{% url 'login'%}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-    </ul>
     <div id="profile_box">
         <img src="https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg" alt=""
             id="prof_image"><br /><br />
@@ -165,6 +147,71 @@
         </div>
         <button id="editpro_btn"><a href="{% url 'logout'%}">Logout</a></button>
     </div>
+
+    {% else %}
+    <div id="Navbar" class="navbar-inverse">
+        <div id="responsive_icon_com_title">
+            <div id="manubar_icon_box">
+                <div id="manubar_icon_close" onclick="submanu_box(1)">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+                <div id="manubar_icon_open" onclick="submanu_box(1)">
+                    <i class="fa-solid fa-bars-staggered"></i>
+                </div>
+            </div>
+            <div id="title"><a href="{% url 'index'%}">TRENDGENIX</a></div>
+        </div>
+        <ul id="navbar1">
+            <li><a href="{% url 'index'%}">Home</a></li>
+            <li><a href="{% url 'about'%}">About Us</a></li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="{% url 'product'%}" role="button"
+                    data-bs-toggle="dropdown">Product</a>
+                <ul class="dropdown-menu" id="dropdown_manu">
+                    <li><a href="{% url 'men'%}">Men</a></li>
+                    <li><a href="{% url 'women'%}">Women</a></li>
+                    <li><a href="{% url 'girl'%}">Kids</a></li>
+                </ul>
+            </li>
+            <li><a href="{% url 'contact'%}">Contact Us</a></li>
+        </ul>
+        <ul id="navbar2">
+            <li><a href="{% url 'register'%}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+            <li><a href="{% url 'login'%}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <li id="liked_icon_container">
+                <div id="add_liked_value">2</div>
+                <a href="{% url 'login'%}"><i class="fa-regular fa-heart"></i></a>
+            </li>
+            <li id="addcart_icon_container">
+                <div id="add_cart_value">2</div>
+                <a href="{% url 'login'%}">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                </a>
+            </li>
+            <li id="login_user" onclick="pro_info(1)">
+                <img id="usericon"
+                    src="https://static.vecteezy.com/system/resources/thumbnails/004/607/791/small_2x/man-face-emotive-icon-smiling-male-character-in-blue-shirt-flat-illustration-isolated-on-white-happy-human-psychological-portrait-positive-emotions-user-avatar-for-app-web-design-vector.jpg"
+                    alt="" />
+            </li>
+        </ul>
+
+    </div>
+
+    <div id="profile_box">
+        <img src="https://static.vecteezy.com/system/resources/thumbnails/004/607/791/small_2x/man-face-emotive-icon-smiling-male-character-in-blue-shirt-flat-illustration-isolated-on-white-happy-human-psychological-portrait-positive-emotions-user-avatar-for-app-web-design-vector.jpg"
+            alt="" id="prof_image1"><br />
+        <h4 style="color: aliceblue;">{{user_name.Name | default:'Guest User'}}</h4>
+        <div id="user_account_info">
+            <label>Name &nbsp;&nbsp;&nbsp;:&nbsp; {{user_name.Name | default:'Guest user'}}</label><br />
+            <label>Email &nbsp;&nbsp; :&nbsp; {{user_name.Email | default:'abc@gmail.com'}}</label><br />
+            <label>Number &nbsp;&nbsp;&nbsp;:&nbsp; {{user_name.Number | default:'1234567890'}}</label><br />
+            <label>Password : &nbsp; {{user_name.Password | default:'Abc12345@'}}</label><br />
+        </div>
+        <button id="editpro_btn"><a href="{% url 'login'%}">login</a></button>
+    </div>
+    {% endif %}
+
+
     {% block content%}
     {% endblock %}
 

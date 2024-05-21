@@ -69,11 +69,12 @@ def logindata(request):
     userid=request.POST.get('userid')
     password=request.POST.get('password')
     login_type=request.POST.get('login_type')
+    print(login_type)
     username=RegistrationModel.objects.filter(Email=userid)
-    if login_type =="none":
+    if login_type=='none':
         msg="Choose your login Type"
         return render(request, 'dashboard.html', {'key1': msg})
-    elif login_type =="customer":
+    elif login_type =='customer':
         if username:
             data=RegistrationModel.objects.get(Email=userid)
             Password= data.Password
