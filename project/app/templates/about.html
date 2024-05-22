@@ -1,6 +1,55 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content%}
+<div id="about_container">
+    <div id="video_ads">
+        <iframe width="700" height="500" src="https://www.youtube.com/embed/qt-sLC7Cusg?si=VJGMOznBa-23EM8l"
+            title="YouTube video player" frameborder="0"
+            allow="accelerometer; autoplay; muted clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+        </iframe>
+    </div>
+    <div id="about_score">
+        <label id="about_one">ABOUT US</label><br />
+        <label id="about_two">WHAT WE HAVE DONE</label><br />
+        <label id="about_three">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas
+            accumsan lacus vel facilisis. aliquip ex ea commodo consequat sit amet,
+            consectetur adipiscing elit, sed do eiusmod tempor.
+        </label>
+        <table id="about_tablebx">
+            <tr>
+                <td id="about_tab">
+                    <label for="body_building">Body Building</label>
+                </td>
+                <td>
+                    <input type="range" name="body" id="body_building">
+                </td>
+            </tr>
+            <tr>
+                <td id="about_tab">
+                    <label for="trainingg">Training</label>
+                </td>
+                <td>
+                    <input type="range" name="traing" id="trainingg">
+                </td>
+            </tr>
+            <tr>
+                <td id="about_tab">
+                    <label for="fitness">Fitness</label>
+                </td>
+                <td>
+                    <input type="range" name="fitness" id="fitness">
+                </td>
+            </tr>
+        </table>
+      
+        
+        
+    </div>
+</div>
 
 <h1>This is About page</h1>
 {% endblock %}

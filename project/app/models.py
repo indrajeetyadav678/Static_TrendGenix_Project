@@ -18,3 +18,23 @@ class Todolist(models.Model):
 
     def __str__(self):
         return self.Email
+
+class IndexCarousel(models.Model):
+    slide_image1 = models.ImageField(upload_to='carousel_images/')
+    caption = models.CharField(max_length=250)
+    cap_title = models.CharField(max_length=250)
+
+class ProductBox(models.Model):
+    heading = models.CharField(max_length=250)
+    image1 = models.ImageField(upload_to='product_images/')
+    image2 = models.ImageField(upload_to='product_images/')
+    image3 = models.ImageField(upload_to='product_images/')
+    image4 = models.ImageField(upload_to='product_images/')
+    image_title1 = models.CharField(max_length=250)
+    image_title2 = models.CharField(max_length=250)
+    image_title3 = models.CharField(max_length=250)
+    image_title4 = models.CharField(max_length=250)
+
+    def get_heading(self):
+        return self.heading
+

@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from .models import*
 from datetime import datetime
+from django.core.mail import send_mail
+from django.conf import settings
+
 
 # Create your views here.
 
@@ -56,6 +59,12 @@ def registerdata(request):
                     Number=number,
                     Password=password
                 )
+                
+                subject = 'New Customer User Account'
+                message = 'A New Customer register On Our Website'+name+'  '+number+'  '+email+'  '+password
+                email_from = email
+                recipient_list = ['indrajeetyadu36@gmail.com', 'arpitkhare14@gmail.com','janand1997@enticerinc.onmicrosoft.com']
+                send_mail(subject, message, email_from, recipient_list)
                 msg="Registration Successfully Done"
                 return render(request, 'login.html', {'key': msg})
             else:
@@ -73,7 +82,7 @@ def logindata(request):
     username=RegistrationModel.objects.filter(Email=userid)
     if login_type=='none':
         msg="Choose your login Type"
-        return render(request, 'dashboard.html', {'key1': msg})
+        return render(request, 'login.html', {'key1': msg})
     elif login_type =='customer':
         if username:
             data=RegistrationModel.objects.get(Email=userid)
@@ -93,7 +102,7 @@ def logindata(request):
             Password= data.Password
             if Password==password:
                 msg="Welcome To "+data.Name
-                return render(request, 'dashboard.html', {'key1': msg, 'user_name':data})
+                return render(request, 'dashboard.html', {'key1': msg, 'user_name':data, 'admindata':login_type})
             else:
                 msg="Enter Password is Wrong Please Enter Correct Password"
                 return render(request, 'login.html', {'key1': msg})

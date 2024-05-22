@@ -1,39 +1,407 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content%}
-<div id="demo" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-indicators">
-        <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
-        <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
-        <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+
+<body style="background-color: rgb(241, 234, 234);">
+    <div id="demo" class="carousel slide" data-bs-ride="carousel">
+        <ul class="carousel-indicators">
+            <li data-bs-target="#demo" data-bs-slide-to="0" class="active"></li>
+            <li data-bs-target="#demo" data-bs-slide-to="1"></li>
+            <li data-bs-target="#demo" data-bs-slide-to="2"></li>
+        </ul>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://assets.tatacliq.com/medias/sys_master/images/51771783479326.jpg" alt="Los Angeles" class="d-block w-100">
+                <div class="carousel-caption">
+                    <h3>Los Angeles</h3>
+                    <p>We had such a great time in LA!</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="https://assets.tatacliq.com/medias/sys_master/images/51750930579486.jpg" alt="Chicago" class="d-block w-100">
+                <div class="carousel-caption">
+                    <h3>Chicago</h3>
+                    <p>Thank you, Chicago!</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="https://assets.tatacliq.com/medias/sys_master/images/51771783086110.jpg" alt="New York" class="d-block w-100">
+                <div class="carousel-caption">
+                    <h3>New York</h3>
+                    <p>We love the Big Apple!</p>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
-    <div class="carousel-inner">
-        <div class="carousel-item active" id="carousel_img_box">
-            <img src="https://images.pexels.com/photos/1308881/pexels-photo-1308881.jpeg" alt="Los Angeles" class="d-block" style="width:100%">
-            <div class="carousel-caption">
-                <h3>Los Angeles</h3>
-                <p>We had such a great time in LA!</p>
+    
+    <!-- ===================== section -2 ================ -->
+
+    <section id="product-group-collection-container">
+        <div id="product-group-collection-slider">
+
+            <div id="product-group-collection-box">
+                <h2 id="product-group-collection-title">Min. 70% off | Clothing for everyone | Made for...</h2>
+                <div id="product-group-collection-flex-box">
+                    <a href="#" id="product-group-collection-div1-a">
+                        <div id="product-group-collection-div1">
+                            <div class="product-group-collection-div1-img" id="product-group-collection-div1-img1">
+                                <img src="" alt="">
+                            </div><br />
+                            <p id="product-group-collection-name">Women's wear</p>
+                        </div>
+                    </a>
+                    <a href="#" id="product-group-collection-div1-a">
+                        <div id="product-group-collection-div1">
+                            <div class="product-group-collection-div1-img" id="product-group-collection-div1-img2">
+                            </div><br />
+                            <p id="product-group-collection-name">men's wear</p>
+                        </div>
+                    </a>
+                    <a href="#" id="product-group-collection-div1-a">
+                        <div id="product-group-collection-div1">
+                            <div class="product-group-collection-div1-img" id="product-group-collection-div1-img3">
+                            </div><br />
+                            <p id="product-group-collection-name">kid's wear</p>
+                        </div>
+                    </a>
+                    <a href="#" id="product-group-collection-div1-a">
+                        <div id="product-group-collection-div1">
+                            <div class="product-group-collection-div1-img" id="product-group-collection-div1-img4">
+                            </div><br />
+                            <p id="product-group-collection-name">Handlebags, cluthes & more</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div id="product-group-collection-box">
+                <h2 id="product-group-collection-title">Starting ₹199 | Shoes</h2>
+                <div id="product-group-collection-flex-box">
+                    <a href="#" id="product-group-collection-div1-a">
+                        <div id="product-group-collection-div1">
+                            <div class="product-group-collection-div1-img" id="product-group-collection-div2-img1">
+                            </div><br />
+                            <p id="product-group-collection-name">sports shoes</p>
+                        </div>
+                    </a>
+
+                    <a href="#" id="product-group-collection-div1-a">
+                        <div id="product-group-collection-div1">
+                            <div class="product-group-collection-div1-img" id="product-group-collection-div2-img2">
+                            </div><br />
+                            <p id="product-group-collection-name">men's shoes</p>
+                        </div>
+                    </a>
+
+                    <a href="#" id="product-group-collection-div1-a">
+                        <div id="product-group-collection-div1">
+                            <div class="product-group-collection-div1-img" id="product-group-collection-div2-img3">
+                            </div><br />
+                            <p id="product-group-collection-name">women's shoes</p>
+                        </div>
+                    </a>
+
+                    <a href="#" id="product-group-collection-div1-a">
+                        <div id="product-group-collection-div1">
+                            <div class="product-group-collection-div1-img" id="product-group-collection-div2-img4">
+                            </div><br />
+                            <p id="product-group-collection-name">kid's shoes</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+
+            <div id="product-group-collection-box">
+                <h2 id="product-group-collection-title">Up to 50% off | Deals on Beauty Brands & more</h2>
+                <div id="product-group-collection-flex-box">
+                    <a href="#" id="product-group-collection-div1-a">
+                        <div id="product-group-collection-div1">
+                            <div class="product-group-collection-div1-img" id="product-group-collection-div3-img1">
+                            </div><br />
+                            <p id="product-group-collection-name">Lakme cream</p>
+                        </div>
+                    </a>
+
+                    <a href="#" id="product-group-collection-div1-a">
+                        <div id="product-group-collection-div1">
+                            <div class="product-group-collection-div1-img" id="product-group-collection-div3-img2">
+                            </div><br />
+                            <p id="product-group-collection-name">Lotus glow cream</p>
+                        </div>
+                    </a>
+
+                    <a href="#" id="product-group-collection-div1-a">
+                        <div id="product-group-collection-div1">
+                            <div class="product-group-collection-div1-img" id="product-group-collection-div3-img3">
+                            </div><br />
+                            <p id="product-group-collection-name">Makeup kit</p>
+                        </div>
+                    </a>
+
+                    <a href="#" id="product-group-collection-div1-a">
+                        <div id="product-group-collection-div1">
+                            <div class="product-group-collection-div1-img" id="product-group-collection-div3-img4">
+                            </div><br />
+                            <p id="product-group-collection-name">Sofa & Beds</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+
+            <div id="product-group-collection-box">
+                <h2 id="product-group-collection-title">Up to 50% off | Deals on Jewellery and sunglasses & more</h2>
+                <div id="product-group-collection-flex-box">
+                    <a href="#" id="product-group-collection-div1-a">
+                        <div id="product-group-collection-div1">
+                            <div class="product-group-collection-div1-img" id="product-group-collection-div4-img1">
+                            </div><br />
+                            <p id="product-group-collection-name">Fashion jewellery</p>
+                        </div>
+                    </a>
+
+                    <a href="#" id="product-group-collection-div1-a">
+                        <div id="product-group-collection-div1">
+                            <div class="product-group-collection-div1-img" id="product-group-collection-div4-img2">
+                            </div><br />
+                            <p id="product-group-collection-name">Gold Beslet</p>
+                        </div>
+                    </a>
+
+                    <a href="#" id="product-group-collection-div1-a">
+                        <div id="product-group-collection-div1">
+                            <div class="product-group-collection-div1-img" id="product-group-collection-div4-img3">
+                            </div><br />
+                            <p id="product-group-collection-name">locat chain</p>
+                        </div>
+                    </a>
+
+                    <a href="#" id="product-group-collection-div1-a">
+                        <div id="product-group-collection-div1">
+                            <div class="product-group-collection-div1-img" id="product-group-collection-div4-img4">
+                            </div><br />
+                            <p id="product-group-collection-name">Fashion Sunglass</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ====================== section 3 ================ -->
+    <section id="product-section3-cantainer">
+
+        <label id="product-section3-title">Starting ₹99 + 20% cashback on first order | Beauty & makeup &nbsp; &nbsp;
+
+            <a href="#">See all offers</a>
+
+        </label>
+
+        <div id="product-section3-box">
+
+            <ul id="product-section3-slider">
+                <li><a href="#"><img src="{% static '/image/beauty1.jpg' %}" alt="server is not available"
+                            id="product-section3-img"></a></li>
+                <li><a href="#"><img src="{% static '/image/beauty2.jpg' %}" alt="server is not available"
+                            id="product-section3-img"></a></li>
+                <li><a href="#"><img src="{% static '/image/beauty3.jpg' %}" alt="server is not available"
+                            id="product-section3-img"></a></li>
+                <li><a href="#"><img src="{% static '/image/beauty4.jpg' %}" alt="server is not available"
+                            id="product-section3-img"></a></li>
+                <li><a href="#"><img src="{% static '/image/beauty5.jpg' %}" alt="server is not available"
+                            id="product-section3-img"></a></li>
+                <li><a href="#"><img src="{% static '/image/beauty6.jpg' %}" alt="server is not available"
+                            id="product-section3-img"></a></li>
+                <li><a href="#"><img src="{% static '/image/beauty7.jpg' %}" alt="server is not available"
+                            id="product-section3-img"></a></li>
+                <li><a href="#"><img src="{% static '/image/beauty8.jpg' %}" alt="server is not available"
+                            id="product-section3-img"></a></li>
+                <li><a href="#"><img src="{% static '/image/beauty9.jpg' %}" alt="server is not available"
+                            id="product-section3-img"></a></li>
+                <li><a href="#"><img src="{% static '/image/beauty10.jpg' %}" alt="server is not available"
+                            id="product-section3-img"></a></li>
+                <li><a href="#"><img src="{% static '/image/beauty11.jpg' %}" alt="server is not available"
+                            id="product-section3-img"></a></li>
+                <li><a href="#"><img src="{% static '/image/beauty12.jpg' %}" alt="server is not available"
+                            id="product-section3-img"></a></li>
+                <li><a href="#"><img src="{% static '/image/beauty13.jpg' %}" alt="server is not available"
+                            id="product-section3-img"></a></li>
+                <li><a href="#"><img src="{% static '/image/beauty14.jpg' %}" alt="server is not available"
+                            id="product-section3-img"></a></li>
+                <li><a href="#"><img src="{% static '/image/beauty15.jpg' %}" alt="server is not available"
+                            id="product-section3-img"></a></li>
+                <li><a href="#"><img src="{% static '/image/beauty16.jpg' %}" alt="server is not available"
+                            id="product-section3-img"></a></li>
+                <li><a href="#"><img src="{% static '/image/beauty17.jpg' %}" alt="server is not available"
+                            id="product-section3-img"></a></li>
+                <li><a href="#"><img src="{% static '/image/beauty18.jpg' %}" alt="server is not available"
+                            id="product-section3-img"></a></li>
+                <li><a href="#"><img src="{% static '/image/beauty19.jpg' %}" alt="server is not available"
+                            id="product-section3-img"></a></li>
+                <li><a href="#"><img src="{% static '/image/beauty20.jpg' %}" alt="server is not available"
+                            id="product-section3-img"></a></li>
+
+            </ul>
+
+        </div>
+    </section>
+
+    <!-- ================ watch section - 4 ==================== -->
+    <section id="product-section3-cantainer">
+
+        <h4 id="product-section3-title">Starting ₹799 | Bestselling smartwatches from top brands &nbsp; &nbsp;
+            <a href="#">See all offers</a>
+        </h4>
+        <div id="product-section3-box">
+            <div id="product-section4-slider">
+                <a href="#"><img src="{% static '/image/watch1.webp' %}" alt="server is not available"
+                        id="product-section3-img"></a>
+                <a href="#"><img src="{% static '/image/watch2.jpg' %}" alt="server is not available"
+                        id="product-section3-img"></a>
+                <a href="#"><img src="{% static '/image/watch3.jpg' %}" alt="server is not available"
+                        id="product-section3-img"></a>
+                <a href="#"><img src="{% static '/image/watch4.jpg' %}" alt="server is not available"
+                        id="product-section3-img"></a>
+                <a href="#"><img src="{% static '/image/watch5.jpg' %}" alt="server is not available"
+                        id="product-section3-img"></a>
+                <a href="#"><img src="{% static '/image/watch6.jpg' %}" alt="server is not available"
+                        id="product-section3-img"></a>
+                <a href="#"><img src="{% static '/image/watch7.jpg' %}" alt="server is not available"
+                        id="product-section3-img"></a>
+                <a href="#"><img src="{% static '/image/watch8.jpg' %}" alt="server is not available"
+                        id="product-section3-img"></a>
+                <a href="#"><img src="{% static '/image/watch9.jpg' %}" alt="server is not available"
+                        id="product-section3-img"></a>
+                <a href="#"><img src="{% static '/image/watch10.jpg' %}" alt="server is not available"
+                        id="product-section3-img"></a>
+                <a href="#"><img src="{% static '/image/watch11.jpg' %}" alt="server is not available"
+                        id="product-section3-img"></a>
+                <a href="#"><img src="{% static '/image/watch12.jpg' %}" alt="server is not available"
+                        id="product-section3-img"></a>
+                <a href="#"><img src="{% static '/image/watch13.jpg' %}" alt="server is not available"
+                        id="product-section3-img"></a>
+                <a href="#"><img src="{% static '/image/watch14.jpg' %}" alt="server is not available"
+                        id="product-section3-img"></a>
+                <a href="#"><img src="{% static '/image/watch16.jpg' %}" alt="server is not available"
+                        id="product-section3-img"></a>
+                <a href="#"><img src="{% static '/image/watch17.jpg' %}" alt="server is not available"
+                        id="product-section3-img"></a>
             </div>
         </div>
-        <div class="carousel-item" id="carousel_img_box">
-            <img src="https://images.pexels.com/photos/1212693/pexels-photo-1212693.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Chicago" class="d-block" style="width:100%">
-            <div class="carousel-caption">
-                <h3>Chicago</h3>
-                <p>Thank you, Chicago!</p>
+    </section>
+
+    <!-- ========================= Jewellery section- 5 ======================= -->
+    <section id="product-section3-cantainer">
+        <h4 id="product-section3-title">Starting ₹799 | Bestselling smartwatches from top brands &nbsp; &nbsp;
+            <a href="#">See all offers</a>
+        </h4>
+        <div id="product-section3-box">
+            <div id="product-section5-slider">
+                <a href="#">
+                    <div id="product-section5-image-wrapper">
+                        <img src="{% static '/image/jew1_1.avif' %}" alt="server is not available" id="product-section4-img1">
+                        <img src="{% static '/image/jew1_2.avif' %}" alt="server is not available" id="product-section4-img2">
+                        <img src="{% static '/image/jew1_3.avif' %}" alt="server is not available" id="product-section4-img3">
+                    </div>
+                </a>
+
+                <a href="#">
+                    <div id="product-section5-image-wrapper">
+                        <img src="{% static '/image/jew2_1.avif' %}" alt="server is not available" id="product-section4-img1">
+                        <img src="{% static '/image/jew2_2.avif' %}" alt="server is not available" id="product-section4-img2">
+                        <img src="{% static '/image/jew2_3.avif' %}" alt="server is not available" id="product-section4-img3">
+                    </div>
+                </a>
+
+                <a href="#">
+                    <div id="product-section5-image-wrapper">
+                        <img src="{% static '/image/jew3_1.avif' %}" alt="server is not available" id="product-section4-img1">
+                        <img src="{% static '/image/jew3_2.avif' %}" alt="server is not available" id="product-section4-img2">
+                        <img src="{% static '/image/jew3_3.avif' %}" alt="server is not available" id="product-section4-img3">
+                    </div>
+                </a>
+
+                <a href="#">
+                    <div id="product-section5-image-wrapper">
+                        <img src="{% static '/image/jew4_1.avif' %}" alt="server is not available" id="product-section4-img1">
+                        <img src="{% static '/image/jew4_2.avif' %}" alt="server is not available" id="product-section4-img2">
+                        <img src="{% static '/image/jew4_3.avif' %}" alt="server is not available" id="product-section4-img3">
+                    </div>
+                </a>
+
+                <a href="#">
+                    <div id="product-section5-image-wrapper">
+                        <img src="{% static '/image/jew5_1.avif' %}" alt="server is not available" id="product-section4-img1">
+                        <img src="{% static '/image/jew5_2.avif' %}" alt="server is not available" id="product-section4-img2">
+                        <img src="{% static '/image/jew5_3.avif' %}" alt="server is not available" id="product-section4-img3">
+                    </div>
+                </a>
+
+                <a href="#">
+                    <div id="product-section5-image-wrapper">
+                        <img src="{% static '/image/jew6_1.avif' %}" alt="server is not available" id="product-section4-img1">
+                        <img src="{% static '/image/jew6_2.avif' %}" alt="server is not available" id="product-section4-img2">
+                        <img src="{% static '/image/jew6_3.avif' %}" alt="server is not available" id="product-section4-img3">
+                    </div>
+                </a>
+
+                <a href="#">
+                    <div id="product-section5-image-wrapper">
+                        <img src="{% static '/image/jew7_1.avif' %}" alt="server is not available" id="product-section4-img1">
+                        <img src="{% static '/image/jew7_2.avif' %}" alt="server is not available" id="product-section4-img2">
+                        <img src="{% static '/image/jew7_3.avif' %}" alt="server is not available" id="product-section4-img3">
+                    </div>
+                </a>
+
+                <a href="#">
+                    <div id="product-section5-image-wrapper">
+                        <img src="{% static '/image/jew8_1.avif' %}" alt="server is not available" id="product-section4-img1">
+                        <img src="{% static '/image/jew8_2.avif' %}" alt="server is not available" id="product-section4-img2">
+                        <img src="{% static '/image/jew8_3.avif' %}" alt="server is not available" id="product-section4-img3">
+                    </div>
+                </a>
+
+                <a href="#" id="product-section5-image-wrapper">
+                    <div id="product-section5-image-wrapper">
+                        <img src="{% static '/image/jew8_1.avif' %}" alt="server is not available" id="product-section4-img1">
+                        <img src="{% static '/image/jew8_2.avif' %}" alt="server is not available" id="product-section4-img2">
+                        <img src="{% static '/image/jew8_3.avif' %}" alt="server is not available" id="product-section4-img3">
+                    </div>
+                </a>
+                
             </div>
         </div>
-        <div class="carousel-item" id="carousel_img_box">
-            <img src="https://images.pexels.com/photos/4004374/pexels-photo-4004374.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="New York" class="d-block" style="width:100%">
-            <div class="carousel-caption">
-                <h3>New York</h3>
-                <p>We love the Big Apple!</p>
-            </div>
-        </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" id="left_arrow"></span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
-        <span class="carousel-control-next-icon" id="right_arrow"></span>
-    </button>
-</div>
+    </section>
+</body>
+
+<script>
+    let slideIndex = 1;
+showSlides(slideIndex);
+
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+function showSlides(n){
+  let i;
+  let slides = document.getElementsByClassName("mySlides");
+  // console.log(slides.length)
+  // let dots = document.getElementsByClassName("dot"); 
+  if (n > slides.length) {slideIndex = 1}    
+  else if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";  
+  }
+  slides[slideIndex-1].style.display = "block";
+}
+</script>
 {% endblock %}
