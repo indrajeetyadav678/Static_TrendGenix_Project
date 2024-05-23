@@ -277,8 +277,6 @@
     position: absolute;
     top: -14px;
     left: 3px;
-
-
 }
 
 #add_liked_value {
@@ -292,6 +290,41 @@
     font-weight: 700;
     position: absolute;
     top: -14px;
+}
+/* =============== admin Dashboard ========================= */
+
+#Admin_deskname{
+    color: aliceblue;
+    letter-spacing: 1.5px;
+    font-weight: bolder;
+    font-size: 16px;
+}
+#admin_profile_Icon{
+    width: 50px;
+}
+#admin_manubar_icon_box {
+    width: 50px;
+    height: 30px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    /* display: none; */
+}
+#admin_manubar_icon_close {
+    width: 40px;
+    position: absolute;
+    top: 3px;
+    color: aliceblue;
+    /* display: none; */
+    cursor: pointer;
+}
+#admin_manubar_icon_open {
+    width: 50px;
+    position: absolute;
+    top: 3px;
+    color: aliceblue;
+    display: none;
+    cursor: pointer;
 }
 
 @media(max-width: 992px) {
@@ -350,37 +383,87 @@
 
 /* ============ Registartion form ======== */
 
+#Register_body{
+    width: 100%;
+    height: auto;
+    padding: 40px 50px;
+    background-image: url('../image/register_background2.jpg');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
 #registration_form {
     width: 400px;
     height: 550px;
-    border: 1px solid black;
-    padding: 15px 30px;
-    margin: 25px 33%;
+    border: 1px solid rgb(117, 116, 116);  
+    box-shadow: 3px 3px 30px rgb(32, 32, 32);
+    border-radius: 25px;  
+    padding: 10px 30px;
+    margin: 25px 35%;
+    background-color: rgba(46, 45, 45, 0.2);
+    color: rgb(16, 16, 17);
 }
 
 #form_type {
     text-align: center;
+    font-weight: bold;
 }
 
 #submit_btn {
-    padding: 3px 10px;
+    padding: 3px 35px;
     border-radius: 10px;
     background-color: rgb(46, 46, 110);
     color: aliceblue;
 }
 
 #submit_box {
+    /* width: 150px; */
     text-align: center;
+}
+#exampleFormControlInput1,#inputPassword5{
+    background-color: transparent;
+    color: rgb(249, 246, 246);
+    letter-spacing: 2px;
+}
+#exampleFormControlInput1:hover,#inputPassword5:hover{
+    background-color: white;
+    color: rgb(4, 4, 4);
+}
+#regist_loginbtn{
+    color: rgb(33, 33, 138);
 }
 
 /* ============ Login form ======== */
+#login_body{
+    width: 100%;
+    height: auto;
+    padding: 40px 60px;
+    background-image: url('../image/register_background2.jpg');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+#logintype{
+    background-color: transparent;
+    height: 30px;
+    color: rgb(8, 8, 8);
+    border: none;
+}
+#sel_typenone{
+    color: black;
+}
 
 #login_form {
     width: 400px;
     height: 380px;
-    border: 1px solid black;
+    border: 1px solid rgb(97, 96, 96);
     padding: 5px 30px;
     margin: 120px 33%;
+    color: #0d0d0d;
+    border-radius: 20px;
+    /* box-shadow: 2px 2px 10px rgb(17, 16, 16); */
+}
+#login_form:hover{
+    box-shadow: 2px 2px 10px rgb(17, 16, 16);
 }
 
 #userid_input {
@@ -398,13 +481,14 @@
     float: right;
 }
 
+
 /* ========== Footer ======== */
 
 #Footer {
     text-align: center;
     color: aliceblue;
     padding: 15px 10px;
-    background-color: rgb(54, 48, 48);
+    background-color: rgb(39, 36, 36);
 }
 
 #links_box {
@@ -895,58 +979,78 @@
 }
 
 /* ======================== Jewellery section - 5 =================== */
-
-#product-section5-slider{
-    width: 2450px;
+#product-section5-slider {
+    width: 2350px;
     height: 250px;
     /* border:1px solid rgb(37, 34, 34); */
     margin-top: 35px;
-    padding-left: 15px;
-    padding-right: 15px;
     list-style: none;
     display: flex;
-    justify-content: space-between; 
+    justify-content: space-between;
+}
+
+
+#product_section5_image_container{
+    width:180px;
+    height: 183px;
+    overflow: hidden;
+    /* border: 1px solid rgb(13, 247, 37); */
+    /* position: relative; */
+
 }
 #product-section5-image-wrapper {
-    width: 180px;
+    width: 380px;
     height: 182px;
-    position: relative;
-    border: 1px solid rgb(129, 128, 128);
-    overflow: hidden;
-    object-fit: fill;
+    display: flex;
+    justify-content: center;
+    /* border: 1px solid red; */
+    align-items: center;
+    /* position: relative; */
+}
+#product-section5-image-wrapper:hover{
+    /* display: none; */
+    animation: jewanimation 3s;
 }
 
 #product-section4-img1,
-#product-section4-img2,
-#product-section4-img3 {
-    position: absolute;
+#product-section4-img2 {
     width: 180px;
     height: 180px;
-    object-fit: fill;
-}
-#product-section5-image-wrapper:hover{
-    animation: jewanimation 1s infinite ;
 }
 
+/* 
 @keyframes jewanimation{
     0%{
-        
+        margin-left: 0px;
+    }
+    20%{ 
+        margin-left:- 182px; 
     }
     40%{ 
-        #product-section4-img1{
-            display: none;
-        }
+        margin-left:- 182px; 
+    }
+    60%{
+        margin-left: -364px;
     }
     80%{
-        #product-section4-img2{
-            display: none;
-        }
+        margin-left: -364px;
     }
     100%{
-        #product-section4-img2{
-            display: block;
-        }  
+        margin-left: 0px;
     }
+    
+} */
+@keyframes jewanimation{
+  from{
+    #product-section4-img1{
+        display: block;
+    }
+  }
+  to{
+    #product-section4-img1{
+        display: none;
+    }
+  }
     
 }
 
@@ -962,6 +1066,10 @@
     padding: 30px 20px;
     background-color: rgb(14, 14, 14);
 }
+#about_image{
+    width: 100%;
+    height: 510px;
+}
 
 #body_building,
 #trainingg,
@@ -970,20 +1078,29 @@
 }
 
 #video_ads {
-    width: 710px;
+    width: 54%;
     height: 510px;
     border: 1px solid rgb(251, 251, 251);
 }
 
 #about_score {
-    width: 710px;
+    width: 54%;
     height: 510px;
     border: 0.5px solid rgb(249, 247, 247);
     padding: 40px 50px;
+    text-align: center;
 }
 
 #about_one {
     color: orangered;
+}
+#Readme_morebtn{
+    padding: 3px 35px;
+    background-color: transparent;
+    border: none;
+}
+#Readme_morebtn a{
+    font-size: 20px;
 }
 
 #about_two {

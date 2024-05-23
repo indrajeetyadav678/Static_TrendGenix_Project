@@ -102,7 +102,7 @@ def logindata(request):
             Password= data.Password
             if Password==password:
                 msg="Welcome To "+data.Name
-                return render(request, 'dashboard.html', {'key1': msg, 'user_name':data, 'admindata':login_type})
+                return render(request, 'dashboard.html', {'key1': msg, 'admin_user':data})
             else:
                 msg="Enter Password is Wrong Please Enter Correct Password"
                 return render(request, 'login.html', {'key1': msg})
@@ -180,7 +180,7 @@ def todotask(request):
     taskcheck=Todolist.objects.filter(Title=title)
     if taskcheck:
         msg="This Tutle task Already Saved"  
-        return render(request, 'dashboard.html', {'key1': msg, 'user_name':data})   
+        return render(request, 'dashboard.html', {'key1': msg, 'admin_user':data})   
     else:
         Todolist.objects.create(
             Title=title,
@@ -188,7 +188,7 @@ def todotask(request):
             Email=email
         )
         msg="Your Task is Saved"
-        return render(request, 'dashboard.html', {'key1': msg, 'user_name':data})
+        return render(request, 'dashboard.html', {'key1': msg, 'admin_user':data})
 
 
 # def search(request):
@@ -210,13 +210,13 @@ def showdata1(request, pk):
     print(pk)
     data=RegistrationModel.objects.filter(Email=pk)
     taskdata=Todolist.objects.filter(Email=pk)
-    return render(request, 'dashboard.html', {'user_name':data, 'tododate':taskdata})
+    return render(request, 'dashboard.html', {'admin_user':data, 'tododate':taskdata})
 
 def showdata2(request):
     email=request.POST.get('email')
     data=RegistrationModel.objects.get(Email=email)
     taskdata=Todolist.objects.filter(Email=email)
-    return render(request, 'dashboard.html', {'user_name':data, 'tododate':taskdata})
+    return render(request, 'dashboard.html', {'admin_user':data, 'tododate':taskdata})
 
 
 def edittodo(request, pk):
@@ -225,7 +225,7 @@ def edittodo(request, pk):
     email=data1.Email
     taskdata=Todolist.objects.filter(Email=email)
     data=RegistrationModel.objects.get(Email=email)
-    return render(request, 'dashboard.html', {'user_name':data, 'tododate':taskdata, 'taskobject':data1})
+    return render(request, 'dashboard.html', {'admin_user':data, 'tododate':taskdata, 'taskobject':data1})
 
 def delettodo(request, pk):
     print(pk)
@@ -235,7 +235,7 @@ def delettodo(request, pk):
     taskdata=Todolist.objects.filter(Email=email)
     data=RegistrationModel.objects.get(Email=email)
     msg="Data deleted successfully"
-    return render(request, 'dashboard.html', {'user_name':data, 'tododate':taskdata, 'key1':msg})
+    return render(request, 'dashboard.html', {'admin_user':data, 'tododate':taskdata, 'key1':msg})
 
 def updatedata(request):
     Todotask=Todolist.objects.get(id=request.POST.get('id'))
@@ -249,7 +249,7 @@ def updatedata(request):
     taskdata=Todolist.objects.filter(Email=email)
     data=RegistrationModel.objects.get(Email=email)
     msg="Data update Successfully"
-    return render(request, 'dashboard.html', {'user_name':data, 'tododate':taskdata, 'key1':msg })
+    return render(request, 'dashboard.html', {'admin_user':data, 'tododate':taskdata, 'key1':msg })
 
 
 

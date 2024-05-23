@@ -23,6 +23,8 @@ class IndexCarousel(models.Model):
     slide_image1 = models.ImageField(upload_to='carousel_images/')
     caption = models.CharField(max_length=250)
     cap_title = models.CharField(max_length=250)
+    def __str__(self):
+        return self.cap_title
 
 class ProductBox(models.Model):
     heading = models.CharField(max_length=250)

@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content%}
+<div id="Register_body">
 <div id="registration_form">
     <h2 id="form_type"> Registration Form</h2>
     <form action="{% url 'registerdata' %}" method="post">
@@ -8,7 +9,7 @@
         <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">Customer Name</label>
             <input type="text" name="name" value="{{data1}}" class="form-control" id="exampleFormControlInput1"
-                placeholder="Indrajeet Yadav">
+                placeholder="Indrajeet Yadav"> 
         </div>
         <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">Email address</label>
@@ -29,12 +30,12 @@
             <label for="inputPassword5" class="form-label">Password</label>
             <input type="password" name="con_password" id="inputPassword5" class="form-control"
                 aria-describedby="passwordHelpBlock">
-        </div>
+        </div><br/>
         <div id="submit_box">
             <input type="submit" value="Create Account" id="submit_btn" onclick="massage()">
         </div>
-    </form>
-    <label></label>
+    </form><br/>
+    <label> If you have already Account then Please <a href="{% url 'login' %}" id="regist_loginbtn">Login</a></label>
 </div>
 
 
@@ -45,6 +46,6 @@
         window.alert(message)
     }
 </script>
-
+</div>
 <!-- <h1>This is Registration page</h1> -->
 {% endblock %}
