@@ -2,8 +2,9 @@ from django.db import models
 
 # Create your models here.
 class RegistrationModel(models.Model):
+    Profile=models.ImageField(null=True)
     Name=models.CharField(max_length=20)
-    Email=models.EmailField()
+    Email=models.EmailField(unique=True)
     Number=models.IntegerField()
     Password=models.CharField(max_length=20)
 
@@ -39,4 +40,7 @@ class ProductBox(models.Model):
 
     def get_heading(self):
         return self.heading
+    
+class Productmodel(models.Model):
+    Product_Name=models.CharField(max_length=250, ) 
 

@@ -47,6 +47,13 @@
                 <input type="submit" value="Show Data" id="submitbtn" />
             </form>
         </div>
+        <div id="showdata_btn">
+            <form action="{% url 'todoform' %}" method="post">
+                {% csrf_token %}
+                <input type="email" name="email" value="{{admin_user.Email}}" id="emailfield" hidden />
+                <input type="submit" value="Add Task" id="submitbtn" />
+            </form>
+        </div>
 
 
         <table id="show_table">

@@ -1,0 +1,15 @@
+{% load static %}
+<!DOCTYPE html>
+
+    
+  
+        <section class="products">
+            <article class="product">
+                <img src="{{prod_image}}" alt="Product 1">
+                <h2>{{prod_name | default:'Product Name'}} </h2>
+                <p class="price">${{prod_price | default:'40'}}</p>
+                <p class="description">{{prod_detail | default:'A short description of the product'}}</p>
+                <button>Add to Cart</button>
+            </article>
+        </section>
+    

@@ -1,50 +1,26 @@
 {% extends 'base.html' %}
 {% block content%}
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12">
+<div id="changepass_body">
+
+    <div class="row" id="changepass_wrapper">
             <h1>Change Password</h1>
-        </div>
+        
+        <p class="text-center">Use the form below to change your password. Your password cannot be the same as your
+            username.</p>
+
+        <form action="" method="post" id="changepassform">
+            <input type="text" name="name" value="{{user_name}}" id="" hidden disabled>
+            <input type="email" name="email" id="" hidden disabled>
+            <input type="tel" name="number" id="" hidden disabled>
+            <label for="newpassinput">Enter New Password</label><br>
+            <input type="password" name="newpassword" id="newpassinput"><br><br />
+            <label for="cnewpassinput">Confirm New Password</label><br>
+            <input type="password" name="conpassword" id="cnewpassinput"><br><br /><br />
+            <input type="submit" value="Change Password" id="changepass_btn">
+        </form>
+
     </div>
-    <div class="row">
-        <div class="col-sm-6 col-sm-offset-3">
-            <p class="text-center">Use the form below to change your password. Your password cannot be the same as your
-                username.</p>
 
-
-            <form method="post" id="passwordForm">
-                {% csrf_token %}
-                <input type="password" class="input-lg form-control" name="password1" id="password1"
-                    placeholder="New Password" autocomplete="off">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <span id="8char" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> 8 Characters
-                        Long<br>
-                        <span id="ucase" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> One Uppercase
-                        Letter
-                    </div>
-                    <div class="col-sm-6">
-                        <span id="lcase" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> One Lowercase
-                        Letter<br>
-                        <span id="num" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> One Number
-                    </div>
-                </div>
-                <input type="password" class="input-lg form-control" name="password2" id="password2"
-                    placeholder="Repeat Password" autocomplete="off">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <span id="pwmatch" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> Passwords
-                        Match
-                    </div>
-                </div>
-                <input type="submit" class="col-xs-12 btn btn-primary btn-load btn-lg"
-                    data-loading-text="Changing Password..." value="Change Password">
-            </form>
-
-
-
-        </div><!--/col-sm-6-->
-    </div><!--/row-->
 </div>
 
 {% endblock %}

@@ -1,0 +1,15 @@
+<div id="cont_box" >
+    <div id="img">
+        <img src={{pimage}} className="imageproduct" alt="#"  />
+        <i class="fa-regular fa-heart" id="likeheart" ></i>
+        <FaHeart  id={props.pid} />
+    </div>
+    <div id="prod_name">{{nam}}</div>
+    <div id="prod_rate_wrapper">
+    <div id="detail">₹&nbsp;&nbsp;{{price}}/-</div>
+    <div id="detail" class="Mrp_price">₹&nbsp;&nbsp;{{MRP}}/-</div>
+    <div id="detail">{{offer}}</div>
+    </div>  
+    <button id="cartbtn" onclick={{addcard}}>Add to cart</button>
+    <button id="buybtn" onclick={{OrderNow}}>Buy</button>
+</div>

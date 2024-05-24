@@ -1,70 +1,146 @@
-body {
-    background-image: url('../images/background.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    font-family: Arial, sans-serif;
+/* ================================================================== */
+
+main {
+    padding: 2em;
 }
 
-#Register_body {
+.products {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2em;
+    justify-content: center;
+}
+
+.product {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 1em;
+    text-align: center;
+    width: 300px;
+}
+
+.product img {
+    max-width: 100%;
+    height: auto;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 1em;
+}
+
+.product h2 {
+    font-size: 1.5em;
+    margin: 0.5em 0;
+}
+
+.product .price {
+    color: #e67e22;
+    font-size: 1.2em;
+}
+
+.product .description {
+    font-size: 1em;
+    color: #666;
+    margin: 0.5em 0;
+}
+
+.product button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 0.5em 2em;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.product button:hover {
+    background-color: #555;
+}
+
+
+
+@media (max-width: 768px) {
+    .products {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .product {
+        width: 90%;
+    }
+}
+
+/* =============== Change password form ================ */
+#changepass_body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5); /* Optional: for semi-transparent background */
+    background-image: url(../image/register_background2.jpg);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
 }
 
-#registration_form {
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
+#changepassform {
+    width: 400px;
+    height: auto;
+    padding: 40px 35px;
+    border: 1px solid black;
+    margin-bottom: 50px;
+    text-align: left;
+    /* margin-left: 30px; */
 }
 
-#form_type {
-    margin-bottom: 20px;
-    font-size: 24px;
+#changepass_wrapper {
+    width: 450px;
+    height: auto;
+    padding: 40px 10px;
     text-align: center;
 }
 
-.form-label {
-    margin-bottom: 10px;
-    display: block;
-    font-weight: bold;
-}
-
-.form-control {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-#submit_box {
+.container .row {
     text-align: center;
 }
 
-#submit_btn {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
+#changepassform label {
+    font-size: 16px;
 }
 
-#submit_btn:hover {
-    background-color: #0056b3;
+#newpassinput,
+#cnewpassinput {
+    width: 320px;
+    height: 35px;
+    padding-left: 15px;
+    background-color: transparent;
+    outline: none;
+}
+#newpassinput:hover,
+#cnewpassinput:hover{
+    background-color: white;
 }
 
-label a {
-    color: #007bff;
-    text-decoration: none;
+#changepass_btn {
+    padding: 4px 15px;
+    border-radius: 10px;
+    margin-left: 100px;
+    /* margin: auto; */
 }
 
-label a:hover {
-    text-decoration: underline;
+/* ================= Forget password ====================== */
+
+#forgetform_body{
+    width: 100%;
+    height: auto;
+    background-image: url(../image/register_background2.jpg);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
 }
+
+#forgetform_container{
+    width: 420px;
+    height: auto;
+    padding: 20px 30px;
+    background-color: transparent;
+    border: 1px solid black;
+}
+
+
+
+

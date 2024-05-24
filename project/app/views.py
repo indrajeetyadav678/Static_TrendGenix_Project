@@ -3,7 +3,7 @@ from .models import*
 from datetime import datetime
 from django.core.mail import send_mail
 from django.conf import settings
-
+from .forms import*
 
 # Create your views here.
 
@@ -89,7 +89,7 @@ def logindata(request):
             Password= data.Password
             if Password==password:
                 msg="Welcome To "+data.Name
-                return render(request, 'index.html', {'key1': msg, 'user_name':data})
+                return render(request, 'index.html', {'key1': msg, 'user_name':data, 'media_url':settings.MEDIA_URL})
             else:
                 msg="Enter Password is Wrong Please Enter Correct Password"
                 return render(request, 'login.html', {'key1': msg})
@@ -101,6 +101,15 @@ def logindata(request):
             data=RegistrationModel.objects.get(Email=userid)
             Password= data.Password
             if Password==password:
+                Context={}
+
+                # Context['Profile']=request.session['Profile']= data.Profile
+                Context['Name']=request.session['Name']= data.Name
+                Context['Email']=request.session['Email']= data.Email
+                Context['Number']=request.session['Number']= data.Number
+                Context['Password']=request.session['Password']= data.Password
+                # Context['Name']=request.session['id']= data.id
+                print(data.Name)
                 msg="Welcome To "+data.Name
                 return render(request, 'dashboard.html', {'key1': msg, 'admin_user':data})
             else:
@@ -119,7 +128,13 @@ def forgetpass(request):
 
 
 def editpro(request):
-    return render(request, 'editprofile.html')
+    data={}
+    data['Name']=request.session['Name']
+    data['Email']=request.session['Email']
+    data['Number']=request.session['Number']
+    data['Password']=request.session['Password']
+
+    return render(request, 'editprofile.html',{'admin_user':data})
 
 # ======================= user Dashboard functions ===================
 def home(request):
@@ -166,10 +181,36 @@ def girl1(request):
 
 # ============= user profile function -======================
 def changepass(request):
-    return render(request, 'changepass.html')
+    try:
+        data={}
+        data['Name']=request.session['Name']
+        data['Email']=request.session['Email']
+        data['Number']=request.session['Number']
+        data['Password']=request.session['Password']
+        return render(request, 'changepass.html', {'user_name':data})
+    except:
+        mail=request.POST.get('email')
+        dbdata=RegistrationModel.objects.get(Email=mail)
+        return render(request, 'changepass.html', {'admin_user':dbdata})
+    
+#=================== Admin dashboard ============================
 
+def dashbordindex(request):
+    return render(request, 'dashboardindex.html') 
+
+def productdata(request):
+    return render(request, 'productdata.html')
+
+def userdata(request):
+    return render(request, 'userdata.html')
+
+def result(request):
+    return render(request, 'result.html')
 
 # ================ adminDashboard ============================  
+def  todoform(request):
+    return render(request, 'result.html')
+
 def todotask(request):
     print(request.POST)
     title = request.POST.get('title')
