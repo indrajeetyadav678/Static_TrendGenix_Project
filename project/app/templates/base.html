@@ -19,8 +19,6 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <script src="{% static '/javascript/javascript.js' %}"></script>
-
-
 </head>
 
 <body>
@@ -153,10 +151,10 @@
     <div id="Navbar">
         <div id="resp_icon_com_title">
             <div id="admin_manubar_icon_box">
-                <div id="admin_manubar_icon_close" onclick="submanu_box(1)">
+                <div id="admin_manubar_icon_close" onclick="adminmanu_box(1)">
                     <i class="fa-solid fa-bars"></i>
                 </div>
-                <div id="admin_manubar_icon_open" onclick="submanu_box(1)">
+                <div id="admin_manubar_icon_open" onclick="adminmanu_box(1)">
                     <i class="fa-solid fa-bars-staggered"></i>
                 </div>
             </div>
@@ -174,8 +172,13 @@
                     src="https://static.vecteezy.com/system/resources/thumbnails/004/607/791/small_2x/man-face-emotive-icon-smiling-male-character-in-blue-shirt-flat-illustration-isolated-on-white-happy-human-psychological-portrait-positive-emotions-user-avatar-for-app-web-design-vector.jpg"
                     alt="" />
         </div>
-
     </div>
+    <ul id="Admin_Dropdown_navbar">
+        <li><a href="">Dashboard</a></li>    
+        <li><a href="">Display Data</a></li>    
+        <li><a href="">User Data</a></li>    
+        <li><a href="">Analysis</a></li>    
+    </ul>
 
     <div id="profile_box">
         <img src="https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg" alt=""
@@ -350,6 +353,24 @@
                 document.getElementById('manubar_icon_open').style.display = 'none';
                 document.getElementById('navbar1').style.display = 'none';
                 N = 0
+            }
+        }
+
+
+        let P = 0
+        function adminmanu_box(arg) {
+            P = P + arg
+            if (P === 1) {
+                document.getElementById('admin_manubar_icon_close').style.display = 'none';
+                document.getElementById('admin_manubar_icon_open').style.display = 'block';
+                document.getElementById('Admin_Dropdown_navbar').style.display = 'flex';
+
+            }
+            else if (P === 2) {
+                document.getElementById('admin_manubar_icon_close').style.display = 'block';
+                document.getElementById('admin_manubar_icon_open').style.display = 'none';
+                document.getElementById('Admin_Dropdown_navbar').style.display = 'none';
+                P = 0
             }
         }
     </script>

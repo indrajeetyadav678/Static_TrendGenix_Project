@@ -5,6 +5,7 @@
 }
 
 /* ============== Navbar Section =============== */
+
 #Navbar {
     list-style: none;
     width: 100%;
@@ -17,9 +18,8 @@
     background-color: rgb(27, 27, 56);
     z-index: 110;
     position: sticky;
-    top: -8px
+    top: -10px
 }
-
 #navbar1 {
     width: 400px;
     /* border:1px solid white; */
@@ -28,7 +28,6 @@
     justify-content: space-between;
     align-items: center;
 }
-
 #navbar2 {
     width: 310px;
     /* border:1px solid white; */
@@ -37,27 +36,22 @@
     justify-content: space-between;
     align-items: center;
 }
-
 #dropdown_manu {
     background-color: rgb(14, 10, 31);
     z-index: 100;
 }
-
 #dropdown_manu li a:hover {
     background-color: transparent;
     color: red;
 }
-
 #navbar1 li a:hover {
     color: rgb(255, 0, 0);
 }
-
 #title a {
     color: aliceblue;
     font-size: 25px;
     text-decoration: none;
 }
-
 #navbartitle_btn {
     font-size: 16px;
     letter-spacing: 1px;
@@ -67,7 +61,6 @@
     border: none;
     outline: none;
 }
-
 #navbar_btn {
     background-color: transparent;
     color: aliceblue;
@@ -75,32 +68,26 @@
     outline: none;
     letter-spacing: 1px;
 }
-
 #navbar_btn:hover {
     color: red;
 }
-
 #product_btn {
     position: relative;
 }
-
 #dropdown_manu_btn {
     position: absolute;
     top: 4px;
     right: -15px;
 }
-
 #login_user {
     color: aliceblue;
     cursor: pointer;
 }
-
 #Navbar li a {
     text-decoration: none;
     color: aliceblue;
     letter-spacing: 1px;
 }
-
 #responsive_icon_com_title {
     width: 130px;
     height: 38px;
@@ -108,7 +95,6 @@
     justify-content: space-between;
     align-items: center;
 }
-
 #resp_icon_com_title {
     width: 150px;
     height: 38px;
@@ -116,7 +102,6 @@
     justify-content: space-between;
     align-items: center;
 }
-
 #manubar_icon_box {
     width: 50px;
     height: 30px;
@@ -125,7 +110,6 @@
     align-items: center;
     display: none;
 }
-
 #manubar_icon_close {
     width: 40px;
     position: absolute;
@@ -134,7 +118,6 @@
     display: none;
     cursor: pointer;
 }
-
 #manubar_icon_open {
     width: 50px;
     position: absolute;
@@ -143,7 +126,6 @@
     display: none;
     cursor: pointer;
 }
-
 #secon_navbar {
     display: none;
     list-style: none;
@@ -151,16 +133,12 @@
     color: aliceblue;
     background-color: rgb(14, 10, 31);
 }
-
 #demo {
-    margin: 0%;
     z-index: -1;
 }
-
 #secon_navbar li a {
     color: aliceblue;
 }
-
 #profile_box {
     width: 250px;
     height: 370px;
@@ -174,7 +152,6 @@
     background-color: rgb(11, 16, 45);
     z-index: 110;
 }
-
 #profile_box::before {
     content: "";
     width: 20px;
@@ -187,23 +164,20 @@
     top: -10px;
     right: 18px;
 }
-
 #profile_box label {
     font-style: oblique;
     text-align: justify;
 }
-
 #user_account_info {
     width: 215px;
     height: auto;
     padding-top: 20px 5px;
     margin-top: 20px;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
     text-align: start;
     margin-left: 20px;
     color: aliceblue;
 }
-
 #prof_image {
     width: 70px;
     height: 70px;
@@ -212,7 +186,6 @@
     margin-top: 30px;
     /* margin-left: 23%; */
 }
-
 #prof_image1 {
     width: 90px;
     height: 90px;
@@ -220,7 +193,6 @@
     border: 1px solid black;
     margin-top: 30px;
 }
-
 #editpro_btn {
     padding: 3px 10px;
     background-color: transparent;
@@ -229,13 +201,10 @@
     border: none;
     outline: none;
 }
-
 #usericon {
     width: 38px;
     border-radius: 50%;
-    /* height: 20px; */
 }
-
 #addtocart_like_icon_nav {
     width: 150px;
     list-style: none;
@@ -243,7 +212,6 @@
     justify-content: space-between;
     align-items: center;
 }
-
 #like_heart_icon,
 #shopping_card_icon {
     font-size: 18px;
@@ -252,19 +220,16 @@
     outline: none;
     color: rgb(255, 254, 254);
 }
-
 #pro_like_addcart_wrapper {
     width: 300px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-
 #addcart_icon_container,
 #liked_icon_container {
     position: relative;
 }
-
 #add_cart_value {
     width: 20px;
     height: 20px;
@@ -278,7 +243,6 @@
     top: -14px;
     left: 3px;
 }
-
 #add_liked_value {
     width: 20px;
     height: 20px;
@@ -291,15 +255,16 @@
     position: absolute;
     top: -14px;
 }
+
 /* =============== admin Dashboard ========================= */
 
-#Admin_deskname{
+#Admin_deskname {
     color: aliceblue;
     letter-spacing: 1.5px;
     font-weight: bolder;
     font-size: 16px;
 }
-#admin_profile_Icon{
+#admin_profile_Icon {
     width: 50px;
 }
 #admin_manubar_icon_box {
@@ -315,6 +280,7 @@
     position: absolute;
     top: 3px;
     color: aliceblue;
+    /* color: blueviolet; */
     /* display: none; */
     cursor: pointer;
 }
@@ -327,63 +293,102 @@
     cursor: pointer;
 }
 
+/* ==================== admin navbar - 2 =================== */
+
+#Admin_Dropdown_navbar {
+    width: 100%;
+    height: 60px;
+    list-style: none;
+    z-index: 100;
+    position: sticky;
+    top: -10px;
+    display: none;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #474646;
+}
+#Admin_Dropdown_navbar li a {
+    letter-spacing: 1.2px;
+    color: aliceblue;
+    font-size: 16px;
+    font-weight: 700;
+}
 @media(max-width: 992px) {
     #title a {
         font-size: 16px;
     }
-
     #navbar1 {
         width: 300px;
     }
-
     #navbar1 li a {
         font-size: 12px;
     }
-
     #navbar2 {
         width: 250px;
     }
-
     #navbar2 li a {
         font-size: 12px;
     }
-
     #navbar2 li {
         font-size: 12px;
     }
 }
 
+
 @media(max-width: 768px) {
     #Navbar {
         position: relative;
+        position: sticky;
+        top: -10px
     }
-
     #manubar_icon_box {
         display: block;
     }
-
     #manubar_icon_close {
         display: block;
     }
-
     #navbar1 {
         width: 100%;
         display: none;
         padding: 20px 6%;
         position: absolute;
-        top: 69px;
+        top: 60px;
         left: 0;
         background-color: rgb(27, 27, 56);
         border: none;
-        margin: 0%;
         z-index: 40;
     }
+    #Admin_Todoform {
+        display: block;
+        justify-content: center;
+    }
+}
 
+@media(max-width:576px) {
+    #resp_icon_com_title {
+        width: 120px;
+    }
+
+    #navbartitle_btn {
+        font-size: 12px;
+    }
+
+    #Admin_deskname {
+        font-size: 12px;
+        font-weight: 500;
+    }
+    #Admin_Dropdown_navbar li a{
+        font-size: 12px;
+    }
+    #navbartitle_btn{
+        font-size: 14px;
+        font-weight: 700;
+    }
 }
 
 /* ============ Registartion form ======== */
 
-#Register_body{
+#Register_body {
     width: 100%;
     height: auto;
     padding: 40px 50px;
@@ -394,46 +399,46 @@
 #registration_form {
     width: 400px;
     height: 550px;
-    border: 1px solid rgb(117, 116, 116);  
+    border: 1px solid rgb(117, 116, 116);
     box-shadow: 3px 3px 30px rgb(32, 32, 32);
-    border-radius: 25px;  
+    border-radius: 25px;
     padding: 10px 30px;
     margin: 25px 35%;
     background-color: rgba(46, 45, 45, 0.2);
     color: rgb(16, 16, 17);
 }
-
 #form_type {
     text-align: center;
     font-weight: bold;
 }
-
 #submit_btn {
     padding: 3px 35px;
     border-radius: 10px;
     background-color: rgb(46, 46, 110);
     color: aliceblue;
 }
-
 #submit_box {
     /* width: 150px; */
     text-align: center;
 }
-#exampleFormControlInput1,#inputPassword5{
+#exampleFormControlInput1,
+#inputPassword5 {
     background-color: transparent;
     color: rgb(249, 246, 246);
     letter-spacing: 2px;
 }
-#exampleFormControlInput1:hover,#inputPassword5:hover{
+#exampleFormControlInput1:hover,
+#inputPassword5:hover {
     background-color: white;
     color: rgb(4, 4, 4);
 }
-#regist_loginbtn{
+#regist_loginbtn {
     color: rgb(33, 33, 138);
 }
 
 /* ============ Login form ======== */
-#login_body{
+
+#login_body {
     width: 100%;
     height: auto;
     padding: 40px 60px;
@@ -441,17 +446,15 @@
     background-size: 100% 100%;
     background-repeat: no-repeat;
 }
-
-#logintype{
+#logintype {
     background-color: transparent;
     height: 30px;
     color: rgb(8, 8, 8);
     border: none;
 }
-#sel_typenone{
+#sel_typenone {
     color: black;
 }
-
 #login_form {
     width: 400px;
     height: 380px;
@@ -462,10 +465,9 @@
     border-radius: 20px;
     /* box-shadow: 2px 2px 10px rgb(17, 16, 16); */
 }
-#login_form:hover{
+#login_form:hover {
     box-shadow: 2px 2px 10px rgb(17, 16, 16);
 }
-
 #userid_input {
     width: 100%;
     height: 35px;
@@ -473,7 +475,6 @@
     outline: none;
     border: none;
 }
-
 #forgetpass_btn {
     background-color: transparent;
     border: none;
@@ -490,7 +491,6 @@
     padding: 15px 10px;
     background-color: rgb(39, 36, 36);
 }
-
 #links_box {
     display: flex;
     justify-content: space-around;
@@ -498,7 +498,6 @@
     width: 100%;
     height: 150px;
 }
-
 #footlink1 li a,
 #footlink2 li a,
 #footlink3 li a,
@@ -513,29 +512,46 @@
 #dashboard_Body {
     width: 100%;
     height: auto;
+    margin-top: -10px;
 }
-
+#Admin_Todoform {
+    width: 100%;
+    height: 600px;
+    padding: 10px 20px;
+    background-image: url('../image/register_background2.jpg');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 #todoform_box {
-    width: 300px;
+    width: 410px;
     height: 330px;
     border: 1px solid black;
-    padding: 30px 20px;
+    box-shadow: 1px 1px 10px black;
+    padding: 20px 20px;
 }
-
 #titlefield {
-    width: 250px;
+    width: 330px;
     height: 30px;
     border-radius: 10px;
     padding-left: 10px;
+    background-color: transparent;
+    letter-spacing: 1.5px;
 }
-
 #taskfield {
-    width: 250px;
+    width: 90%;
     height: 100px;
     border-radius: 10px;
     padding-left: 10px;
+    background-color: transparent;
+    letter-spacing: 1.5px;
 }
-
+#titlefield:hover,
+#taskfield:hover {
+    background-color: #ffffff;
+}
 #submitbtn {
     text-align: center;
     padding: 4px 15px;
@@ -545,16 +561,15 @@
 /* ============================================= */
 
 #showdata_container {
-    width: 75%;
+    width: 100%;
     height: auto;
     padding: 40px 10px;
+    background-color: rgb(162, 226, 244);
 }
-
 #show_table {
     width: 100%;
     height: auto;
 }
-
 #datatable_head tr th {
     border: 1px solid black;
     height: 30px;
@@ -562,7 +577,6 @@
     background-color: rgb(25, 25, 25);
     color: aliceblue;
 }
-
 #datatable_body tr td {
     border: 1px solid black;
     height: auto;
@@ -570,7 +584,6 @@
     background-color: aquamarine;
     color: rgb(1, 7, 12);
 }
-
 #showdata_btn {
     width: 100%;
     height: 40px;
@@ -580,7 +593,6 @@
     align-items: center;
     margin-bottom: 40px;
 }
-
 #showdata_btn #submitbtn {
     width: 100px;
     height: 40px;
@@ -601,12 +613,10 @@
     justify-content: space-around;
     padding: 80px 20%;
 }
-
 #contact_sect1 {
     width: 350px;
     height: 420px;
 }
-
 #contact_sect1_col {
     width: 230px;
     height: 80px;
@@ -616,20 +626,17 @@
     justify-content: space-between;
     align-items: center;
 }
-
 #touch_us_text label {
     font-size: 14px;
     letter-spacing: 1px;
     color: orangered;
 }
-
 #touch_us_text span {
     font-size: 30px;
     font-weight: bold;
     letter-spacing: 1px;
     color: aliceblue;
 }
-
 #locat_icon {
     width: 50px;
     height: 50px;
@@ -643,11 +650,9 @@
     font-size: 18px;
     color: aliceblue;
 }
-
 #contac_sect1_cont {
     color: aliceblue;
 }
-
 #cont_text {
     width: 350px;
     height: 35px;
@@ -655,14 +660,12 @@
     padding-left: 15px;
     border: 1px solid rgb(95, 88, 88);
 }
-
 #cont_textarea {
     width: 350px;
     height: 100px;
     background-color: transparent;
     padding-left: 15px;
 }
-
 #cont_submit_btn {
     width: 350px;
     height: 35px;
@@ -679,14 +682,12 @@
     justify-content: center;
     padding: 50px 3px;
 }
-
 #forgetform_container {
     width: 500px;
     height: auto;
     padding: 20px 15px;
     background-color: rgb(233, 224, 224);
 }
-
 #email {
     height: 60px;
 }
@@ -697,7 +698,6 @@
     width: 100%;
     height: 300px;
 }
-
 #right_arrow,
 #left_arrow {
     font-size: 50px;
@@ -717,11 +717,9 @@
     margin-top: 60px;
     margin-bottom: 70px;
 }
-
 #product-group-collection-container::-webkit-scrollbar {
     display: none;
 }
-
 #product-group-collection-slider {
     width: 1800px;
     height: 490px;
@@ -730,7 +728,6 @@
     justify-content: space-around;
     align-items: center;
 }
-
 #product-group-collection-box {
     width: 335px;
     height: 440px;
@@ -739,29 +736,24 @@
     border: 1px solid #282727;
     text-align: center;
 }
-
 #product-group-collection-box:hover {
     scale: 1.03;
     z-index: 1;
 }
-
 #product-group-collection-flex-box {
     display: flex;
     flex-wrap: wrap;
 }
-
 #product-group-collection-title {
     margin-left: 5px;
     margin-right: 5px;
     font-size: 20px;
     font-weight: bold;
 }
-
 #product-group-collection-div1-a {
     text-decoration: none;
     text-transform: capitalize;
 }
-
 #product-group-collection-div1 {
     width: 150px;
     height: 150px;
@@ -769,14 +761,12 @@
     margin: 8px;
     text-align: left;
 }
-
 .product-group-collection-div1-img {
     width: 130px;
     height: 100px;
     /* border:1px solid rgb(181, 250, 54); */
     margin: auto;
 }
-
 #product-group-collection-name {
     color: #334142;
     margin-left: 10px;
@@ -791,21 +781,18 @@
     background-position: center;
     background-repeat: no-repeat;
 }
-
 #product-group-collection-div1-img2 {
     background-image: url('../image/mens\ wear.jpg');
     background-size: 100% 100px;
     background-position: center;
     background-repeat: no-repeat;
 }
-
 #product-group-collection-div1-img3 {
     background-image: url('../image/kid\'s\ wear.jpg');
     background-size: 90% 100px;
     background-position: center;
     background-repeat: no-repeat;
 }
-
 #product-group-collection-div1-img4 {
     background-image: url('../image/handbags\,\ clutches.jpg');
     background-size: 100% 100px;
@@ -821,21 +808,18 @@
     background-position: center;
     background-repeat: no-repeat;
 }
-
 #product-group-collection-div2-img2 {
     background-image: url('../image/men\'s\ shoes.jpg');
     background-size: 100% 100px;
     background-position: center;
     background-repeat: no-repeat;
 }
-
 #product-group-collection-div2-img3 {
     background-image: url('../image/Women\'s\ shoes.jpg');
     background-size: 90% 100px;
     background-position: center;
     background-repeat: no-repeat;
 }
-
 #product-group-collection-div2-img4 {
     background-image: url('../image/kid\'s\ shoes.jpg');
     background-size: 100% 100px;
@@ -851,7 +835,6 @@
     background-position: center;
     background-repeat: no-repeat;
 }
-
 #product-group-collection-div3-img2 {
     background-image: url('../image/Lotus.jpg');
     background-size: 100% 100px;
@@ -990,14 +973,15 @@
 }
 
 
-#product_section5_image_container{
-    width:180px;
+#product_section5_image_container {
+    width: 180px;
     height: 183px;
     overflow: hidden;
     /* border: 1px solid rgb(13, 247, 37); */
     /* position: relative; */
 
 }
+
 #product-section5-image-wrapper {
     width: 380px;
     height: 182px;
@@ -1007,7 +991,8 @@
     align-items: center;
     /* position: relative; */
 }
-#product-section5-image-wrapper:hover{
+
+#product-section5-image-wrapper:hover {
     /* display: none; */
     animation: jewanimation 3s;
 }
@@ -1040,18 +1025,19 @@
     }
     
 } */
-@keyframes jewanimation{
-  from{
-    #product-section4-img1{
-        display: block;
+@keyframes jewanimation {
+    from {
+        #product-section4-img1 {
+            display: block;
+        }
     }
-  }
-  to{
-    #product-section4-img1{
-        display: none;
+
+    to {
+        #product-section4-img1 {
+            display: none;
+        }
     }
-  }
-    
+
 }
 
 /* ==================== About page ========================= */
@@ -1066,7 +1052,8 @@
     padding: 30px 20px;
     background-color: rgb(14, 14, 14);
 }
-#about_image{
+
+#about_image {
     width: 100%;
     height: 510px;
 }
@@ -1085,22 +1072,28 @@
 
 #about_score {
     width: 54%;
-    height: 510px;
+    height: auto;
     border: 0.5px solid rgb(249, 247, 247);
-    padding: 40px 50px;
+    padding: 35px 10px;
     text-align: center;
+    /* display: flex; */
+    /* justify-content: center; */
+    /* flex-wrap: wrap; */
 }
 
 #about_one {
     color: orangered;
 }
-#Readme_morebtn{
+
+#Readme_morebtn {
     padding: 3px 35px;
     background-color: transparent;
     border: none;
 }
-#Readme_morebtn a{
-    font-size: 20px;
+
+#Readme_morebtn a {
+    font-size: 16px;
+    color: orangered;
 }
 
 #about_two {
