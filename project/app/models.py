@@ -40,7 +40,24 @@ class ProductBox(models.Model):
 
     def get_heading(self):
         return self.heading
+Product_for=[
+    ('Men','Men'),
+    ('Women','Women'),
+    ('Kids','Kids'),
+]
     
 class Productmodel(models.Model):
-    Product_Name=models.CharField(max_length=250, ) 
+    Prod_Name=models.CharField(max_length=254, null=True, choices=Product_for)
+    Prod_Image1=models.ImageField(null=True)
+    Prod_Image2=models.ImageField(null=True)
+    Prod_Image3=models.ImageField(null=True)
+    Prod_Image4=models.ImageField(null=True)
+    Prod_Price =models.IntegerField(null=True)
+    Prod_MRP=models.IntegerField(null=True)
+    Prod_Offer=models.CharField(max_length=254, null=True)
+    Prod_Detail=models.TextField(null=True)
+    Serial_no=models.IntegerField(null=True)
+
+    def __str__(self):
+        return self.Prod_Name
 

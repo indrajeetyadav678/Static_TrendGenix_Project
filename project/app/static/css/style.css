@@ -393,10 +393,13 @@
 #Register_body {
     width: 100%;
     height: auto;
-    padding: 40px 50px;
+    padding: 40px 0px;
     background-image: url('../image/register_background2.jpg');
     background-size: 100% 100%;
     background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 #registration_form {
     width: 400px;
@@ -405,7 +408,7 @@
     /* box-shadow: 3px 3px 30px rgb(32, 32, 32); */
     border-radius: 25px;
     padding: 10px 30px;
-    margin: 25px 35%;
+    /* margin: 25px 35%; */
     background-color: transparent;
     color: rgb(16, 16, 17);
 }
@@ -447,10 +450,13 @@
 #login_body {
     width: 100%;
     height: auto;
-    padding: 40px 60px;
+    padding: 40px 0%;
     background-image: url('../image/register_background2.jpg');
     background-size: 100% 100%;
     background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 #logintype {
     background-color: transparent;
@@ -466,7 +472,7 @@
     height: 380px;
     border: 1px solid rgb(97, 96, 96);
     padding: 5px 30px;
-    margin: 120px 33%;
+    /* margin: 120px 33%; */
     color: #0d0d0d;
     border-radius: 20px;
     /* box-shadow: 2px 2px 10px rgb(17, 16, 16); */
@@ -520,10 +526,15 @@
     height: auto;
     margin-top: -10px;
 }
+#welcome_text{
+ font-size: 30px;
+ font-weight: 800;
+ text-align: center;
+}
 #Admin_Todoform {
     width: 100%;
-    height: 600px;
-    padding: 10px 20px;
+    height: auto;
+    padding: 100px 20px;
     background-image: url('../image/register_background2.jpg');
     background-size: 100% 100%;
     background-repeat: no-repeat;
@@ -537,6 +548,7 @@
     border: 1px solid black;
     box-shadow: 1px 1px 10px black;
     padding: 20px 20px;
+    /* display: none; */
 }
 #titlefield {
     width: 330px;
@@ -561,8 +573,14 @@
 #submitbtn {
     text-align: center;
     padding: 4px 15px;
-    margin-left: auto;
+    margin-left: 35%;
+    background-color: transparent;
 }
+#submitbtn:hover{
+    box-sizing: 2px 2px 10px black;
+
+}
+
 
 /* ============================================= */
 
@@ -571,6 +589,14 @@
     height: auto;
     padding: 40px 10px;
     background-color: rgb(162, 226, 244);
+}
+#todotask_btn_container{
+    width:100%;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px 50px;
 }
 #show_table {
     width: 100%;
@@ -585,12 +611,13 @@
 }
 #datatable_body tr td {
     border: 1px solid black;
-    height: auto;
+    min-height: 35px;
+    max-height: auto;
     text-align: center;
     background-color: aquamarine;
     color: rgb(1, 7, 12);
 }
-#showdata_btn {
+#showdata_btn{
     width: 100%;
     height: 40px;
     padding: 10px 0px;
@@ -599,7 +626,7 @@
     align-items: center;
     margin-bottom: 40px;
 }
-#showdata_btn #submitbtn {
+#showdata_btn #submitbtn{
     width: 100px;
     height: 40px;
     background-color: rgb(68, 64, 64);
@@ -609,15 +636,15 @@
 
 /* ===================== contact us Page ===================== */
 
-#contact_body {
+#contact_body{
     width: 100%;
     height: auto;
     background-color: rgb(10, 9, 9);
-    padding: 50px 40px;
+    padding: 70px 10px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
-    padding: 80px 20%;
+    justify-content: center;
+    /* padding-top: 80px; */
 }
 #contact_sect1 {
     width: 350px;
@@ -679,6 +706,12 @@
     color: aliceblue;
     font-weight: bold;
     letter-spacing: 1px;
+}
+#contact_usform{
+   width: 400px;
+   height: auto;
+   /* border: 1px solid white; */
+   text-align: center;
 }
 
 /* ================ forget form page ================== */

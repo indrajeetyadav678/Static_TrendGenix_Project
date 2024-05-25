@@ -4,7 +4,6 @@
 <div id="dashboard_Body">
     <div id="Admin_Todoform">
         {% if taskobject %}
-        {{taskobject.Task}}
         <div id="todoform_box">
             <form action="{% url 'updatedata' %}" method="post">
                 {% csrf_token %}
@@ -13,23 +12,24 @@
                 <input type="text" name="title" value="{{taskobject.Title}}" id="titlefield" /><br />
                 <label for="">Task</label><br />
                 <textarea type="text" name="task" id="taskfield">{{taskobject.Task}}</textarea><br />
-                <input type="email" name="email" value="{{user_name.Email}}" id="emailfield" hidden />
+                <input type="email" name="email" value="{{admin_user.Email}}" id="emailfield" hidden />
                 <input type="number" name="id" value="{{taskobject.id}}" id="emailfield" hidden />
                 <input type="submit" value="update" id="submitbtn" />
             </form>
         </div>
-
+        {{user_name.Email}}
         {% else %}
         <div id="todoform_box">
             <form action="{% url 'todotask' %}" method="post">
                 {% csrf_token %}
-                <div id="todoform_header1" style="text-align: center; font-weight: 600; font-size: 20px;">TODO FORM</div>
+                <div id="todoform_header1" style="text-align: center; font-weight: 600; font-size: 20px;">TODO FORM
+                </div>
                 <label for="">Title</label><br />
                 <input type="text" name="title" value="" id="titlefield" /><br />
                 <label for="">Task</label><br />
                 <textarea type="text" name="task" value="" id="taskfield"></textarea><br />
-                <input type="email" name="email" value="{{user_name.Email}}" id="emailfield" hidden />
-                <input type="password" name="password" value="{{user_name.Password}}" id="passfield" hidden /><br />
+                <input type="email" name="email" value="{{admin_user.Email}}" id="emailfield" hidden />
+                <input type="password" name="password" value="{{admin_user.Password}}" id="passfield" hidden /><br />
                 <input type="submit" value="Submit" id="submitbtn" />
             </form>
         </div>
@@ -39,20 +39,22 @@
 
 
     <div id="showdata_container">
-
-        <div id="showdata_btn">
-            <form action="{% url 'showdata2' %}" method="post">
-                {% csrf_token %}
-                <input type="email" name="email" value="{{admin_user.Email}}" id="emailfield" hidden />
-                <input type="submit" value="Show Data" id="submitbtn" />
-            </form>
-        </div>
-        <div id="showdata_btn">
-            <form action="{% url 'todoform' %}" method="post">
-                {% csrf_token %}
-                <input type="email" name="email" value="{{admin_user.Email}}" id="emailfield" hidden />
-                <input type="submit" value="Add Task" id="submitbtn" />
-            </form>
+        <div id="todotask_btn_container">
+            <div id="showdata_btn">
+                <form action="{% url 'showdata2' %}" method="post">
+                    {% csrf_token %}
+                    <input type="email" name="email" value="{{admin_user.Email}}" id="emailfield" hidden />
+                    <input type="submit" value="Show Data" id="submitbtn" />
+                </form>
+            </div>
+            <div id="showdata_btn">
+                <form action="{% url 'todoform' %}" method="post">
+                    {% csrf_token %}
+                    <input type="email" name="email" value="{{admin_user.Email}}" id="emailfield" hidden />
+                    <input type="submit"  value="Add Task" id="submitbtn" />
+                </form>
+            </div>
+            
         </div>
 
 
@@ -79,13 +81,9 @@
                 </tr>
                 {% endfor %}
             </tbody>
-
-
-
         </table>
-
-
-
     </div>
+
 </div>
+
 {% endblock %}

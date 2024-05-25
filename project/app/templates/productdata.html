@@ -1,6 +1,110 @@
 {% extends 'base.html' %}
 
 {% block content%}
+<div id="product_body">
 
-<h1>This is Product page</h1>
+    <div id="Product_form">
+        <form action="{% url 'product_entry' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{f_content.prod_form}}
+            <input type="submit" value="submit" id="prod_submit_btn">
+        </form>
+    </div><br><br>
+    <br>
+    <div id="todotask_btn_container">
+        <div id="showdata_btn">
+            <form action="{% url 'showdata2' %}" method="post">
+                {% csrf_token %}
+                <input type="email" name="email" value="{{admin_user.Email}}" id="emailfield" hidden />
+                <input type="submit" value="Show Data" id="submitbtn" />
+            </form>
+        </div>
+        <div id="showdata_btn">
+            <form action="{% url 'todoform' %}" method="post">
+                {% csrf_token %}
+                <input type="email" name="email" value="{{admin_user.Email}}" id="emailfield" hidden />
+                <input type="submit" value="Add Task" id="submitbtn" />
+            </form>
+        </div>
+    </div>
+    <div id="registration_data">
+        <table>
+            <thead id="prod_data_heading">
+                <tr>
+                    <th>Name</th>
+                    <th>Image1</th>
+                    <th>Image2</th>
+                    <th>Image3</th>
+                    <th>Image4</th>
+                    <th>Price</th>
+                    <th>MRP</th>
+                    <th>Offer</th>
+                    <th>Details</th>
+                    <th>Seial No.</th>
+                    <th>edit</th>
+                    <th>delete</th>
+                </tr>
+            </thead>
+            <tbody id="prod_data_body">
+                {% if admin_user %}
+                <tr>
+                    <td>
+                        <input type="text" value="" name="name" id="">
+                    </td>
+                    <td>
+                        <input type="image" src="" name="Prod_Image1" value="" alt="" disabled>
+                    </td>
+                    <td>
+                        <input type="image" src="" name="Prod_Image2" value="" alt="" disabled>
+                    </td>
+                    <td>
+                        <input type="image" src="" name="Prod_Image3" value="" alt="" disabled>
+                    </td>
+                    <td>
+                        <input type="image" src="" name="Prod_Image4" value="" alt="" disabled>
+                    </td>
+                    <td><input type="number" value="" name="prod_price" id=""></td>
+                    <td><input type="number" value="" name="prod_mrp" id=""></td>
+                    <td><input type="text" value="" name="prod_offer" id=""></td>
+                    <td><textarea name="prod_detail" id=""></textarea></td>
+                    <td><input type="tel" value="" value="" name="serialno" id=""></td>
+                    <td>
+                        <button id="prod_editbtn"><a href="#">Edit</a></button>
+                    </td>
+                    <td><button><a href="#">Delete</a></button></td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td>
+                        <input type="text" value="" name="name" id="">
+                    </td>
+                    <td>
+                        <img src="" alt="">
+                    </td>
+                    <td>
+                        <img src="" alt="">
+                    </td>
+                    <td>
+                        <img src="" alt="">
+                    </td>
+                    <td>
+                        <img src="" alt="">
+                    </td>
+                    <td><input type="number" value="" name="prod_price" id="" disabled></td>
+                    <td><input type="number" value="" name="prod_mrp" id="" disabled></td>
+                    <td><input type="text" value="" name="prod_offer" id="" disabled></td>
+                    <td><textarea name="prod_detail" id="" disabled></textarea></td>
+                    <td><input type="tel" value="" value="" name="serialno" id="" disabled></td>
+                    <td>
+                        <button id="prod_editbtn"><a href="#">Edit</a></button>
+                    </td>
+                    <td><button><a href="#">Delete</a></button></td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
 {% endblock %}

@@ -111,8 +111,9 @@ main {
     background-color: transparent;
     outline: none;
 }
+
 #newpassinput:hover,
-#cnewpassinput:hover{
+#cnewpassinput:hover {
     background-color: white;
 }
 
@@ -120,12 +121,17 @@ main {
     padding: 4px 15px;
     border-radius: 10px;
     margin-left: 100px;
+    background-color: transparent;
     /* margin: auto; */
+}
+
+#changepass_btn:hover {
+    background-color: rgb(220, 184, 184);
 }
 
 /* ================= Forget password ====================== */
 
-#forgetform_body{
+#forgetform_body {
     width: 100%;
     height: auto;
     background-image: url(../image/register_background2.jpg);
@@ -133,7 +139,7 @@ main {
     background-repeat: no-repeat;
 }
 
-#forgetform_container{
+#forgetform_container {
     width: 420px;
     height: auto;
     padding: 20px 30px;
@@ -141,6 +147,63 @@ main {
     border: 1px solid black;
 }
 
+/* ============ Admin Registration registration_data ================= */
 
+#registration_data {
+    width: 100%;
+    height: auto;
+    padding: 60px 15px;
+}
 
+#register_data_heading tr th {
+    border: 1px solid black;
+    width: 16%;
+    height: 30px;
+    text-align: center;
+    background-color: black;
+    color: aliceblue;
+    letter-spacing: 2px;
+}
 
+#register_data_body tr td {
+    border: 1px solid black;
+    width: 16%;
+    height: auto;
+    text-align: center;
+    padding: 15px 2px;
+    background-color: aquamarine    ;
+}
+#register_data_body tr td input{
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+#register_editbtn, #delete_editbtn{
+   border:none;
+   outline: none;
+   background-color: transparent;
+}
+
+/* ================= admin Product page ================= */
+#product_body{
+    padding: 70px 20px;
+    width: 100%;
+    height: auto;
+}
+#Product_form{
+    width:410px;
+    height: auto;
+    padding: 30px 20px;
+    border:1px solid black;
+}
+#Product_form input{
+    width:350px;
+    height: 35px;
+} 
+#Product_form textarea{
+    width:350px;
+    height: 100px;
+} 
+#prod_submit_btn{
+margin-top: 15px;
+}

@@ -2,6 +2,64 @@
 
 {% block content%}
 <main>
-{% include 'productitem.html' %}
+    <section class="products">
+        <article class="product">
+            <img src="https://images.meesho.com/images/products/382895204/bcl9b_512.webp" alt="Product 1">
+            <h2>{{prod_name | default:'Product Name'}} </h2>
+            <p class="price">₹{{prod_price | default:'40'}}</p>
+            <p class="description">{{prod_detail | default:'A short description of the product'}}</p>
+            <button>Add to Cart</button>
+        </article>
+        <article class="product">
+            <img src="https://images.meesho.com/images/products/414943837/okgai_512.webp" alt="Product 1">
+            <h2>{{prod_name | default:'Product Name'}} </h2>
+            <p class="price">₹{{prod_price | default:'40'}}</p>
+            <p class="description">{{prod_detail | default:'A short description of the product'}}</p>
+            <button>Add to Cart</button>
+        </article>
+        <article class="product">
+            <img src="https://images.meesho.com/images/products/341597666/glkd3_512.webp" alt="Product 1">
+            <h2>{{prod_name | default:'Product Name'}} </h2>
+            <p class="price">₹{{prod_price | default:'40'}}</p>
+            <p class="description">{{prod_detail | default:'A short description of the product'}}</p>
+            <button>Add to Cart</button>
+        </article>
+        <article class="product">
+            <img src="https://images.meesho.com/images/products/415485477/xi73r_512.webp" alt="Product 1">
+            <h2>{{prod_name | default:'Product Name'}} </h2>
+            <p class="price">₹{{prod_price | default:'40'}}</p>
+            <p class="description">{{prod_detail | default:'A short description of the product'}}</p>
+            <button>Add to Cart</button>
+        </article>
+
+        <article class="product">
+            <img src="https://images.meesho.com/images/products/170077095/rvlyd_512.webp" alt="Product 1">
+            <h2>{{prod_name | default:'Product Name'}} </h2>
+            <p class="price">₹{{prod_price | default:'40'}}</p>
+            <p class="description">{{prod_detail | default:'A short description of the product'}}</p>
+            <button>Add to Cart</button>
+        </article>
+        <article class="product">
+            <img src="https://images.meesho.com/images/products/414209236/pcxcg_512.webp" alt="Product 1">
+            <h2>{{prod_name | default:'Product Name'}} </h2>
+            <p class="price">₹{{prod_price | default:'40'}}</p>
+            <p class="description">{{prod_detail | default:'A short description of the product'}}</p>
+            <button>Add to Cart</button>
+        </article>
+        <article class="product">
+            <img src="https://images.meesho.com/images/products/383954765/qpq1t_512.webp" alt="Product 1">
+            <h2>{{prod_name | default:'Product Name'}} </h2>
+            <p class="price">₹{{prod_price | default:'40'}}</p>
+            <p class="description">{{prod_detail | default:'A short description of the product'}}</p>
+            <button>Add to Cart</button>
+        </article>
+        <article class="product">
+            <img src="https://images.meesho.com/images/products/415576362/6hxe9_512.webp" alt="Product 1">
+            <h2>{{prod_name | default:'Z Black Maxi A-Line Denim Woman Skirt'}} </h2>
+            <p class="price">₹{{prod_price | default:'40'}}</p>
+            <p class="description">{{prod_detail | default:'A short description of the product'}}</p>
+            <button>Add to Cart</button>
+        </article>
+    </section>
 </main>
 {% endblock %}

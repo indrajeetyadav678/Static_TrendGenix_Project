@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import*
 from datetime import datetime
 from django.core.mail import send_mail
 from django.conf import settings
 from .forms import*
+# from django.http import HttpResponse
 
 # Create your views here.
 
@@ -26,7 +27,8 @@ def product(request):
     return render(request, 'product.html')
 
 def men(request):
-    return render(request, 'men.html')
+    data=Productmodel.objects.filter(Prod_Name="women")
+    return render(request,'men.html',{'prop':data,'media_url': settings.MEDIA_URL} )
 
 def women(request):
     return render(request, 'women.html')
@@ -187,29 +189,87 @@ def changepass(request):
         data['Email']=request.session['Email']
         data['Number']=request.session['Number']
         data['Password']=request.session['Password']
-        return render(request, 'changepass.html', {'user_name':data})
+        return render(request, 'changepass.html', {'admin_user':data})
     except:
         mail=request.POST.get('email')
         dbdata=RegistrationModel.objects.get(Email=mail)
-        return render(request, 'changepass.html', {'admin_user':dbdata})
+        return render(request, 'changepass.html', {'user_name':dbdata})
     
 #=================== Admin dashboard ============================
 
 def dashbordindex(request):
-    return render(request, 'dashboardindex.html') 
+    data={}
+    data['Name']=request.session['Name']
+    data['Email']=request.session['Email']
+    data['Number']=request.session['Number']
+    data['Password']=request.session['Password']
+    return render(request, 'dashboardindex.html', {'admin_user':data}) 
 
 def productdata(request):
-    return render(request, 'productdata.html')
+    data={}
+    data['Name']=request.session['Name']
+    data['Email']=request.session['Email']
+    data['Number']=request.session['Number']
+    data['Password']=request.session['Password']
+    Context={}
+    Context['prod_form']=Productmodelform
+    return render(request, 'productdata.html', {'admin_user':data, 'f_content':Context})
 
 def userdata(request):
-    return render(request, 'userdata.html')
+    data={}
+    data['Name']=request.session['Name']
+    data['Email']=request.session['Email']
+    data['Number']=request.session['Number']
+    data['Password']=request.session['Password']
+    return render(request, 'userdata.html', {'admin_user':data})
 
 def result(request):
-    return render(request, 'result.html')
+    data={}
+    data['Name']=request.session['Name']
+    data['Email']=request.session['Email']
+    data['Number']=request.session['Number']
+    data['Password']=request.session['Password']
+    return render(request, 'result.html', {'admin_user':data})
+
+def product_entry(request):
+    data={}
+    data['Name']=request.session['Name']
+    data['Email']=request.session['Email']
+    data['Number']=request.session['Number']
+    data['Password']=request.session['Password']
+    if request.method == "POST":
+        print(request.POST)
+        print(request.FILES)
+        serialno=request.POST.get('Serial_no')
+        serialmodel=Productmodel.objects.filter(Serial_no=serialno)
+        if serialmodel:
+            msg = "This data already exist "
+            return render(request, 'productform.html', {'msg': msg, 'admin_user':data})
+        else:
+            form = Productmodelform(request.POST, request.FILES)
+        # print(form)
+            if form.is_valid():
+                form.save()
+                msg = "Data submitted successfully"
+                return redirect('productdata')
+            else:
+                msg = "There is some error, please try again"
+                return render(request, 'productform.html', {'msg': msg, 'admin_user':data})
+    else:
+        form = Productmodelform()
+        return render(request, 'productform.html', {'admin_user':data})
+
+
 
 # ================ adminDashboard ============================  
 def  todoform(request):
-    return render(request, 'result.html')
+    data={}
+    data['Name']=request.session['Name']
+    data['Email']=request.session['Email']
+    data['Number']=request.session['Number']
+    data['Password']=request.session['Password']
+    msg="open task form"
+    return render(request, 'dashboard.html',{'admin_user':data, 'show':msg} )
 
 def todotask(request):
     print(request.POST)
@@ -255,13 +315,17 @@ def showdata1(request, pk):
 
 def showdata2(request):
     email=request.POST.get('email')
+    # print(email)
     data=RegistrationModel.objects.get(Email=email)
+    # print(data)
     taskdata=Todolist.objects.filter(Email=email)
+    # print(taskdata)
+    # print(taskdata.values())
     return render(request, 'dashboard.html', {'admin_user':data, 'tododate':taskdata})
 
 
 def edittodo(request, pk):
-    print(pk)
+    # print(pk)
     data1=Todolist.objects.get(id=pk)
     email=data1.Email
     taskdata=Todolist.objects.filter(Email=email)
@@ -269,7 +333,7 @@ def edittodo(request, pk):
     return render(request, 'dashboard.html', {'admin_user':data, 'tododate':taskdata, 'taskobject':data1})
 
 def delettodo(request, pk):
-    print(pk)
+    # print(pk)
     data=Todolist.objects.get(id=pk)
     email=data.Email
     data.delete()
@@ -296,6 +360,12 @@ def updatedata(request):
 
 
 
+
+# ============ Show Product Data ================
+def showmenproductdata(request):
+    data=Productmodel.objects.filter(Prod_Name="women")
+    print(data.values())
+    return render(request,'men.html',{'prop':data,'media_url': settings.MEDIA_URL} )
 
 
 

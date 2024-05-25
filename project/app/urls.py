@@ -37,12 +37,16 @@ urlpatterns=[
     path('women1/',women1, name='women1'),
     path('girl1/',girl1, name='girl1'),
 
+    # ===== CRUD
+    # path('/',showmenproductdata),
+
     # ============= Admin Dashboard =====================
 
     path('dashbordindex/',dashbordindex, name='dashbordindex'),
     path('productdata/',productdata, name='productdata'),
     path('userdata/',userdata, name='userdata'),
     path('result/',result, name='result'),
+    path('product_entry/',product_entry, name='product_entry'),
 
     # ============= cruid dashboard page =============
     

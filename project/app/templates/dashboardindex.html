@@ -25,17 +25,54 @@
         <div id="ad-div4"></div>
     </div>
 </div>
-<div>
+<div id="registration_data">
     <table>
-        <thead>
+        <thead id="register_data_heading">
             <tr>
                 <th>Photo</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Contact</th>
                 <th>Password</th>
+                <th>edit/update</th>
+                <th>delete</th>
             </tr>
         </thead>
+        <tbody id="register_data_body">
+            {% if admin_user %}
+            <tr>
+                <td>
+                    <input type="image" src="" value="" alt="" disabled>
+                </td>
+                <td>
+                    <input type="text" value="" name="name" id="">
+                </td>
+                <td><input type="email" value="" name="email" id=""></td>
+                <td><input type="tel" value="" name="number" id=""></td>
+                <td><input type="password" value="" name="password" id=""></td>
+                <td>
+                    <button id="register_editbtn"><a href="#">Edit</a></button>
+                </td>
+                <td><button><a href="#">Delete</a></button></td>
+            </tr>
+            {% else %}
+            <tr>
+                <td>
+                    <img src="" alt="">
+                </td>
+                <td>
+                    <input type="text" name="name" value="" id="" disabled>
+                </td>
+                <td><input type="email" name="email" value="" id=""disabled ></td>
+                <td><input type="tel" name="number" value="" id="" disabled></td>
+                <td><input type="password" name="password" value="" id="" disabled></td>
+                <td>
+                    <button id="register_editbtn"><a href="#">Edit</a></button>
+                </td>
+                <td><button id="delete_editbtn"><a href="#">Delete</a></button></td>
+            </tr>
+            {% endif %}
+        </tbody>
     </table>
 </div>
 

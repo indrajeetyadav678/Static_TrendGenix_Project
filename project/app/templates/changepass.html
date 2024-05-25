@@ -8,7 +8,8 @@
         <p class="text-center">Use the form below to change your password. Your password cannot be the same as your
             username.</p>
 
-        <form action="" method="post" id="changepassform">
+        <form action="{%  %}" method="post" id="changepassform">
+            {% csrf_token %}
             <input type="text" name="name" value="{{user_name}}" id="" hidden disabled>
             <input type="email" name="email" id="" hidden disabled>
             <input type="tel" name="number" id="" hidden disabled>
