@@ -153,6 +153,7 @@ main {
     width: 100%;
     height: auto;
     padding: 60px 15px;
+    overflow: hidden;
 }
 
 #register_data_heading tr th {
@@ -207,3 +208,29 @@ main {
 #prod_submit_btn{
 margin-top: 15px;
 }
+
+
+/* ======= show product data ============== */
+
+#Prod_data_list td img{
+    width:100px;
+    height: 100px;
+    
+
+}
+#Prod_data_list td{
+    width:100px;
+    height: 100px;
+    border: 1px solid black;
+    padding: 3px 4px;
+
+}
+#Prod_data_list td input{
+    background-color: transparent;
+    border: none;
+    outline: none;
+    text-align: center;
+}
+
+/* ================= ADD TO CART page ======================== */
+

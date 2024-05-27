@@ -1339,3 +1339,14 @@
     text-align: center;
 
 }
+
+/* ========= */
+#prod_model_btn form input{
+    border: none;
+    outline: none;
+    background-color: #0d0d0d;
+}
+#prod_model_btn{
+    background-color: #0d0d0d;
+}
+

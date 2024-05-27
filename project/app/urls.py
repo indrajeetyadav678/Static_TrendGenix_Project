@@ -8,7 +8,7 @@ urlpatterns=[
     path('',index, name='index'),
     path('about/',about, name='about'),
     path('contact/',contact, name='contact'),
-    path('product/',product, name='product'),
+    path('productmen/',product, name='product'),
     path('men/',men, name='men'),
     path('women/',women, name='women'),
     path('girl/',girl, name='girl'),
@@ -38,7 +38,6 @@ urlpatterns=[
     path('girl1/',girl1, name='girl1'),
 
     # ===== CRUD
-    # path('/',showmenproductdata),
 
     # ============= Admin Dashboard =====================
 
@@ -56,6 +55,12 @@ urlpatterns=[
     path('edittodo/<int:pk>/',edittodo, name='edittodo'),
     path('delettodo/<int:pk>/',delettodo, name='delettodo'),
     path('updatedata/',updatedata, name='updatedata'),
+    # ========== product data save Show ============
+    path('product_show1/',product_show1, name='product_show1'),
+    path('addtocart/<int:pk>',addtocart, name='addtocart'),
+    path('cartpage', cartpage, name='cartpage')
+
+
 
 ]
 

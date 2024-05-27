@@ -1,6 +1,35 @@
 {% extends 'base.html' %}
 
 {% block content%}
-
+{{prod_data}}
+ {% for i in prod_data %}
+                {{i.Prod_Name}}
+                <tr>
+                    <td>
+                        <input type="text" value="{{i.Prod_Name}}" name="name" id="">
+                    </td>
+                    <td>
+                        <img src="{{media_url}}{{i.Prod_Image1}}" alt="">
+                    </td>
+                    <td>
+                        <img src="{{media_url}}{{i.Prod_Image2}}" alt="">
+                    </td>
+                    <td>
+                        <img src="{{media_url}}{{i.Prod_Image3}}" alt="">
+                    </td>
+                    <td>
+                        <img src="{{media_url}}{{i.Prod_Image4}}" alt="">
+                    </td>
+                    <td><input type="number" value="{{i.Prod_Price}}" name="prod_price" id="" disabled></td>
+                    <td><input type="number" value="{{i.Prod_MRP}}" name="prod_mrp" id="" disabled></td>
+                    <td><input type="text" value="{{i.Prod_Offer}}" name="prod_offer" id="" disabled></td>
+                    <td>{{i.Prod_Detail}}</td>
+                    <td><input type="tel" value="{{i.Serial_no}}" name="serialno" id="" disabled></td>
+                    <td>
+                        <button id="prod_editbtn"><a href="#">Edit</a></button>
+                    </td>
+                    <td><button><a href="#">Delete</a></button></td>
+                </tr>
+                {% endfor %}
 <h1>This is Product page</h1>
 {% endblock %}

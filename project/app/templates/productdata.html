@@ -13,7 +13,7 @@
     <br>
     <div id="todotask_btn_container">
         <div id="showdata_btn">
-            <form action="{% url 'showdata2' %}" method="post">
+            <form action="{% url 'product_show1' %}" method="post">
                 {% csrf_token %}
                 <input type="email" name="email" value="{{admin_user.Email}}" id="emailfield" hidden />
                 <input type="submit" value="Show Data" id="submitbtn" />
@@ -46,60 +46,62 @@
                 </tr>
             </thead>
             <tbody id="prod_data_body">
-                {% if admin_user %}
-                <tr>
+                {% if product_data %}
+                <tr id="prod_data_upadating form">
                     <td>
-                        <input type="text" value="" name="name" id="">
+                        <input type="text" value="{{product_data.Prod_Name}}" name="name" id="">
                     </td>
                     <td>
-                        <input type="image" src="" name="Prod_Image1" value="" alt="" disabled>
+                        <input type="image" src="{{product_data.Prod_Name}}" name="Prod_Image1" value="" alt="" disabled>
                     </td>
                     <td>
-                        <input type="image" src="" name="Prod_Image2" value="" alt="" disabled>
+                        <input type="image" src="{{product_data.Prod_Image1}}" name="Prod_Image2" value="" alt="" disabled>
                     </td>
                     <td>
-                        <input type="image" src="" name="Prod_Image3" value="" alt="" disabled>
+                        <input type="image" src="{{product_data.Prod_Image2}}" name="Prod_Image3" value="" alt="" disabled>
                     </td>
                     <td>
-                        <input type="image" src="" name="Prod_Image4" value="" alt="" disabled>
+                        <input type="image" src="{{product_data.Prod_Image4}}" name="Prod_Image4" value="" alt="" disabled>
                     </td>
-                    <td><input type="number" value="" name="prod_price" id=""></td>
-                    <td><input type="number" value="" name="prod_mrp" id=""></td>
-                    <td><input type="text" value="" name="prod_offer" id=""></td>
-                    <td><textarea name="prod_detail" id=""></textarea></td>
-                    <td><input type="tel" value="" value="" name="serialno" id=""></td>
+                    <td><input type="number" value="{{product_data.Prod_Price}}" name="prod_price" id=""></td>
+                    <td><input type="number" value="{{product_data.Prod_MRP}}" name="prod_mrp" id=""></td>
+                    <td><input type="text" value="{{product_data.Prod_Offer}}" name="prod_offer" id=""></td>
+                    <td><textarea name="prod_detail" id="">{{product_data.Prod_Detail}}</textarea></td>
+                    <td><input type="tel" value="" value="{{product_data.Serial_no}}" name="serialno" id=""></td>
                     <td>
                         <button id="prod_editbtn"><a href="#">Edit</a></button>
                     </td>
                     <td><button><a href="#">Delete</a></button></td>
                 </tr>
                 {% else %}
-                <tr>
+                {% for i in prod_data %}
+                <tr id="Prod_data_list">
                     <td>
-                        <input type="text" value="" name="name" id="">
+                        <input type="text" value="{{i.Prod_Name}}" name="name" id="">
                     </td>
                     <td>
-                        <img src="" alt="">
+                        <img src="{{media_url}}{{i.Prod_Image1}}" alt="">
                     </td>
                     <td>
-                        <img src="" alt="">
+                        <img src="{{media_url}}{{i.Prod_Image2}}" alt="">
                     </td>
                     <td>
-                        <img src="" alt="">
+                        <img src="{{media_url}}{{i.Prod_Image3}}" alt="">
                     </td>
                     <td>
-                        <img src="" alt="">
+                        <img src="{{media_url}}{{i.Prod_Image4}}" alt="">
                     </td>
-                    <td><input type="number" value="" name="prod_price" id="" disabled></td>
-                    <td><input type="number" value="" name="prod_mrp" id="" disabled></td>
-                    <td><input type="text" value="" name="prod_offer" id="" disabled></td>
-                    <td><textarea name="prod_detail" id="" disabled></textarea></td>
-                    <td><input type="tel" value="" value="" name="serialno" id="" disabled></td>
+                    <td><input type="number" value="{{i.Prod_Price}}" name="prod_price" id="" disabled></td>
+                    <td><input type="number" value="{{i.Prod_MRP}}" name="prod_mrp" id="" disabled></td>
+                    <td><input type="text" value="{{i.Prod_Offer}}" name="prod_offer" id="" disabled></td>
+                    <td>{{i.Prod_Detail}}</td>
+                    <td><input type="tel" value="{{i.Serial_no}}" name="serialno" id="" disabled></td>
                     <td>
                         <button id="prod_editbtn"><a href="#">Edit</a></button>
                     </td>
                     <td><button><a href="#">Delete</a></button></td>
                 </tr>
+                {% endfor %}
                 {% endif %}
             </tbody>
         </table>

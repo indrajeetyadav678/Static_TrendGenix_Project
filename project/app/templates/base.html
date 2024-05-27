@@ -110,8 +110,8 @@
                 </form>
             </li>
             <li id="addcart_icon_container">
-                <div id="add_cart_value">2</div>
-                <form action="{% url 'contact1'%}" method="post">
+                <div id="add_cart_value">{{addcartno}}</div>
+                <form action="{% url 'cartpage'%}" method="post">
                     {% csrf_token %}
                     <input type="email" value="{{user_name.Email}}" name="email" id="" hidden>
                     <button id="shopping_card_icon" type="submit"><i class="fa-solid fa-cart-shopping"></i></button>

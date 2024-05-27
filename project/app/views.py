@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from .models import*
 from datetime import datetime
 from django.core.mail import send_mail
@@ -27,7 +28,8 @@ def product(request):
     return render(request, 'product.html')
 
 def men(request):
-    data=Productmodel.objects.filter(Prod_Name="women")
+    data=Productmodel.objects.filter(Prod_Name="Men")
+    print(data.values())
     return render(request,'men.html',{'prop':data,'media_url': settings.MEDIA_URL} )
 
 def women(request):
@@ -80,7 +82,7 @@ def logindata(request):
     userid=request.POST.get('userid')
     password=request.POST.get('password')
     login_type=request.POST.get('login_type')
-    print(login_type)
+    # print(login_type)
     username=RegistrationModel.objects.filter(Email=userid)
     if login_type=='none':
         msg="Choose your login Type"
@@ -88,6 +90,8 @@ def logindata(request):
     elif login_type =='customer':
         if username:
             data=RegistrationModel.objects.get(Email=userid)
+            print(data.Name)
+            print(data)
             Password= data.Password
             if Password==password:
                 msg="Welcome To "+data.Name
@@ -101,6 +105,8 @@ def logindata(request):
     elif login_type =="admin":
         if username:
             data=RegistrationModel.objects.get(Email=userid)
+            print(data.Name)
+            print(data)
             Password= data.Password
             if Password==password:
                 Context={}
@@ -167,7 +173,9 @@ def men1(request):
     print(request.POST)
     email=request.POST.get('email')
     data=RegistrationModel.objects.get(Email=email)
-    return render(request, 'men.html', {'user_name':data})
+    data1=Productmodel.objects.filter(Prod_Name="Men")
+    print(data)
+    return render(request, 'men.html', {'user_name':data, 'prop':data1,'media_url': settings.MEDIA_URL})
 
 def women1(request):
     print(request.POST)
@@ -369,6 +377,69 @@ def showmenproductdata(request):
 
 
 
+# ================ Admin Product data base ==================
 
+def product_show1(request):
+    data={}
+    data['Name']=request.session['Name']
+    data['Email']=request.session['Email']
+    data['Number']=request.session['Number']
+    data['Password']=request.session['Password']
+    pro_data1=Productmodel.objects.all()
+    print(pro_data1.values())
+    return render(request, 'productdata.html', {'admin_user':data, 'prop':pro_data1})
 
+# =========== add To Cart functinality =========================='media_url': settings.MEDIA_URL
+
+def addtocart(request, pk):
+    email=request.POST.get('email')
+    prod_name=request.POST.get('prod_name')
+    if email:
+        data=RegistrationModel.objects.get(Email=email)
+        addtocart=request.session.get('addtocard',[])
+        print(addtocart)
+        if pk not in addtocart:
+            addtocart.append(pk)
+            print(addtocart)
+        
+        request.session['addtocart']=addtocart
+        # addedcart={
+        #     'id':id,
+        #     'Email':email
+        # }
+        # addtocart.append(addedcart)
+        addedcartno=len(addtocart)
+        # return JsonResponse({'addedcartno': addedcartno})
+    
+    # return JsonResponse({'error': 'Email not provided'}, status=400)
+
+        if prod_name=='Men':
+            prod_data1=Productmodel.objects.filter(Prod_Name='Men')
+            print(addedcartno)
+            return render(request, 'men.html', {'user_name':data,'prop':prod_data1, 'addcartno':addedcartno, 'media_url': settings.MEDIA_URL})
+        elif prod_name=='Women':
+            prod_data1=Productmodel.objects.filter(Prod_Name='Women')
+            print(addedcartno)
+            return render(request, 'women.html', {'user_name':data,'prop':prod_data1, 'addcartno':addedcartno, 'media_url': settings.MEDIA_URL})
+        if prod_name=='Kids':
+            prod_data1=Productmodel.objects.filter(Prod_Name='Kids')
+            print(addedcartno)
+            return render(request, 'girl.html', {'user_name':data,'prop':prod_data1, 'addcartno':addedcartno, 'media_url': settings.MEDIA_URL})
+    else:
+        return redirect('login')
+    
+def cartpage(request):
+    email=request.POST.get('email')
+    data=RegistrationModel.objects.get(Email=email)
+    addcart_data=request.session.get('addtocart')
+    print(addcart_data)
+    pro_data=[]
+    for i in addcart_data: 
+        pro_data.append(Productmodel.objects.get(id=i))
+    cart_length=len(addcart_data)
+    print(cart_length)
+    print(pro_data)
+    return render(request, 'addtocart.html', {'user_name':data,'prod_data':pro_data,'media_url': settings.MEDIA_URL})
+
+        
 

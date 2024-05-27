@@ -4,6 +4,23 @@
 {{prop.data.Prod_Offer}}
 <main>
     <section class="products">
+        {% for i in prop %}
+        <article class="product">
+            <img src="{{media_url}}{{i.Prod_Image1}}" alt="Product 1" id="Product_image">
+            <h2>{{i.Prod_Name | default:'Product Name'}} </h2>
+            <p class="price">₹{{i.Prod_Price | default:'40'}}</p>
+            <p class="description">{{i.Prod_Detail | default:'A short description of the product'}}</p>
+            <button id="prod_model_btn">
+                <form action="{% url 'addtocart' pk=i.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="email" name="email" value="{{user_name.Email}}" hidden id="">
+                    <input type="text" name="prod_name" value="{{i.Prod_Name}}" hidden id="">
+                    <input type="submit" value="Add to Cart">
+                </form>
+            </button>
+        </article>
+        {% endfor %}
+
         <article class="product">
             <img src="https://images.meesho.com/images/products/371954549/fedrs_512.webp" alt="Product 1">
             <h2>{{prod_name | default:'Product Name'}} </h2>
