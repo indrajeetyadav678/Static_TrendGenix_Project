@@ -1,55 +1,72 @@
 {% extends 'base.html' %}
 
 {% block content%}
-<div id="registration_data">
-    <table>
-        <thead id="prod_data_heading">
-            <tr>
-                <th>Name</th>
-                <th>Image1</th>
-                <th>Image2</th>
-                <th>Image3</th>
-                <th>Image4</th>
-                <th>Price</th>
-                <th>MRP</th>
-                <th>Offer</th>
-                <th>Details</th>
-                <th>Seial No.</th>
-                <th>edit</th>
-                <th>delete</th>
-            </tr>
-        </thead>
-        <tbody id="prod_data_body"> 
-            {% for i in prod_data %}
-            <tr id="Prod_data_list">
-                <td>
-                    <input type="text" value="{{i.Prod_Name}}" name="name" id="">
-                </td>
-                <td>
-                    <img src="{{media_url}}{{i.Prod_Image1}}" alt="">
-                </td>
-                <td>
-                    <img src="{{media_url}}{{i.Prod_Image2}}" alt="">
-                </td>
-                <td>
-                    <img src="{{media_url}}{{i.Prod_Image3}}" alt="">
-                </td>
-                <td>
-                    <img src="{{media_url}}{{i.Prod_Image4}}" alt="">
-                </td>
-                <td><input type="number" value="{{i.Prod_Price}}" name="prod_price" id="" disabled></td>
-                <td><input type="number" value="{{i.Prod_MRP}}" name="prod_mrp" id="" disabled></td>
-                <td><input type="text" value="{{i.Prod_Offer}}" name="prod_offer" id="" disabled></td>
-                <td>{{i.Prod_Detail}}</td>
-                <td><input type="tel" value="{{i.Serial_no}}" name="serialno" id="" disabled></td>
-                <td>
-                    <button id="prod_editbtn"><a href="#">Edit</a></button>
-                </td>
-                <td><button><a href="#">Delete</a></button></td>
-            </tr>
-            {% endfor %}
+<section id="addcartpage_body">
+    <div id="addproduct_container">
+        {% for i in prod_data %}
+        <div id="addcartpage_container">
+            <div id="addcart_imagediv">
+                <img src="{{media_url}}{{i.Prod_Image1}}" alt="">
+            </div>
+            <div id="addcartprod_detail">
+                <label> Price&nbsp;&nbsp;&nbsp;₹&nbsp;&nbsp;{{i.Prod_Price}}</label><br />
+                <label>Offer &nbsp;&nbsp;&nbsp; {{i.Prod_Offer}}</label><br />
+                <label> MRP &nbsp;&nbsp;&nbsp;₹{{i.Prod_MRP}}</label><br />
+                <div><a href="">+</a>{{i.Quantity | default:'1'}} <a href="">-</a></div>
+            </div>
+            <div id="addcart_price">
+                {{i.Prod_Detail}}
+            </div>
+            <div id="addcart_deletebtn"><i class="fa-solid fa-trash"></i></div>
+        </div>
+        {% endfor %}
+    </div>
 
-        </tbody>
-    </table>
-</div>
+    <div class="col-xl-3">
+        <div class="mt-5 mt-lg-0">
+            <div class="card border shadow-none">
+                <div class="card-header bg-transparent border-bottom py-3 px-4">
+                    <h5 class="font-size-16 mb-0">Order Summary <span class="float-end">#MN0124</span></h5>
+                </div>
+                <div class="card-body p-4 pt-2">
+
+                    <div class="table-responsive">
+                        <table class="table mb-0">
+                            <tbody>
+                                <tr>
+                                    <td>Sub Total :</td>
+                                    <td class="text-end">₹&nbsp;{{amount.total_amount}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Discount : </td>
+                                    <td class="text-end">₹&nbsp;{{amount.discount}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Shipping Charge :</td>
+                                    <td class="text-end">₹&nbsp;{{amount.shippingcharge}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Estimated Tax : </td>
+                                    <td class="text-end"> ₹&nbsp;{{amount.tax}}</td>
+                                </tr>
+                                <tr class="bg-light">
+                                    <th>Total :</th>
+                                    <td class="text-end">
+                                        <span class="fw-bold">
+                                            ₹&nbsp;{{amount.Total_pay_amount}}
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><button id="Checkoutbtn"><a href="#">Checkout</a></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- end table-responsive -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}

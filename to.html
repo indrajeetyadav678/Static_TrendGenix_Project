@@ -11,3 +11,76 @@
 
         <!-- <a class="nav-link dropdown-toggle" href="#" role="button"
                     data-bs-toggle="dropdown">Product</a> -->
+
+                    <!-- ========================================================= -->
+                    def addtocart(request, pk):
+    email=request.POST.get('email')
+    prod_name=request.POST.get('prod_name')
+    addtocart=[]
+    if email:
+        data=RegistrationModel.objects.get(Email=email)
+        if pk not in addtocart:
+            addtocart=request.session.get('addtocard',[])
+            print(addtocart)
+            addtocart.append(pk)
+            request.session['addtocart']=addtocart
+            print(addtocart)
+            print(type(addtocart))
+        # addedcart={
+        #     'id':id,
+        #     'Email':email
+        # }
+        # addtocart.append(addedcart)
+        addedcartno=len(addtocart)
+        # return JsonResponse({'addedcartno': addedcartno})
+    
+    # return JsonResponse({'error': 'Email not provided'}, status=400)
+
+        if prod_name=='Men':
+            prod_data1=Productmodel.objects.filter(Prod_Name='Men')
+            print(addedcartno)
+            return render(request, 'men.html', {'user_name':data,'prop':prod_data1, 'addcartno':addedcartno, 'media_url': settings.MEDIA_URL})
+        elif prod_name=='Women':
+            prod_data1=Productmodel.objects.filter(Prod_Name='Women')
+            print(addedcartno)
+            return render(request, 'women.html', {'user_name':data,'prop':prod_data1, 'addcartno':addedcartno, 'media_url': settings.MEDIA_URL})
+        if prod_name=='Kids':
+            prod_data1=Productmodel.objects.filter(Prod_Name='Kids')
+            print(addedcartno)
+            return render(request, 'girl.html', {'user_name':data,'prop':prod_data1, 'addcartno':addedcartno, 'media_url': settings.MEDIA_URL})
+    else:
+        return redirect('login')
+
+=======================================================================================================================================================
+
+def addtocart(request, pk):
+    email = request.POST.get('email')
+    prod_name = request.POST.get('prod_name')
+    
+    if email:
+        try:
+            data = RegistrationModel.objects.get(Email=email)
+        except RegistrationModel.DoesNotExist:
+            return JsonResponse({'error': 'User not found'}, status=404)
+        
+        addtocart = request.session.get('addtocart', [])
+        
+        if pk not in addtocart:
+            addtocart.append(pk)
+            request.session['addtocart'] = addtocart
+        
+        addedcartno = len(addtocart)
+        
+        if prod_name == 'Men':
+            prod_data1 = Productmodel.objects.filter(Prod_Name='Men')
+            return render(request, 'men.html', {'user_name': data, 'prop': prod_data1, 'addcartno': addedcartno, 'media_url': settings.MEDIA_URL})
+        elif prod_name == 'Women':
+            prod_data1 = Productmodel.objects.filter(Prod_Name='Women')
+            return render(request, 'women.html', {'user_name': data, 'prop': prod_data1, 'addcartno': addedcartno, 'media_url': settings.MEDIA_URL})
+        elif prod_name == 'Kids':
+            prod_data1 = Productmodel.objects.filter(Prod_Name='Kids')
+            return render(request, 'girl.html', {'user_name': data, 'prop': prod_data1, 'addcartno': addedcartno, 'media_url': settings.MEDIA_URL})
+        else:
+            return JsonResponse({'error': 'Invalid product name'}, status=400)
+    else:
+        return redirect('login')

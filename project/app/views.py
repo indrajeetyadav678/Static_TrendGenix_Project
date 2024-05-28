@@ -387,7 +387,7 @@ def product_show1(request):
     data['Password']=request.session['Password']
     pro_data1=Productmodel.objects.all()
     print(pro_data1.values())
-    return render(request, 'productdata.html', {'admin_user':data, 'prop':pro_data1})
+    return render(request, 'productdata.html', {'admin_user':data, 'prop':pro_data1, 'media_url': settings.MEDIA_URL})
 
 # =========== add To Cart functinality =========================='media_url': settings.MEDIA_URL
 
@@ -396,18 +396,11 @@ def addtocart(request, pk):
     prod_name=request.POST.get('prod_name')
     if email:
         data=RegistrationModel.objects.get(Email=email)
-        addtocart=request.session.get('addtocard',[])
-        print(addtocart)
+        addtocart=request.session.get('addtocart',[])
         if pk not in addtocart:
-            addtocart.append(pk)
             print(addtocart)
-        
-        request.session['addtocart']=addtocart
-        # addedcart={
-        #     'id':id,
-        #     'Email':email
-        # }
-        # addtocart.append(addedcart)
+            addtocart.append(pk)
+            request.session['addtocart']=addtocart
         addedcartno=len(addtocart)
         # return JsonResponse({'addedcartno': addedcartno})
     
@@ -423,7 +416,6 @@ def addtocart(request, pk):
             return render(request, 'women.html', {'user_name':data,'prop':prod_data1, 'addcartno':addedcartno, 'media_url': settings.MEDIA_URL})
         if prod_name=='Kids':
             prod_data1=Productmodel.objects.filter(Prod_Name='Kids')
-            print(addedcartno)
             return render(request, 'girl.html', {'user_name':data,'prop':prod_data1, 'addcartno':addedcartno, 'media_url': settings.MEDIA_URL})
     else:
         return redirect('login')
@@ -433,13 +425,33 @@ def cartpage(request):
     data=RegistrationModel.objects.get(Email=email)
     addcart_data=request.session.get('addtocart')
     print(addcart_data)
+    total_MRP=0
+    total_amount=0
+    tax=0
+    shippingcharge=40
     pro_data=[]
     for i in addcart_data: 
-        pro_data.append(Productmodel.objects.get(id=i))
+        pro_value=Productmodel.objects.get(id=i)
+        pro_data.append(pro_value)
+        total_amount= total_amount + pro_value.Prod_Price
+        total_MRP= total_MRP + pro_value.Prod_MRP
+        discount= total_MRP - total_amount
+        tax=tax+(total_amount*12)/100
+
+    Total_pay_amount=total_amount+shippingcharge+tax
+    billamount={
+        'total_amount':total_amount,
+        'total_MRP':total_MRP,
+        'discount':discount,
+        'tax':tax,
+        'shippingcharge':shippingcharge,
+        'Total_pay_amount':Total_pay_amount
+    }
+        
     cart_length=len(addcart_data)
     print(cart_length)
     print(pro_data)
-    return render(request, 'addtocart.html', {'user_name':data,'prod_data':pro_data,'media_url': settings.MEDIA_URL})
+    return render(request, 'addtocart.html', {'user_name':data,'prod_data':pro_data,'media_url': settings.MEDIA_URL, 'amount':billamount})
 
         
 

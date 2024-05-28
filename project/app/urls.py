@@ -58,7 +58,7 @@ urlpatterns=[
     # ========== product data save Show ============
     path('product_show1/',product_show1, name='product_show1'),
     path('addtocart/<int:pk>',addtocart, name='addtocart'),
-    path('cartpage', cartpage, name='cartpage')
+    path('cartpage/', cartpage, name='cartpage')
 
 
 
