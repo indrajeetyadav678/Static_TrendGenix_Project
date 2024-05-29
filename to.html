@@ -84,3 +84,66 @@ def addtocart(request, pk):
             return JsonResponse({'error': 'Invalid product name'}, status=400)
     else:
         return redirect('login')
+
+
+<!-- ================= Quantity increment  =================== -->
+from django.shortcuts import render, get_object_or_404
+from django.conf import settings
+from .models import RegistrationModel, Productmodel
+
+def cartpage(request):
+    email = request.POST.get('email')
+    data = get_object_or_404(RegistrationModel, Email=email)
+    addcart_data = request.session.get('addtocart', [])
+    
+    total_MRP = 0
+    total_amount = 0
+    tax = 0
+    shippingcharge = 40
+    pro_data = []
+
+    for product_id in addcart_data:
+        pro_value = get_object_or_404(Productmodel, id=product_id)
+        
+        # Check if product already in pro_data
+        existing_product = next((item for item in pro_data if item['id'] == pro_value.id), None)
+        if existing_product:
+            existing_product['Quantity'] += 1
+        else:
+            pro_data.append({
+                'id': pro_value.id,
+                'Prod_Name': pro_value.Prod_Name,
+                'Prod_Image1': pro_value.Prod_Image1,
+                'Prod_Price': pro_value.Prod_Price,
+                'Prod_Offer': pro_value.Prod_Offer,
+                'Prod_MRP': pro_value.Prod_MRP,
+                'Prod_Detail': pro_value.Prod_Detail,
+                'Quantity': 1
+            })
+        
+        total_amount += pro_value.Prod_Price
+        total_MRP += pro_value.Prod_MRP
+
+    discount = total_MRP - total_amount
+    tax = (total_amount * 12) / 100
+    Total_pay_amount = total_amount + shippingcharge + tax
+
+    billamount = {
+        'total_amount': total_amount,
+        'total_MRP': total_MRP,
+        'discount': discount,
+        'tax': tax,
+        'shippingcharge': shippingcharge,
+        'Total_pay_amount': Total_pay_amount
+    }
+
+    cart_length = len(addcart_data)
+    print(cart_length)
+    print(pro_data)
+
+    return render(request, 'addtocart.html', {
+        'user_name': data,
+        'prod_data': pro_data,
+        'media_url': settings.MEDIA_URL,
+        'amount': billamount
+    })

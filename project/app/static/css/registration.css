@@ -299,7 +299,23 @@ margin-top: 15px;
     top:10px;
     right:20px;
 }
+
+#incrementbtn{
+    width:40px;
+    height: 25px;
+    font-size: 16px;
+    font-weight: 800;
+    text-align: center;
+}
  
+#quantity_adding{
+    display: flex;
+    justify-content: center;
+}
+#increase_value{
+    width: 40px;
+    text-align: center;
+}
 
  /* ============== add to cart bootstrap css =============== */
  body{

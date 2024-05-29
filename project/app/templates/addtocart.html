@@ -1,18 +1,33 @@
 {% extends 'base.html' %}
 
 {% block content%}
+{% if prod_data %}
 <section id="addcartpage_body">
     <div id="addproduct_container">
         {% for i in prod_data %}
         <div id="addcartpage_container">
             <div id="addcart_imagediv">
-                <img src="{{media_url}}{{i.Prod_Image1}}" alt="">
+                <img src="{{media_url}}{{i.pro_value.Prod_Image1}}" alt="">
             </div>
             <div id="addcartprod_detail">
-                <label> Price&nbsp;&nbsp;&nbsp;₹&nbsp;&nbsp;{{i.Prod_Price}}</label><br />
-                <label>Offer &nbsp;&nbsp;&nbsp; {{i.Prod_Offer}}</label><br />
-                <label> MRP &nbsp;&nbsp;&nbsp;₹{{i.Prod_MRP}}</label><br />
-                <div><a href="">+</a>{{i.Quantity | default:'1'}} <a href="">-</a></div>
+                <label> Price&nbsp;&nbsp;&nbsp;₹&nbsp;&nbsp;{{i.pro_value.Prod_Price}}</label><br />
+                <label>Offer &nbsp;&nbsp;&nbsp; {{i.pro_value.Prod_Offer}}</label><br />
+                <label> MRP &nbsp;&nbsp;&nbsp;₹{{i.pro_value.Prod_MRP}}</label><br />
+                <div id="quantity_adding">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <input type="number" name="" value="i.pro_value.id" id="" hidden>
+                        <input type="submit" value="+" id="incrementbtn">
+                    </form>
+                    <div id="increase_value">
+                        {{i.Quantity | default:'0'}}
+                    </div>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <input type="number" name="" value="i.pro_value.id" id="" hidden>
+                        <input type="submit" value="-" id="incrementbtn">
+                    </form>
+                </div>
             </div>
             <div id="addcart_price">
                 {{i.Prod_Detail}}
@@ -22,7 +37,7 @@
         {% endfor %}
     </div>
 
-    <div class="col-xl-3">
+    <div class="col-xl-4">
         <div class="mt-5 mt-lg-0">
             <div class="card border shadow-none">
                 <div class="card-header bg-transparent border-bottom py-3 px-4">
@@ -69,4 +84,9 @@
         </div>
     </div>
 </section>
+{% else %}
+<section id="addcartpage_body">
+    <img src="https://mir-s3-cdn-cf.behance.net/projects/404/95974e121862329.Y3JvcCw5MjIsNzIxLDAsMTM5.png" alt="">
+</section>
+{% endif %}
 {% endblock %}

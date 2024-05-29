@@ -58,11 +58,10 @@ urlpatterns=[
     # ========== product data save Show ============
     path('product_show1/',product_show1, name='product_show1'),
     path('addtocart/<int:pk>',addtocart, name='addtocart'),
-    path('cartpage/', cartpage, name='cartpage')
-
-
-
+    path('cartpage/', cartpage, name='cartpage'),
+    # path('update_cart_quantity/<int:pk>/<str:action>/', update_cart_quantity, name='update_cart_quantity'),
 ]
+
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
