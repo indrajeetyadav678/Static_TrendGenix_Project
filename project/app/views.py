@@ -141,6 +141,7 @@ def editpro(request):
     data['Email']=request.session['Email']
     data['Number']=request.session['Number']
     data['Password']=request.session['Password']
+    
 
     return render(request, 'editprofile.html',{'admin_user':data})
 

@@ -68,8 +68,7 @@
                     <input type="email" value="{{user_name.Email}}" name="email" id="" hidden>
                     <input id="navbar_btn" type="submit" value="Product">
                 </form>
-                <i class="fa-solid fa-chevron-up" data-bs-toggle="dropdown" style="color: aliceblue;"
-                    id="dropdown_manu_btn"></i>
+                    <i class="fa-solid fa-chevron-down" id="dropdown_manu_btn" data-bs-toggle="dropdown" style="color: aliceblue;"></i>
                 <ul class="dropdown-menu" id="dropdown_manu">
                     <li>
                         <form action="{% url 'men1'%}" method="post">
@@ -114,7 +113,7 @@
                 </form>
             </li>
             <li id="addcart_icon_container">
-                <div id="add_cart_value">{{addcartno}}</div>
+                <div id="add_cart_value">{{addcartno | default:'0   '}}</div>
                 <form action="{% url 'cartpage'%}" method="post">
                     {% csrf_token %}
                     <input type="email" value="{{user_name.Email}}" name="email" id="" hidden>
