@@ -137,12 +137,11 @@ def forgetpass(request):
 
 def editpro(request):
     data={}
-    data['Name']=request.session['Name']
-    data['Email']=request.session['Email']
-    data['Number']=request.session['Number']
-    data['Password']=request.session['Password']
-    
-
+    data['Name']=request.session.get('Name')
+    data['Email']=request.session.get('Email')
+    data['Number']=request.session.get('Number')
+    data['Password']=request.session.get('Password')
+    print(data)
     return render(request, 'editprofile.html',{'admin_user':data})
 
 # ======================= user Dashboard functions ===================
