@@ -249,7 +249,7 @@ margin-top: 15px;
     flex-wrap: wrap;
 }
 #addproduct_container{
-    width:60%;
+    width:55%;
 }
 #addcartpage_container{
     width:100%;
@@ -284,9 +284,25 @@ margin-top: 15px;
     /* border: 1px solid black; */
     padding-left: 10px;
 }
+#Buy_btn{
+    /* padding: 2px 40px; */
+    width: 80px;
+    height: 35px;
+    text-align: center;
+}
+#ProdDetail_box{
+    height: 80px;
+    text-align: center;
+}
+#paymentbuy_btn{
+    width:100%;
+    height: auto;
+    text-align: center;
+}
 #addcart_price{
     width:45%;
     height: auto;
+    color: black;
     /* border: 1px solid black; */
 
 }
@@ -310,7 +326,7 @@ margin-top: 15px;
  
 #quantity_adding{
     display: flex;
-    justify-content: center;
+    justify-content: left;
 }
 #increase_value{
     width: 40px;

@@ -5,6 +5,7 @@ from datetime import datetime
 from django.core.mail import send_mail
 from django.conf import settings
 from .forms import*
+import razorpay
 # from django.http import HttpResponse
 
 # Create your views here.
@@ -30,7 +31,11 @@ def product(request):
 def men(request):
     data=Productmodel.objects.filter(Prod_Name="Men")
     print(data.values())
-    return render(request,'men.html',{'prop':data,'media_url': settings.MEDIA_URL} )
+    Context={
+        'prop':data,
+        'media_url': settings.MEDIA_URL
+    }
+    return render(request,'men.html',Context )
 
 def women(request):
     return render(request, 'women.html')
@@ -54,7 +59,10 @@ def registerdata(request):
     else:
         if data:
             msg="User aleary Exist"
-            return render(request, 'register.html', {'key':msg})
+            Context={
+                 'key':msg
+            }
+            return render(request, 'register.html', Context)
         else:
             if password==con_password:
                 RegistrationModel.objects.create(
@@ -73,7 +81,12 @@ def registerdata(request):
                 return render(request, 'login.html', {'key': msg})
             else:
                 msg="Password and Confirm Password Not Match"
-                return render(request, 'register.html', {'key':msg,'data1':name,'data2':email,'data3':number})
+                Context={'key':msg,
+                         'data1':name,
+                         'data2':email,
+                         'data3':number
+                         }
+                return render(request, 'register.html',Context )
 
 
 # ============= login function =====================
@@ -95,7 +108,12 @@ def logindata(request):
             Password= data.Password
             if Password==password:
                 msg="Welcome To "+data.Name
-                return render(request, 'index.html', {'key1': msg, 'user_name':data, 'media_url':settings.MEDIA_URL})
+                Context={
+                         'key1': msg, 
+                         'user_name':data, 
+                         'media_url':settings.MEDIA_URL
+                        }
+                return render(request, 'index.html',Context )
             else:
                 msg="Enter Password is Wrong Please Enter Correct Password"
                 return render(request, 'login.html', {'key1': msg})
@@ -422,7 +440,7 @@ def cartpage(request):
     email = request.POST.get('email')
     data = RegistrationModel.objects.get(Email=email)
     addcart_data = request.session.get('addtocart', [])
-    # print(addcart_data)
+    # print(addcartround(_data)
     total_MRP = 0
     total_amount = 0
     tax = 0
@@ -441,7 +459,7 @@ def cartpage(request):
         print(pro_quantitydata)
         total_amount += pro_value.Prod_Price * item['Quantity']
         total_MRP += pro_value.Prod_MRP * item['Quantity']
-        tax += (total_amount * 12) / 100
+        tax += int(round((total_amount * 12) / 100,0))
 
     discount = total_MRP - total_amount
     Total_pay_amount = total_amount + shippingcharge + tax
@@ -456,3 +474,30 @@ def cartpage(request):
 
     cart_length = len(addcart_data)
     return render(request, 'addtocart.html', {'user_name': data, 'prod_data': pro_data, 'media_url': settings.MEDIA_URL, 'amount': billamount})
+
+# =================== Razorpay payment integrations ================================
+
+def checkout(request):
+    amount=int(request.POST.get('amount'))
+    print(amount)
+    email=request.POST.get('email')
+    print(email)
+    userdata=RegistrationModel.objects.get(Email=email)
+    global Payableamount 
+
+    # amount in paisa
+    client = razorpay.Client(auth =("rzp_test_8jTLUV3aVex82Q" , "n3PL7ZbSgnKSWJeA1s9ndhaO"))
+    # amount = int(amount * 100)
+    #create order
+    data = { "amount": amount, "currency": "INR", "receipt": "order_rcptid_11" }
+    payment = client.order.create(data=data)
+    print(payment)
+    
+    Context={
+        'user_name': userdata, 
+        'prod_data':data, 
+        'media_url': settings.MEDIA_URL
+    }
+    # print(payment)
+    return render(request, 'addtocart.html', Context)
+    

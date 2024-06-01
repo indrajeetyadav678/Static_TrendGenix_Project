@@ -61,3 +61,21 @@ class Productmodel(models.Model):
     def __str__(self):
         return self.Prod_Name
 
+class PaymentdataModel(models.Model):
+    Name=models.CharField(max_length=255, null=True)
+    Amount=models.IntegerField( null=True)
+    Amount_paid=models.IntegerField( null=True)
+    Amount_due=models.IntegerField(null=True)
+    Currency=models.CharField(max_length=100, null=True)
+    receipt = models.FileField(upload_to='receipts/')
+    Status=models.CharField(max_length=30, null=True)
+    Attempts=models.IntegerField( null=True)
+    Notes=models.TextField(null=True)
+    Created_at=models.CharField(max_length=255, null=True)
+    Payment_Id=models.CharField(max_length=255, null=True)
+    Order_id=models.CharField(max_length=255, null=True)
+    Signature=models.CharField(max_length=255, null=True)
+
+    def __str__(self):
+        return self.Order_id
+
