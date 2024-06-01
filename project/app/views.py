@@ -484,7 +484,6 @@ def checkout(request):
     print(email)
     userdata=RegistrationModel.objects.get(Email=email)
     global Payableamount 
-
     # amount in paisa
     client = razorpay.Client(auth =("rzp_test_8jTLUV3aVex82Q" , "n3PL7ZbSgnKSWJeA1s9ndhaO"))
     # amount = int(amount * 100)
@@ -492,12 +491,55 @@ def checkout(request):
     data = { "amount": amount, "currency": "INR", "receipt": "order_rcptid_11" }
     payment = client.order.create(data=data)
     print(payment)
+    Payableamount=payment
+    addcart_data = request.session.get('addtocart', [])
+    # print(addcartround(_data)
+    total_MRP = 0
+    total_amount = 0
+    tax = 0
+    shippingcharge = 40
+    pro_data = []
+
+    for item in addcart_data:
+        # print(item)
+        pro_value = Productmodel.objects.get(id=item['id'])
+        print(pro_value)
+        pro_quantitydata = {
+            'pro_value': pro_value,
+            'Quantity': item['Quantity']
+        }
+        pro_data.append(pro_quantitydata)
+        print(pro_quantitydata)
+        total_amount += pro_value.Prod_Price * item['Quantity']
+        total_MRP += pro_value.Prod_MRP * item['Quantity']
+        tax += int(round((total_amount * 12) / 100,0))
+
+    discount = total_MRP - total_amount
+    Total_pay_amount = total_amount + shippingcharge + tax
+    billamount = {
+        'total_amount': total_amount,
+        'total_MRP': total_MRP,
+        'discount': discount,
+        'tax': tax,
+        'shippingcharge': shippingcharge,
+        'Total_pay_amount': Total_pay_amount,
+    }
+
+    cart_length = len(addcart_data)
     
     Context={
         'user_name': userdata, 
-        'prod_data':data, 
-        'media_url': settings.MEDIA_URL
+        'pay_data':data, 
+        'media_url': settings.MEDIA_URL,
+        'payment':payment,
+        'amount': billamount,
+        'prod_data': pro_data,
+        'length':cart_length
     }
     # print(payment)
     return render(request, 'addtocart.html', Context)
+
+
+def making_payment(request):
+    return render(request, 'paymentdone.html')
     

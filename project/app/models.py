@@ -62,7 +62,7 @@ class Productmodel(models.Model):
         return self.Prod_Name
 
 class PaymentdataModel(models.Model):
-    Name=models.CharField(max_length=255, null=True)
+    Email=models.EmailField(null= True)
     Amount=models.IntegerField( null=True)
     Amount_paid=models.IntegerField( null=True)
     Amount_due=models.IntegerField(null=True)

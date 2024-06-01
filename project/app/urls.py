@@ -62,10 +62,8 @@ urlpatterns=[
     # path('update_cart_quantity/<int:pk>/<str:action>/', update_cart_quantity, name='update_cart_quantity'),
 
     # ===================== Payment Checkout Url ==============================
-    path('checkout/', checkout, name='checkout')
-
-
-
+    path('checkout/', checkout, name='checkout'),
+    path('making_payment/', making_payment, name='making_payment'),
 ]
 
 
