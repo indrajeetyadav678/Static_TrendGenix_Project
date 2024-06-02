@@ -1,46 +1,6 @@
 {% extends 'base.html' %}
-
 {% block content%}
-{% if payment %}
-<div>
-    <form action="{% url 'making_payment'%}" method="post">
-        {% csrf_token %}
 
-        <button id="rzp-button1">
-            <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-            <script>
-            var options = {
-                "key": "n3PL7ZbSgnKSWJeA1s9ndhaO",
-                "amount": "{{payment.amount}}",
-                "currency": "INR",
-                "name": "{{user_name.Email}}",
-                "description": "Test Transaction",
-                "image": "https://cdn.freebiesupply.com/logos/large/2x/trigenix-logo-png-transparent.png",
-                "order_id": "{{payment.id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-                "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
-                "prefill": {
-                    "name": "Indrajeet yadave",
-                    "email": "indrajeetyadu36@gmail.com",
-                    "contact": "9754550030"
-                },
-                "notes": {
-                    "address": "{{payment.notes}}"
-                },
-                "theme": {
-                    "color": "#3399cc"
-                }
-            };
-            var rzp1 = new Razorpay(options);
-            document.getElementById('rzp-button1').onclick = function (e) {
-                rzp1.open();
-                e.preventDefault();
-            }
-            </script>
-            <input type="email" name="email" value="" id="" hidden>
-            <input type="submit" value="Pay with Razorpay"></button>
-    </form>
-</div>
-{% else %}
 {% if prod_data %}
 <section id="addcartpage_body">
     <div id="addproduct_container">
@@ -67,6 +27,7 @@
                         <input type="number" name="" value="i.pro_value.id" id="" hidden>
                         <input type="submit" value="-" id="incrementbtn">
                     </form>
+
                 </div>
             </div>
             <div id="addcart_price">
@@ -74,9 +35,11 @@
                     {{i.pro_value.Prod_Detail}}
                 </div>
                 <div id="paymentbuy_btn">
-                    {% csrf_token %}
-                    <form action="" method="post">
-                        <input type="submit" value="Buy" id="Buy_btn" />
+                    <form action="{% url 'checkout'%}" method="post">
+                        {% csrf_token %}
+                        <input type="email" name="email" value="{{user_name.Email}}" id="" hidden>
+                        <input type="number" name="amount" value="{{amount.Total_pay_amount}}" hidden>
+                        <input type="submit" value="Buy" id="Buy_btn">
                     </form>
                 </div>
             </div>
@@ -105,6 +68,10 @@
                                     <td class="text-end">₹&nbsp;{{amount.discount}}</td>
                                 </tr>
                                 <tr>
+                                    <td>Product Quantity : </td>
+                                    <td class="text-end">{{amount.Quantity | default:'0'}}&nbsp;&nbsp;Items</td>
+                                </tr>
+                                <tr>
                                     <td>Shipping Charge :</td>
                                     <td class="text-end">₹&nbsp;{{amount.shippingcharge}}</td>
                                 </tr>
@@ -121,8 +88,60 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td><button id="Checkoutbtn"><a href="#">Checkout</a></button></td>
                                     <td>
+                                        {% if payment %}
+                                        {{user_name.Email}}
+                                        <form id="payment-form" action="{% url 'making_payment' %}" method="post">
+                                            {% csrf_token %}
+                                            <input type="email" name="email" value="{{ user_name.Email }}" id="" hidden>
+                                            <button type="submit" id="rzp-button1">Pay with Razorpay</button>
+                                        </form>
+
+                                        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+                                        <script>
+                                            var options = {
+                                                "key": "rzp_test_8jTLUV3aVex82Q",
+                                                "amount": "{{ payment.amount }}",
+                                                "currency": "INR",
+                                                "name": "{{ user_name.Email }}",
+                                                "description": "Test Transaction",
+                                                "image": "https://cdn.freebiesupply.com/logos/large/2x/trigenix-logo-png-transparent.png",
+                                                "order_id": "{{ payment.id }}",
+                                                "callback_url": "http://127.0.0.1:8000/making_payment/",
+                                                "theme": {
+                                                    "color": "#3399cc"
+                                                },
+                                                "handler": function (response) {
+                                                    // Handle the payment success response
+                                                    var paymentForm = document.getElementById('payment-form');
+                                                    var input = document.createElement('input');
+                                                    input.type = 'hidden';
+                                                    input.name = 'razorpay_payment_id';
+                                                    input.value = response.razorpay_payment_id;
+                                                    paymentForm.appendChild(input);
+                                                    input = document.createElement('input');
+                                                    input.type = 'hidden';
+                                                    input.name = 'razorpay_order_id';
+                                                    input.value = response.razorpay_order_id;
+                                                    paymentForm.appendChild(input);
+                                                    input = document.createElement('input');
+                                                    input.type = 'hidden';
+                                                    input.name = 'razorpay_signature';
+                                                    input.value = response.razorpay_signature;
+                                                    paymentForm.appendChild(input);
+                                                    // Submit the form
+                                                    paymentForm.submit();
+                                                }
+                                            };
+                                            var rzp1 = new Razorpay(options);
+                                            document.getElementById('rzp-button1').onclick = function (e) {
+                                                rzp1.open();
+                                                e.preventDefault();
+                                            }
+                                        </script>
+
+
+                                        {% else %}
                                         <form action="{% url 'checkout'%}" method="post">
                                             {% csrf_token %}
                                             <input type="email" name="email" value="{{user_name.Email}}" id="" hidden>
@@ -130,6 +149,7 @@
                                                 hidden>
                                             <input type="submit" value="Checkout" id="Checkoutbtn">
                                         </form>
+                                        {% endif %}
                                     </td>
                                 </tr>
                             </tbody>
@@ -141,10 +161,18 @@
         </div>
     </div>
 </section>
+
+
+<form action="{% url 'making_payment' %}" method="post">
+    {% csrf_token %}
+    <input type="email" name="email" value="{{ user_name.Email }}" id="" hidden>
+    <input type="submit" id="rzp-button1">Pay with Razorpay</input>
+</form>
+
+
 {% else %}
 <section id="addcartpageelse_body">
     <img src="https://mir-s3-cdn-cf.behance.net/projects/404/95974e121862329.Y3JvcCw5MjIsNzIxLDAsMTM5.png" alt="">
 </section>
-{% endif %}
 {% endif %}
 {% endblock %}

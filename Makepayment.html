@@ -1,0 +1,35 @@
+{% if payment %}
+                                        <form action="{% url 'making_payment' %}" method="post">
+                                            {% csrf_token %}
+                                            <input type="email" name="email" value="{{user_name.Email}}" id="" hidden>
+                                            <button id="rzp-button1"><input type="submit" value="Pay with Razorpay"></button>
+                                            <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+                                            <script>
+                                                var options = {
+                                                    "key": "rzp_test_8jTLUV3aVex82Q",
+                                                    "amount": "{{payment.amount}}",
+                                                    "currency": "INR",
+                                                    "name": "{{user_name.Email}}",
+                                                    "description": "Test Transaction",
+                                                    "image": "https://cdn.freebiesupply.com/logos/large/2x/trigenix-logo-png-transparent.png",
+                                                    "order_id": "{{payment.id}}",
+                                                    "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
+                                                    "prefill": {
+                                                        "name": "Indrajeet yadave",
+                                                        "email": "indrajeetyadu36@gmail.com",
+                                                        "contact": "9630529996"
+                                                    },
+                                                    "notes": {
+                                                        "address": "{{payment.notes}}"
+                                                    },
+                                                    "theme": {
+                                                        "color": "#3399cc"
+                                                    }
+                                                };
+                                                
+                                                document.getElementById('rzp-button1').onclick = function (e) {
+                                                    rzp1.open();
+                                                    e.preventDefault();
+                                                }
+                                            </script>
+                                        </form>

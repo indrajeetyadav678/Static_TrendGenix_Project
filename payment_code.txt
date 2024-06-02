@@ -1,0 +1,51 @@
+ <div>
+                                            <form action="{% url 'making_payment'%}" method="post">
+                                                {% csrf_token %}
+                                                <input type="email" name="email" value="{{user_name.Email}}" id="" hidden>
+                                                <button id="rzp-button1">
+                                                    <input type="submit" value="Pay with Razorpay">
+                                                </button>
+                                        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+                                                <script>
+                                                    var options = {
+                                                        "key": "n3PL7ZbSgnKSWJeA1s9ndhaO",
+                                                        "amount": "{{payment.amount}}",
+                                                        "currency": "INR",
+                                                        "name": "{{user_name.Email}}",
+                                                        "description": "Test Transaction",
+                                                        "image": "https://cdn.freebiesupply.com/logos/large/2x/trigenix-logo-png-transparent.png",
+                                                        "order_id": "{{payment.id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                                                        "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
+                                                        "prefill": {
+                                                            "name": "Indrajeet yadave",
+                                                            "email": "indrajeetyadu36@gmail.com",
+                                                            "contact": "9754550030"
+                                                        },
+                                                        "notes": {
+                                                            "address": "{{payment.notes}}"
+                                                        },
+                                                        "theme": {
+                                                            "color": "#3399cc"
+                                                        }
+                                                    };
+                                                    var rzp1 = new Razorpay(options);
+                                                    document.getElementById('rzp-button1').onclick = function (e) {
+                                                        rzp1.open();
+                                                        e.preventDefault();
+                                                    }
+                                                </script>
+                                                <input type="hidden" custom="Hidden Element" name="hidden">
+                                            </form>
+                                        </div>
+
+
+
+
+amount,
+amount_due,
+amount_paid,
+attempts,
+created_at,
+offer_id,
+receipt,
+status

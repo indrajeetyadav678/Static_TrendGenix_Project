@@ -67,7 +67,7 @@ class PaymentdataModel(models.Model):
     Amount_paid=models.IntegerField( null=True)
     Amount_due=models.IntegerField(null=True)
     Currency=models.CharField(max_length=100, null=True)
-    receipt = models.FileField(upload_to='receipts/')
+    Receipt = models.FileField(upload_to='receipts/')
     Status=models.CharField(max_length=30, null=True)
     Attempts=models.IntegerField( null=True)
     Notes=models.TextField(null=True)
