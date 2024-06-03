@@ -5,6 +5,7 @@ from datetime import datetime
 from django.core.mail import send_mail
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import render, get_object_or_404
 from .forms import*
 from datetime import datetime
 import razorpay
@@ -61,36 +62,35 @@ def registerdata(request):
 # ============= login function =====================
    
 def logindata(request):
-    userid=request.POST.get('userid')
+    email=request.POST.get('email')
     password=request.POST.get('password')
     login_type=request.POST.get('login_type')
     # print(login_type)
-    username=RegistrationModel.objects.filter(Email=userid)
+    username=RegistrationModel.objects.filter(Email=email)
     if login_type=='none':
         msg="Choose your login Type"
         return render(request, 'login.html', {'key1': msg})
     elif login_type =='customer':
         if username:
-            data=RegistrationModel.objects.get(Email=userid)
-            # print(data.Name)
-            print("*********************************************")
-            date=date.now()
-            print(date)
-            time=time.now()
-            print(time)
+            data=RegistrationModel.objects.get(Email=email)
             print(data)
+            print("*********************************************")
+            
             Password= data.Password
             print(Password)
             if Password==password:
                 msg="Welcome To "+data.Name
-                global user_info 
-                user_info = {
-                    'Profile':data.Profile,
+                request.session['user_info'] = {
+                    # 'Profile':data.Profile,
+                    'Username':data.Username,
+                    'About':data.About,
                     'Name':data.Name,
                     'Email':data.Email,
                     'Number':data.Number,
-                    'Password':data.Password
+                    'Password':data.Password,
+                    'Login_Type': login_type 
                 }
+                user_info=request.session.get('user_info')
                 print('user_info-->',user_info)
                 Context={
                          'key1': msg, 
@@ -106,7 +106,7 @@ def logindata(request):
             return render(request, 'register.html', {'key1': msg})
     elif login_type =="admin":
         if username:
-            data=RegistrationModel.objects.get(Email=userid)
+            data=RegistrationModel.objects.get(Email=email)
             print(data.Name)
             print(data)
             Password= data.Password
@@ -114,6 +114,8 @@ def logindata(request):
                 Context={}
 
                 # Context['Profile']=request.session['Profile']= data.Profile
+                Context['Username']=request.session['Username']= data.Username
+                Context['About']=request.session['About']= data.About
                 Context['Name']=request.session['Name']= data.Name
                 Context['Email']=request.session['Email']= data.Email
                 Context['Number']=request.session['Number']= data.Number
@@ -129,9 +131,10 @@ def logindata(request):
             msg="Userid doesnot exist Please create Account"
             return render(request, 'register.html', {'key1': msg})
         
-
+# ============================== logout ===================================
 def logout(request):
     return render(request, 'index.html')
+
 
 def forgetpass(request):
     return render(request, 'forgetpass.html')
@@ -141,18 +144,21 @@ def forgetpass(request):
 
 def index(request):
     try:
+        user_info=request.session.get('user_info')
         return render(request, 'index.html', {'user_name':user_info})
     except:
         return render(request, 'index.html')
 
 def about(request):
     try:
+        user_info=request.session.get('user_info')           
         return render(request, 'about.html', {'user_name':user_info})
     except:
         return render(request, 'about.html')
 
 def contact(request):
     try:
+        user_info=request.session.get('user_info')
         return render(request, 'contact.html', {'user_name':user_info})
     except:
         return render(request, 'contact.html')
@@ -165,6 +171,7 @@ def login(request):
 
 def product(request):
     try:
+        user_info=request.session.get('user_info')
         return render(request, 'product.html', {'user_name':user_info})
     except:
         return render(request, 'product.html')
@@ -174,6 +181,7 @@ def men(request):
     data=Productmodel.objects.filter(Prod_Name="Men")
     print(data.values()) 
     try:
+        user_info=request.session.get('user_info')
         Context={
             'prop':data,
             'media_url': settings.MEDIA_URL,
@@ -192,6 +200,7 @@ def women(request):
     data=Productmodel.objects.filter(Prod_Name="Men")
     print(data.values())
     try:
+        user_info=request.session.get('user_info')
         Context={
         'prop':data,
         'media_url': settings.MEDIA_URL,
@@ -209,6 +218,7 @@ def girl(request):
     data=Productmodel.objects.filter(Prod_Name="Girl")
     # print(data.values())
     try:
+        user_info=request.session.get('user_info')
         Context={
         'prop':data,
         'media_url': settings.MEDIA_URL,
@@ -222,48 +232,10 @@ def girl(request):
         }
         return render(request, 'girl.html', Context)
     
-#====================== ENDing user Dashboard (Navigation) =======================
- 
-# ======================== Starting user profile Function ==========================================
-
-def editpro(request):
-    data={}
-    data['Name']=request.session.get('Name')
-    data['Email']=request.session.get('Email')
-    data['Number']=request.session.get('Number')
-    data['Password']=request.session.get('Password')
-    # print(data)
-    Context={
-        'admin_user':data
-    }
-    return render(request, 'editprofile.html', Context)
-
-
-def changepass(request):
-    try:
-        data={}
-        data['Name']=request.session['Name']
-        data['Email']=request.session['Email']
-        data['Number']=request.session['Number']
-        data['Password']=request.session['Password']
-        return render(request, 'changepass.html', {'admin_user':data})
-    except:
-        # mail=request.POST.get('email')
-        # dbdata=RegistrationModel.objects.get(Email=mail)
-        return render(request, 'changepass.html', {'user_name':user_info})
-    
-# ======================== Endinging user profile Function ==========================================
-
-    
-# ============ Show Product Data ================
-def showmenproductdata(request):
-    data=Productmodel.objects.filter(Prod_Name="women")
-    # print(data.values())
-    return render(request,'men.html',{'prop':data,'media_url': settings.MEDIA_URL} )
-
-# ====================== Starting User Dashboard (Add to Cart Page) =============================================
-
+# ====================== Starting User Dashboard (Add to Cart) =============================================
+#  =---------------------- Starting Cart add Button -----------------------------------------------
 def addtocart(request, pk):
+    # user_info=request.session.get('user_info')
     email = request.POST.get('email')
     prod_name = request.POST.get('prod_name')
     if email:
@@ -277,7 +249,7 @@ def addtocart(request, pk):
             addtocart.append(add_cartdata)
         request.session['addtocart'] = addtocart
         addedcartno = len(addtocart)
-        
+        user_info=data
         if prod_name == 'Men':
             prod_data1 = Productmodel.objects.filter(Prod_Name='Men')
             return render(request, 'men.html', {'user_name': user_info, 'prop': prod_data1, 'addcartno': addedcartno, 'media_url': settings.MEDIA_URL})
@@ -289,53 +261,159 @@ def addtocart(request, pk):
             return render(request, 'girl.html', {'user_name': user_info, 'prop': prod_data1, 'addcartno': addedcartno, 'media_url': settings.MEDIA_URL})
     else:
         return redirect('login')
+    
+#  =---------------------- ENDing Cart add Button -----------------------------------------------
 
 def cartpage(request):
-    email = request.POST.get('email')
-    data = RegistrationModel.objects.get(Email=email)
-    addcart_data = request.session.get('addtocart', [])
-    # print(addcartround(_data)
-    total_MRP = 0
-    total_amount = 0
-    tax = 0
-    shippingcharge = 40
-    Quantity=0
-    pro_data = []
+    # email = request.POST.get('email')
+    # data = RegistrationModel.objects.get(Email=email)
+    user_info=request.session.get('user_info')
+    try:
+        addcart_data = request.session.get('addtocart', [])
+        # print(addcartround(_data)
+        total_MRP = 0
+        total_amount = 0
+        tax = 0
+        shippingcharge = 40
+        Quantity=0
+        pro_data = []
+        for item in addcart_data:
+            # print(item)
+            pro_value = Productmodel.objects.get(id=item['id'])
+            # print(pro_value)
+            pro_quantitydata = {
+                'pro_value': pro_value,
+                'Quantity': item['Quantity']
+            }
+            pro_data.append(pro_quantitydata)
+            # print(pro_quantitydata)
+            total_amount += pro_value.Prod_Price * item['Quantity']
+            total_MRP += pro_value.Prod_MRP * item['Quantity']
+            tax += int(round((total_amount * 12) / 100,0))
+            Quantity += item['Quantity']
 
-    for item in addcart_data:
-        # print(item)
-        pro_value = Productmodel.objects.get(id=item['id'])
-        # print(pro_value)
-        pro_quantitydata = {
-            'pro_value': pro_value,
-            'Quantity': item['Quantity']
+        discount = total_MRP - total_amount
+        Total_pay_amount = total_amount + shippingcharge + tax
+
+        billamount = {
+            'total_amount': total_amount,
+            'total_MRP': total_MRP,
+            'discount': discount,
+            'tax': tax,
+            'shippingcharge': shippingcharge,
+            'Total_pay_amount': Total_pay_amount,
+            'Quantity':Quantity     
         }
-        pro_data.append(pro_quantitydata)
-        # print(pro_quantitydata)
-        total_amount += pro_value.Prod_Price * item['Quantity']
-        total_MRP += pro_value.Prod_MRP * item['Quantity']
-        tax += int(round((total_amount * 12) / 100,0))
-        Quantity += item['Quantity']
+        Context={
+            'user_name': user_info, 
+            'prod_data': pro_data, 
+            'media_url': settings.MEDIA_URL, 
+            'amount': billamount
+        }
+        return render(request, 'addtocart.html', Context)
+    except:
+        return render(request, 'login.html')
 
 
-    discount = total_MRP - total_amount
-    Total_pay_amount = total_amount + shippingcharge + tax
+# ====================== Ending User Dashboard (Add to Cart) =============================================
+ 
+# ======================== Starting user profile Function ==========================================
 
-    billamount = {
-        'total_amount': total_amount,
-        'total_MRP': total_MRP,
-        'discount': discount,
-        'tax': tax,
-        'shippingcharge': shippingcharge,
-        'Total_pay_amount': Total_pay_amount,
-        'Quantity':Quantity
-        
-    }
+def editpro(request):
+    
+    try:
+        data={}
+        data['Name']=request.session.get('Name')
+        data['Email']=request.session.get('Email')
+        data['Number']=request.session.get('Number')
+        data['Password']=request.session.get('Password')
+        # print(data)
+        Context={
+            'admin_user':data,
+        }
+        return render(request, 'editprofile.html', Context)
+    except:
+        user_info=request.session.get('user_info')
+        Context={
+            'user_name': user_info,
+        }
+        return render(request, 'editprofile.html', Context)
+
+
+
+def changepass(request):
+    try:
+        data={}
+        data['Name']=request.session['Name']
+        data['Email']=request.session['Email']
+        data['Number']=request.session['Number']
+        data['Password']=request.session['Password']
+        return render(request, 'changepass.html', {'admin_user':data})
+    except:
+        user_info=request.session.get('user_info')
+        return render(request, 'changepass.html', {'user_name':user_info})
+
+
+def passwordchange(request):
+    if request.method=='POST':
+        email=request.POST.get('email')
+        print(email)
+        login_type=request.POST.get('login_type')
+        newpassword=request.POST.get('newpassword')
+        conpassword=request.POST.get('conpassword')
+        register = get_object_or_404(RegistrationModel, Email=email)
+    try:
+        if newpassword == conpassword:
+            print(register)
+            register.Password = newpassword
+            register.save(update_fields=['Password'])
+
+            msg="Password successfully Changed"
+            data1 = get_object_or_404(RegistrationModel, Email=email)
+            request.session['user_info']={
+                # 'Profile':data1.Profile,
+                'Name':data1.Name,
+                'Email':data1.Email,
+                'Number':data1.Number,
+                'Password':data1.Password,
+                'Login_Type': login_type    
+            }
+            user_info=request.session.get('user_info')
+            Context={
+                'key':msg,
+                'user_name':user_info
+            }    
+            return render(request, 'index.html',Context)
+    except:
+
+        if newpassword == conpassword:
+            register.Password = newpassword
+            register.save(update_fields=['Password'])
+            request.session['Password']=newpassword
+            msg="Password successfully Changed"
+        data1 = get_object_or_404(RegistrationModel, Email=email)
+        data={}
+        data['Name']=request.session['Name']=data1.Name
+        data['Email']=request.session['Email']=data1.Email
+        data['Number']=request.session['Number']=data1.Number
+        data['Password']=request.session['Password']=data1.Password
+        Context={
+            'key':msg,
+            'admin_user':data
+        }
+        return render(request, 'dashboard.html', Context)    
 
     
-    return render(request, 'addtocart.html', {'user_name': user_info, 'prod_data': pro_data, 'media_url': settings.MEDIA_URL, 'amount': billamount})
+#========================= Endinging user profile Function ==========================================
+#========================= ENDing user Dashboard (Navigation) ========================================
 
-# ====================== Ending User Dashboard (Add to Cart Page) =============================================
+# ============ Show Product Data ================
+def showmenproductdata(request):
+    data=Productmodel.objects.filter(Prod_Name="women")
+    # print(data.values())
+    return render(request,'men.html',{'prop':data,'media_url': settings.MEDIA_URL} )
+
+
 
 # =================== Startinging User Dashboard (Razorpay payment integrations) ================================
 
@@ -408,7 +486,7 @@ def checkout(request):
     }
 
     cart_length = len(addcart_data)
-    
+    user_info=request.session.get('user_info')
     Context={
         'user_name': user_info, 
         'pay_data':data, 
@@ -427,17 +505,19 @@ def making_payment(request):
     # print(request.POST)
     razorpay_payment_id = request.POST.get('razorpay_payment_id')
     razorpay_order_id = request.POST.get('razorpay_order_id')
+    email = request.POST.get('email')
     print(razorpay_order_id)
     razorpay_signature = request.POST.get('razorpay_signature')
-    payment_data=PaymentdataModel.objects.get(Order_id=razorpay_order_id)
+    payment_data= get_object_or_404(PaymentdataModel, Order_id=razorpay_order_id)
     print(payment_data)
-    payment_data['Payment_Id']=razorpay_payment_id
-    payment_data['Signature']=razorpay_signature
-    payment_data.save()
-    date=date.now()
-    print(date)
-    time=time.now()
-    print(time)
+    payment_data.Payment_Id = razorpay_payment_id
+    payment_data.Signature = razorpay_signature
+    
+    user_info=request.session.get('user_info')
+    # Save the updated payment data
+    payment_data.save(update_fields=['Payment_Id', 'Signature'])
+    if 'addtocart' in request.session:
+        del request.session['addtocart']
     print(user_info)
     Context={
          'user_name': user_info,
@@ -448,15 +528,7 @@ def making_payment(request):
 
 
 
-
-
-
-
-
-
-
-
-# @@@@@@@@@@@@@@@@@@@@@@@@  Admin Dashboard Views Function @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  Admin Dashboard Views Function @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
     #===================Starting Admin dashboard (Navigation)============================
 
@@ -526,9 +598,9 @@ def product_entry(request):
         form = Productmodelform()
         return render(request, 'productform.html', {'admin_user':data})
     
-#===================ENDing Admin dashboard (Navigation)============================
+#======================= ENDing Admin dashboard (Navigation) =================================
     
-# ================ Starting admin Dashboard (Todo task CRUD)============================  
+# ====================== Starting admin Dashboard (Todo task CRUD) ============================  
 def  todoform(request):
     data={}
     data['Name']=request.session['Name']
@@ -633,9 +705,9 @@ def updatedata(request):
     msg="Data update Successfully"
     return render(request, 'dashboard.html', {'admin_user':data, 'tododate':taskdata, 'key1':msg })
 
-# ================ ENDing admin Dashboard (Todo task CRUD)============================
+# ========================= ENDing admin Dashboard (Todo task CRUD) =======================================
 
-# ================ Starting Admin Dashboard (Product CRUD) ==================
+# ========================= Starting Admin Dashboard (Product CRUD) ========================================
 
 def product_show1(request):
     data={}
@@ -650,53 +722,53 @@ def product_show1(request):
         'prop':pro_data1, 
         'media_url': settings.MEDIA_URL
     }
-    return render(request, 'productdata.html',Context )
+    return render(request, 'productdata.html', Context)
 
 # ================ ENDing Admin Dashboard (Product CRUD) ======================
 
 #=================== User Dashboard login after Navition =============
-def home(request):
-    return render(request, 'index.html', {'user_name':user_info})
+# def home(request):
+#     return render(request, 'index.html', {'user_name':user_info})
 
-def about1(request):
-    print(request.POST)
-    email=request.POST.get('email')
-    data=RegistrationModel.objects.get(Email=email)
-    return render(request, 'about.html', {'user_name':user_info})
+# def about1(request):
+#     print(request.POST)
+#     email=request.POST.get('email')
+#     data=RegistrationModel.objects.get(Email=email)
+#     return render(request, 'about.html', {'user_name':user_info})
 
-def contact1(request):
-    print(request.POST)
-    email=request.POST.get('email')
-    data=RegistrationModel.objects.get(Email=email)
-    return render(request, 'contact.html', {'user_name':user_info})
+# def contact1(request):
+#     print(request.POST)
+#     email=request.POST.get('email')
+#     data=RegistrationModel.objects.get(Email=email)
+#     return render(request, 'contact.html', {'user_name':user_info})
 
-def product1(request):
-    print(request.POST)
-    email=request.POST.get('email')
-    data=RegistrationModel.objects.get(Email=email)
-    return render(request, 'product.html', {'user_name':user_info})
+# def product1(request):
+#     print(request.POST)
+#     email=request.POST.get('email')
+#     data=RegistrationModel.objects.get(Email=email)
+#     return render(request, 'product.html', {'user_name':user_info})
 
-def men1(request):
-    print(request.POST)
-    email=request.POST.get('email')
-    data=RegistrationModel.objects.get(Email=email)
-    data1=Productmodel.objects.filter(Prod_Name="Men")
-    print(data)
-    Context={
-        'user_name':user_info, 
-        'prop':data1,
-        'media_url': settings.MEDIA_URL
-    }
-    return render(request, 'men.html',Context )
+# def men1(request):
+#     print(request.POST)
+#     email=request.POST.get('email')
+#     data=RegistrationModel.objects.get(Email=email)
+#     data1=Productmodel.objects.filter(Prod_Name="Men")
+#     print(data)
+#     Context={
+#         'user_name':user_info, 
+#         'prop':data1,
+#         'media_url': settings.MEDIA_URL
+#     }
+#     return render(request, 'men.html',Context )
 
-def women1(request):
-    print(request.POST)
-    email=request.POST.get('email')
-    data=RegistrationModel.objects.get(Email=email)
-    return render(request, 'women.html', {'user_name':user_info})
+# def women1(request):
+#     print(request.POST)
+#     email=request.POST.get('email')
+#     data=RegistrationModel.objects.get(Email=email)
+#     return render(request, 'women.html', {'user_name':user_info})
 
-def girl1(request):
-    print(request.POST)
-    email=request.POST.get('email')
-    data=RegistrationModel.objects.get(Email=email)
-    return render(request, 'girl.html', {'user_name':user_info})
+# def girl1(request):
+#     print(request.POST)
+#     email=request.POST.get('email')
+#     data=RegistrationModel.objects.get(Email=email)
+#     return render(request, 'girl.html', {'user_name':user_info})

@@ -3,6 +3,8 @@ from django.db import models
 # Create your models here.
 class RegistrationModel(models.Model):
     Profile=models.ImageField(null=True)
+    About=models.TextField( null=True)
+    Username=models.CharField(max_length=20, null=True)
     Name=models.CharField(max_length=20)
     Email=models.EmailField(unique=True)
     Number=models.IntegerField()
@@ -72,9 +74,10 @@ class PaymentdataModel(models.Model):
     Attempts=models.IntegerField( null=True)
     Notes=models.TextField(null=True)
     Created_at=models.CharField(max_length=255, null=True)
-    Payment_Id=models.CharField(max_length=255, null=True)
+    Payment_Id=models.CharField(max_length=255, null=True, blank=True)
     Order_id=models.CharField(max_length=255, null=True)
-    Signature=models.CharField(max_length=255, null=True)
+    Signature=models.CharField(max_length=255, null=True, blank=True)
+    Datetime=models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
         return self.Order_id

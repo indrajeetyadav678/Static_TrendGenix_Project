@@ -8,15 +8,16 @@
         <p class="text-center">Use the form below to change your password. Your password cannot be the same as your
             username.</p>
 
-        <form action="{%  %}" method="post" id="changepassform">
+        <form action="{% url 'passwordchange' %}" method="post" id="changepassform">
             {% csrf_token %}
-            <input type="text" name="name" value="{{user_name}}" id="" hidden disabled>
-            <input type="email" name="email" id="" hidden disabled>
-            <input type="tel" name="number" id="" hidden disabled>
+            <input type="text" name="name" value="{{user_name.Name}}" id="" hidden>
+            <input type="email" name="email" value="{{user_name.Email}}" id="" hidden>
+            <input type="tel" name="number" value="{{user_name.Number}}" id="" hidden>
+            <input type="text" name="login_type" value="{{user_name.Login_Type}}" id="" hidden>
             <label for="newpassinput">Enter New Password</label><br>
-            <input type="password" name="newpassword" id="newpassinput"><br><br />
+            <input type="password" name="newpassword" id="newpassinput"><br><br/>
             <label for="cnewpassinput">Confirm New Password</label><br>
-            <input type="password" name="conpassword" id="cnewpassinput"><br><br /><br />
+            <input type="password" name="conpassword" id="cnewpassinput"><br><br/><br/>
             <input type="submit" value="Change Password" id="changepass_btn">
         </form>
 

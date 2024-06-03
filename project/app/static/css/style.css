@@ -36,6 +36,13 @@
     justify-content: space-between;
     align-items: center;
 }
+#userdashnavbar2 {
+    width: 150px;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 #dropdown_manu {
     background-color: rgb(14, 10, 31);
     z-index: 100;

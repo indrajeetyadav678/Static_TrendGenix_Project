@@ -147,3 +147,111 @@ def cartpage(request):
         'media_url': settings.MEDIA_URL,
         'amount': billamount
     })
+
+    <!-- =========================== Navbar ===================================== -->
+
+
+    <div id="Navbar">
+        <div id="resp_icon_com_title">
+            <div id="manubar_icon_box">
+                <div id="manubar_icon_close" onclick="submanu_box(1)">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+                <div id="manubar_icon_open" onclick="submanu_box(1)">
+                    <i class="fa-solid fa-bars-staggered"></i>
+                </div>
+            </div>
+            <div id="title">
+                <form action="{% url 'home'%}" method="post">
+                    {% csrf_token %}
+                    <input type="email" value="{{user_name.Email}}" name="email" id="" hidden>
+                    <input id="navbartitle_btn" type="submit" value="TRENDGENIX">
+                </form>
+            </div>
+        </div>
+        <ul id="navbar1">
+            <li>
+                <form action="{% url 'home'%}" method="post">
+                    {% csrf_token %}
+                    <input type="email" value="{{user_name.Email}}" name="email" id="" hidden>
+                    <input id="navbar_btn" type="submit" value="Home">
+                </form>
+            </li>
+            <li>
+                <form action="{% url 'about'%}" method="post">
+                    {% csrf_token %}
+                    <input type="email" value="{{user_name.Email}}" name="email" id="" hidden>
+                    <input id="navbar_btn" type="submit" value="About Us">
+                </form>
+            </li>
+            <li class="nav-item dropdown">
+                <form action="{% url 'product'%}" method="post" id="product_btn">
+                    {% csrf_token %}
+                    <input type="email" value="{{user_name.Email}}" name="email" id="" hidden>
+                    <input id="navbar_btn" type="submit" value="Product">
+                </form>
+                    <i class="fa-solid fa-chevron-down" id="dropdown_manu_btn" data-bs-toggle="dropdown" style="color: aliceblue;"></i>
+                <ul class="dropdown-menu" id="dropdown_manu">
+                    <li>
+                        <form action="{% url 'men'%}" method="post">
+                            {% csrf_token %}
+                            <input type="email" value="{{user_name.Email}}" name="email" id="" hidden>
+                            <input id="navbar_btn" type="submit" value="Men Accessories">
+                        </form>
+                    </li>
+                    <li>
+                        <form action="{% url 'women'%}" method="post">
+                            {% csrf_token %}
+                            <input type="email" value="{{user_name.Email}}" name="email" id="" hidden>
+                            <input id="navbar_btn" type="submit" value="Women Accessories">
+                        </form>
+                    </li>
+                    <li>
+                        <form action="{% url 'girl'%}" method="post">
+                            {% csrf_token %}
+                            <input type="email" value="{{user_name.Email}}" name="email" id="" hidden>
+                            <input id="navbar_btn" type="submit" value="Girl Accessories">
+                        </form>
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <form action="{% url 'contact'%}" method="post">
+                    {% csrf_token %}
+                    <input type="email" value="{{user_name.Email}}" name="email" id="" hidden>
+                    <input id="navbar_btn" type="submit" value="Contact Us">
+                </form>
+            </li>
+        </ul>
+
+        <ul id="addtocart_like_icon_nav">
+            <li id="liked_icon_container">
+                <div id="add_liked_value">2</div>
+                <form action="{% url 'contact1'%}" method="post">
+                    {% csrf_token %}
+                    <input type="email" value="{{user_name.Email}}" name="email" id="" hidden>
+                    <button id="like_heart_icon" type="submit"><i class="fa-regular fa-heart"></i></button>
+                </form>
+            </li>
+            <li id="addcart_icon_container">
+                <div id="add_cart_value">{{addcartno | default:'0   '}}</div>
+                <form action="{% url 'cartpage'%}" method="post">
+                    {% csrf_token %}
+                    <input type="email" value="{{user_name.Email}}" name="email" id="" hidden>
+                    <button id="shopping_card_icon" type="submit"><i class="fa-solid fa-cart-shopping"></i></button>
+                </form>
+            </li>
+            <li>
+                {% if user_name.Profile %}
+                <img id="usericon" onclick="pro_info(1)"
+                    src="{{media_url}}{{user_name.Profile}}" alt="" />
+                {% else %}
+                <img id="usericon" onclick="pro_info(1)"
+                    src="https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745"
+                    alt="" />
+                {% endif %}
+            </li>
+        </ul>
+
+    </div>

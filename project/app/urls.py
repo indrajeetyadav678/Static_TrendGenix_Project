@@ -26,19 +26,9 @@ urlpatterns=[
     path('editpro/',editpro, name='editpro'),
     path('forgetpass/',forgetpass, name='forgetpass'),
     path('changepass/', changepass, name='changepass'),
+    path('passwordchange/', passwordchange, name='passwordchange'),
 
-    # ============= userdashboard ==========================
-
-    path('home/',home, name='home'),
-    path('about1/',about1, name='about1'),
-    path('contact1/',contact1, name='contact1'),
-    path('product1/',product1, name='product1'),
-    path('men1/',men1, name='men1'),
-    path('women1/',women1, name='women1'),
-    path('girl1/',girl1, name='girl1'),
-
-    # ===== CRUD
-
+    # ============= userdashboard =======================
     # ============= Admin Dashboard =====================
 
     path('dashbordindex/',dashbordindex, name='dashbordindex'),
@@ -48,14 +38,16 @@ urlpatterns=[
     path('product_entry/',product_entry, name='product_entry'),
 
     # ============= cruid dashboard page =============
-    
+
     path('todoform/',todoform, name='todoform'),
     path('todotask/',todotask, name='todotask'),
     path('showdata2/',showdata2, name='showdata2'),
     path('edittodo/<int:pk>/',edittodo, name='edittodo'),
     path('delettodo/<int:pk>/',delettodo, name='delettodo'),
     path('updatedata/',updatedata, name='updatedata'),
+
     # ========== product data save Show ============
+
     path('product_show1/',product_show1, name='product_show1'),
     path('addtocart/<int:pk>',addtocart, name='addtocart'),
     path('cartpage/', cartpage, name='cartpage'),
@@ -64,6 +56,9 @@ urlpatterns=[
     # ===================== Payment Checkout Url ==============================
     path('checkout/', checkout, name='checkout'),
     path('making_payment/', making_payment, name='making_payment'),
+
+
+
 ]
 
 
