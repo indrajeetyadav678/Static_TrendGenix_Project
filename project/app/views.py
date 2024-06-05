@@ -133,6 +133,7 @@ def logindata(request):
         
 # ============================== logout ===================================
 def logout(request):
+    del request.session['user_info']
     return render(request, 'index.html')
 
 
@@ -320,8 +321,9 @@ def cartpage(request):
 # ======================== Starting user profile Function ==========================================
 
 def editpro(request):
-    
-    try:
+    email=request.POST.get('email')
+    Account_type=request.POST.get('accounttype')
+    if Account_type=='admin_profile':
         data={}
         data['Name']=request.session.get('Name')
         data['Email']=request.session.get('Email')
@@ -330,16 +332,74 @@ def editpro(request):
         # print(data)
         Context={
             'admin_user':data,
+            'profileform':Registrationform
         }
         return render(request, 'editprofile.html', Context)
-    except:
+    elif Account_type=='user_profile':
         user_info=request.session.get('user_info')
         Context={
             'user_name': user_info,
+            'profileform':Registrationform
         }
         return render(request, 'editprofile.html', Context)
+    
+# -------------- image updating -------------------
+def updatepro_img(request):
+    pro_image=request.POST.get('profile')
+    Account_type=request.POST.get('accounttype')
+    print(pro_image)
+    if Account_type =='user_profile':
+        user_info = request.session.get('user_info')
+        regist= RegistrationModel.objects.get(Email=user_info['Email'])
+        print(regist)
+        regist.Profile = pro_image
+        regist.About=user_info['About']
+        regist.Username=user_info['Username']
+        regist.Name=user_info['Name']
+        regist.Email=user_info['Email']
+        regist.Number=user_info['Number']
+        regist.Password=user_info['Password']
+        regist.save()
+        data=get_object_or_404(RegistrationModel, Email=user_info['Email'])
+        # request.session['user_info']={
+        #     'Profile':data.Profile,
+        #     'Username':data.Username,
+        #     'About':data.About,
+        #     'Name':data.Name,
+        #     'Email':data.Email,
+        #     'Number':data.Number,
+        #     'Password':data.Password,
+        #     'Login_Type': user_info['login_type'] 
+        # }
+        Context={
+            'user_name' : user_info,
+            'media_url': settings.MEDIA_URL,
+            'profileform':Registrationform
+        }
+        return render(request, 'editprofile.html', Context)
+    if Account_type =='admin_profile':
+        data={}
+        data['Name']=request.session.get('Name')
+        data['Email']=request.session.get('Email')
+        data['Number']=request.session.get('Number')
+        data['Password']=request.session.get('Password')
+        regist=get_object_or_404(RegistrationModel, Email=data['Email'])
+        print(regist)
+        regist.Profile = pro_image
+        regist.save(update_fields=['Profile'])
+        registdata=get_object_or_404(RegistrationModel, Email=data['Email'])
+        print(registdata)
+        Context={
+            'user_name' : registdata,
+            'media_url': settings.MEDIA_URL,
+            'profileform':Registrationform
+        }
+        return render(request, 'editprofile.html',Context )
 
 
+
+
+# --------------------------------------------
 
 def changepass(request):
     try:

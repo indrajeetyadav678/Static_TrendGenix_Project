@@ -84,6 +84,7 @@
         {% endif %}<br /><br />
         <form action="{% url 'editpro' %}" method="post">
             {% csrf_token %}
+            <input type="text" name="accounttype" value="user_profile" id="" hidden>
             <input type="email" value="{{user_name.Email}}" name="email" id="" hidden>
             <input id="editpro_btn" type="submit" value="Edit Profile">
         </form>
@@ -152,6 +153,7 @@
         {% endif %}<br /><br />
         <form action="{% url 'editpro' %}" method="post">
             {% csrf_token %}
+            <input type="text" name="accounttype" value="admin_profile" id="" hidden>
             <input type="email" value="{{admin_user.Email}}" name="email" id="" hidden>
             <input id="editpro_btn" type="submit" value="Edit Profile">
         </form>

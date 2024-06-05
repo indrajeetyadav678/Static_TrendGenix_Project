@@ -24,6 +24,7 @@ urlpatterns=[
     path('logindata/',logindata, name='logindata'),
     path('logout/',logout, name='logout'),
     path('editpro/',editpro, name='editpro'),
+    path('updatepro_img/',updatepro_img, name='updatepro_img'),
     path('forgetpass/',forgetpass, name='forgetpass'),
     path('changepass/', changepass, name='changepass'),
     path('passwordchange/', passwordchange, name='passwordchange'),

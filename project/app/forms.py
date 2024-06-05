@@ -16,3 +16,8 @@ class Productmodelform(forms.ModelForm):
     class Meta:
         model=Productmodel
         fields='__all__'
+
+class Registrationform(forms.ModelForm):
+    class Meta:
+        model=RegistrationModel
+        fields=['Profile']

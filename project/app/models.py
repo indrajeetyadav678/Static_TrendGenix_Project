@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 class RegistrationModel(models.Model):
-    Profile=models.ImageField(null=True)
+    Profile=models.ImageField(null=True, upload_to=True)
     About=models.TextField( null=True)
     Username=models.CharField(max_length=20, null=True)
     Name=models.CharField(max_length=20)
