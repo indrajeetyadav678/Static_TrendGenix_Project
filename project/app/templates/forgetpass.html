@@ -1,7 +1,53 @@
 {% extends 'base.html' %}
 {% block content%}
 <section class="bg-secondary" id="forgetform_body">
+    {% if fotget_otp %}
+    <div class="container height-100 d-flex justify-content-center align-items-center">
+        <div class="position-relative">
+            <div class="card p-5 text-center">
+                <h6>Please enter the one time password <br> to verify your account</h6>
+                <div> <span>A code has been sent to</span> <small>*******{{sending_email}}</small> </div>
+                <form action="{%url 'otpforgpass' %}" method="post">
+                    {% csrf_token %}
+                    <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
+                        <input class="m-2 text-center form-control rounded" style="width:60px" name="first" value=""
+                            type="text" id="first" maxlength="1" />
+                        <input class="m-2 text-center form-control rounded" style="width:60px" name="second" value=""
+                            type="text" id="second" maxlength="1" />
+                        <input class="m-2 text-center form-control rounded" style="width:60px" name="third" value=""
+                            type="text" id="third" maxlength="1" />
+                        <input class="m-2 text-center form-control rounded" style="width:60px" name="fourth" value=""
+                            type="text" id="fourth" maxlength="1" />
+                    </div>
+                    <div class="mt-4">
+                        <button class="btn btn-danger px-4">Validate</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% elif forg_user_info %}
+    <div class="row" id="changepass_wrapper">
+        <h1>Change Password</h1>
 
+        <p class="text-center">Use the form below to change your password. Your password cannot be the same as your
+            username.</p>
+
+        <form action="{% url 'setforget_password' %}" method="post" id="changepassform">
+            {% csrf_token %}
+            <input type="text" name="name" value="{{user_name.Name}}" id="" hidden>
+            <input type="email" name="email" value="{{user_name.Email}}" id="" hidden>
+            <input type="tel" name="number" value="{{user_name.Number}}" id="" hidden>
+            <input type="text" name="login_type" value="{{user_name.Login_Type}}" id="" hidden>
+            <label for="newpassinput">Enter New Password</label><br>
+            <input type="password" name="newpassword" id="newpassinput"><br><br />
+            <label for="cnewpassinput">Confirm New Password</label><br>
+            <input type="password" name="conpassword" id="cnewpassinput"><br><br /><br />
+            <input type="submit" value="Change Password" id="changepass_btn">
+        </form>
+
+    </div>
+    {% else %}
     <div class="container" id="forgetform_container">
         <div class="row">
             <div class="col-12">
@@ -15,14 +61,13 @@
             </div>
         </div>
 
-
-        <form action="#" method="post">
+        <form action="{% url 'setfogetpass1' %}" method="post">
             {% csrf_token %}
             <div class="row gy-3 overflow-hidden">
                 <div class="col-12">
                     <div class="form-floating mb-3">
                         <input type="email" class="form-control" name="email" id="email" placeholder="name@example.com"
-                            required>
+                            value="" required>
                         <label for="email" class="form-label">Email</label>
                     </div>
                 </div>
@@ -35,8 +80,6 @@
             </div>
         </form>
 
-
-        
         <div class="row">
             <div class="col-12">
                 <hr class="mt-5 mb-4 border-secondary-subtle">
@@ -78,6 +121,7 @@
             </div>
         </div>
     </div>
+    {% endif %}
 
 </section>
 

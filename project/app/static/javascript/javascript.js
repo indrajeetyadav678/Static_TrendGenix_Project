@@ -56,3 +56,16 @@ $("input[type=password]").keyup(function () {
 
 // =================== Navbar responsive and Navbar =================
 
+
+// =================== Edit Profile ==============================
+
+function imageloading(){
+	document.getElementById('uploading_imginput').style.display='block';
+	document.getElementById('uploading_imgsubmit').style.display='block';
+	document.getElementById('editproimg_btn').style.display='none';
+}
+
+function change_DOB(){
+	document.getElementById('birthday_date_input').style.display='block'
+	document.getElementById('birthday_date_box').style.display='none'
+}

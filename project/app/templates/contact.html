@@ -29,18 +29,16 @@
             <div id="locat_icon">
                 <i class="fa-regular fa-envelope"></i>
             </div>
-            <div id="contac_sect1_cont">
-                Cybromtech@gmail.com
-            </div>
+            <div id="contac_sect1_cont">Cybromtech@gmail.com</div>
         </div>
     </div>
     <div id="contact_usform">
-        <form action="" method="post">
+        <form action="{% url 'customerquery' %}" method="post">
             {% csrf_token %}
-            <input type="text" name="name" id="cont_text" placeholder="Name" /><br /><br />
-            <input type="email" name="email" id="cont_text" placeholder="Email" /><br /><br />
-            <input type="url" name="urlpath" id="cont_text" placeholder="Website" /><br /><br />
-            <textarea name="address" id="cont_textarea" placeholder="Comment...."></textarea><br /><br />
+            <input type="text" name="name" value="" id="cont_text" placeholder="Name" /><br /><br />
+            <input type="email" name="email" value="" id="cont_text" placeholder="Email" /><br /><br />
+            <input type="url" name="urlpath" value="{{'' | default:'http://127.0.0.1:8000/'}}" id="cont_text" placeholder="Website" /><br /><br />
+            <textarea name="query" id="cont_textarea" placeholder="Comment...."></textarea><br /><br />
             <input type="submit" value="SUBMIT" id="cont_submit_btn" />
         </form>
     </div>

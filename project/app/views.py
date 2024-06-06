@@ -8,6 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404
 from .forms import*
 from datetime import datetime
+import string
+import random
 import razorpay
 # from django.http import HttpResponse
 
@@ -34,29 +36,73 @@ def registerdata(request):
             }
             return render(request, 'register.html', Context)
         else:
+            
             if password==con_password:
-                RegistrationModel.objects.create(
-                    Name=name,
-                    Email=email,
-                    Number=number,
-                    Password=password
-                )
-                
+                global otp
+                lis=string.ascii_letters + string.digits
+                otp= ''.join(random.choice(lis) for _ in range(4))
                 subject = 'New Customer User Account'
-                message = 'A New Customer register On Our Website'+name+'  '+number+'  '+email+'  '+password
+                message =  f'TRENDGENIX Registration Email Verification OTP is {otp}. Please verify this OTP.'
                 email_from = email
-                recipient_list = ['indrajeetyadu36@gmail.com']
-                send_mail(subject, message, email_from, recipient_list)
-                msg="Registration Successfully Done"
-                return render(request, 'login.html', {'key': msg})
+                recipient_list = [email]
+                sentmail=send_mail(subject, message, email_from, recipient_list)
+                print(sentmail)
+                if sentmail:
+                    OTP1=otp
+                    request.session['regist_customer_info']={
+                        'Name':name,
+                        'Email':email,
+                        'Number':number,
+                        'Password':password
+                    }
+                    otp_email=reversed(email[-1:-15:-1])
+                    result=''
+                    for i in otp_email:
+                        result+=i
+                    print(result) 
+                    Context={
+                       'reg_otp': OTP1,
+                       'otp_sending_mail':result
+                    }
+                    return render(request, 'register.html',Context)   
+                else:
+                    msg="Password and Confirm Password Not Match"
+                    Context={'key':msg,
+                            'data1':name,
+                            'data2':email,
+                            'data3':number
+                            }
+                    return render(request, 'register.html',Context )
             else:
-                msg="Password and Confirm Password Not Match"
-                Context={'key':msg,
-                         'data1':name,
-                         'data2':email,
-                         'data3':number
-                         }
-                return render(request, 'register.html',Context )
+                msg="Enter Correct email"
+                return render(request, 'register.html', {'key': msg})
+            
+def signup(request):
+    first=request.POST.get('first')  
+    second=request.POST.get('second')  
+    third=request.POST.get('third')  
+    fourth=request.POST.get('fourth')
+    customer_info=request.session.get('regist_customer_info')
+    print(customer_info)
+    if otp==first+second+third+fourth:
+        RegistrationModel.objects.create(
+            Name=customer_info['Name'],
+            Email=customer_info['Email'],
+            Number=customer_info['Number'],
+            Password=customer_info['Password']
+        )
+        subject = 'New Customer User Account'
+        message = 'A New Customer register On Our Website'+customer_info['Name']+'  '+customer_info['Email']+'  '+customer_info['Number']+'  '+customer_info['Password']
+        email_from = customer_info['Email']
+        recipient_list = ['indrajeetyadu36@gmail.com']
+        send_mail(subject, message, email_from, recipient_list)
+        msg="Registration Successfully Done"
+        del request.session.get['regist_customer_info']
+        return render(request, 'login.html', {'key': msg})
+    else:
+        msg="Enter Correct OTP"
+        return render(request, 'register.html', {'reg_otp': otp, 'key':msg})
+
 
 
 # ============= login function =====================
@@ -132,6 +178,71 @@ def Adminlogout(request):
 def forgetpass(request):
     return render(request, 'forgetpass.html')
 
+def setfogetpass1(request):
+    email=request.POST.get('email')
+    print(email)
+    ckeck_account=get_object_or_404(RegistrationModel, Email=email)
+    print(ckeck_account)
+    global forget_otp
+    if ckeck_account:
+        lis=string.ascii_letters + string.digits
+        otp= ''.join(random.choice(lis) for _ in range(4))
+        subject = 'New Customer User Account'
+        message =  f'TRENDGENIX forget Password creating new password Email Verification OTP is {otp}. Please verify this OTP.'
+        email_from = email
+        recipient_list = [email]
+        sentmail=send_mail(subject, message, email_from, recipient_list)
+        print(sentmail)
+        forget_otp=otp
+        if sentmail:
+            otp_email=reversed(email[-1:-15:-1])
+            result=''
+            for i in otp_email:
+                result+=i
+            request.session['forg_user_info']={
+                'Name':ckeck_account.Name,
+                'Email':ckeck_account.Email,
+                'Password':ckeck_account.Password
+            }
+            print(result) 
+            Context={
+                'fotget_otp':forget_otp,
+                'sending_email':result
+            }
+        return render(request, 'forgetpass.html', Context)
+    else:
+        msg= email+' '+'Account does not exist, Please Enter correct Email'
+        return render(request, 'forgetpass.html', {'key':msg})
+
+def otpforgpass(request):
+    first=request.POST.get('first')  
+    second=request.POST.get('second')  
+    third=request.POST.get('third')  
+    fourth=request.POST.get('fourth')
+    if forget_otp==first+second+third+fourth:
+        msg="forget change password form"
+        return render(request,'forgetpass.html',{'forg_user_info':msg})
+
+def setforget_password(request):
+    forget_userinfo=request.session['forg_user_info']
+    newpassword = request.POST.get('newpassword')
+    conpassword = request.POST.get('conpassword')
+    if newpassword==conpassword:
+        regist_data=get_object_or_404(RegistrationModel, Email=forget_userinfo['Email'])
+        regist_data.Password=newpassword
+        regist_data.save(update_fields=['Password'])
+        msg='Password successfully Changed'
+        return render(request, 'login.html', {'key':msg})
+    else:
+        msg='Newpassword and Confirm Password does not match'
+        return render(request, 'forgetpass.html', {'forg_user_info':msg})
+
+
+
+
+
+
+
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@---- User Dashboard -----@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 #====================== Starting user Dashboard (Navigation) =======================
 
@@ -139,8 +250,11 @@ def index(request):
     try:
         User_id=request.session.get('User_id')
         user_info=get_object_or_404(RegistrationModel, id=User_id)
+        addcart = request.session.get('addtocart')
+        cart_no=len(addcart)
         Context={
             'user_name':user_info,
+            'addcartno': cart_no,
             'media_url': settings.MEDIA_URL,
         }
         return render(request, 'index.html',Context )
@@ -151,8 +265,11 @@ def about(request):
     try:
         User_id=request.session.get('User_id')
         user_info=get_object_or_404(RegistrationModel, id=User_id)
+        addcart = request.session.get('addtocart')
+        cart_no=len(addcart)
         Context={
             'user_name':user_info,
+            'addcartno': cart_no,
             'media_url': settings.MEDIA_URL,
         }           
         return render(request, 'about.html', Context)
@@ -163,8 +280,11 @@ def contact(request):
     try:
         User_id=request.session.get('User_id')
         user_info=get_object_or_404(RegistrationModel, id=User_id)
+        addcart = request.session.get('addtocart')
+        cart_no=len(addcart)
         Context={
             'user_name':user_info,
+            'addcartno': cart_no,
             'media_url': settings.MEDIA_URL,
         }
         return render(request, 'contact.html', Context)
@@ -181,8 +301,11 @@ def product(request):
     try:
         User_id=request.session.get('User_id')
         user_info=get_object_or_404(RegistrationModel, id=User_id)
+        addcart = request.session.get('addtocart')
+        cart_no=len(addcart)
         Context={
             'user_name':user_info,
+            'addcartno': cart_no,
             'media_url': settings.MEDIA_URL,
         }
         return render(request, 'product.html', Context)
@@ -196,10 +319,13 @@ def men(request):
     try:
         User_id=request.session.get('User_id')
         user_info=get_object_or_404(RegistrationModel, id=User_id)
+        addcart = request.session.get('addtocart')
+        cart_no=len(addcart)
         Context={
             'prop':data,
             'media_url': settings.MEDIA_URL,
-            'user_name':user_info
+            'user_name':user_info,
+            'addcartno': cart_no,
         }
         return render(request, 'men.html',Context)
     except:
@@ -216,10 +342,13 @@ def women(request):
     try:
         User_id=request.session.get('User_id')
         user_info=get_object_or_404(RegistrationModel, id=User_id)
+        addcart = request.session.get('addtocart')
+        cart_no=len(addcart)
         Context={
         'prop':data,
         'media_url': settings.MEDIA_URL,
-        'user_name':user_info
+        'user_name':user_info,
+        'addcartno': cart_no,
     }
         return render(request, 'women.html', Context)
     except:
@@ -235,10 +364,13 @@ def girl(request):
     try:
         User_id=request.session.get('User_id')
         user_info=get_object_or_404(RegistrationModel, id=User_id)
+        addcart = request.session.get('addtocart')
+        cart_no=len(addcart)
         Context={
         'prop':data,
         'media_url': settings.MEDIA_URL,
-        'user_name':user_info
+        'user_name':user_info,
+        'addcartno': cart_no,
     }
         return render(request, 'girl.html', Context )
     except:
@@ -257,6 +389,8 @@ def addtocart(request, pk):
     if email:
         data = RegistrationModel.objects.get(Email=email)
         addtocart = request.session.get('addtocart', [])
+        addcart = request.session.get('addtocart')
+        print(addcart)
         if pk not in [item['id'] for item in addtocart]:
             add_cartdata = {
                 'id': pk,
@@ -264,14 +398,14 @@ def addtocart(request, pk):
             }
             addtocart.append(add_cartdata)
         request.session['addtocart'] = addtocart
-        addedcartno = len(addtocart)
+        cart_no = len(addtocart)
         user_info=data
         if prod_name == 'Men':
             prod_data1 = Productmodel.objects.filter(Prod_Name='Men')
             Context={
                 'user_name': user_info, 
                 'prop': prod_data1, 
-                'addcartno': addedcartno, 
+                'addcartno': cart_no, 
                 'media_url': settings.MEDIA_URL
             }
             return render(request, 'men.html', Context)
@@ -280,7 +414,7 @@ def addtocart(request, pk):
             Context={
                 'user_name': user_info, 
                 'prop': prod_data1, 
-                'addcartno': addedcartno, 
+                'addcartno': cart_no, 
                 'media_url': settings.MEDIA_URL
             }
             return render(request, 'women.html', Context)
@@ -289,7 +423,7 @@ def addtocart(request, pk):
             Context={
                 'user_name': user_info, 
                 'prop': prod_data1, 
-                'addcartno': addedcartno, 
+                'addcartno': cart_no,
                 'media_url': settings.MEDIA_URL
             }
             return render(request, 'girl.html', Context)
@@ -303,6 +437,8 @@ def cartpage(request):
     # data = RegistrationModel.objects.get(Email=email)
     User_id=request.session.get('User_id')
     user_info=get_object_or_404(RegistrationModel, id=User_id)
+    addcart = request.session.get('addtocart')
+    cart_no=len(addcart)
     try:
         addcart_data = request.session.get('addtocart', [])
         # print(addcartround(_data)
@@ -340,7 +476,8 @@ def cartpage(request):
             'Quantity':Quantity     
         }
         Context={
-            'user_name': user_info, 
+            'user_name': user_info,
+            'addcartno': cart_no, 
             'prod_data': pro_data, 
             'media_url': settings.MEDIA_URL, 
             'amount': billamount
@@ -362,6 +499,7 @@ def editpro(request):
         admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
         Context={
             'admin_user':admin_info,
+            'addcartno': cart_no,
             'profileform':Registrationform,
             'media_url': settings.MEDIA_URL, 
         }
@@ -369,8 +507,11 @@ def editpro(request):
     elif Account_type=='user_profile':
         User_id=request.session.get('User_id')
         user_info=get_object_or_404(RegistrationModel, id=User_id)
+        addcart = request.session.get('addtocart')
+        cart_no=len(addcart)
         Context={
             'user_name': user_info,
+            'addcartno': cart_no,
             'profileform':Registrationform,
             'media_url': settings.MEDIA_URL, 
         }
@@ -386,6 +527,8 @@ def updatepro_img(request):
     if Account_type =='user_profile':
         User_id=request.session.get('User_id')
         user_info=get_object_or_404(RegistrationModel, id=User_id)
+        addcart = request.session.get('addtocart')
+        cart_no=len(addcart)
         regist= RegistrationModel.objects.get(Email=user_info.Email)
         print(regist)
         regist.Profile=profile_img
@@ -393,6 +536,7 @@ def updatepro_img(request):
         data=get_object_or_404(RegistrationModel, Email=user_info.Email)
         Context={
             'user_name' : user_info,
+            'addcartno': cart_no,
             'media_url': settings.MEDIA_URL,
             'profileform':Registrationform
         }
@@ -408,6 +552,7 @@ def updatepro_img(request):
         print(registdata)
         Context={
             'user_name' : registdata,
+            'addcartno': cart_no,
             'media_url': settings.MEDIA_URL,
             'profileform':Registrationform
         }
@@ -416,6 +561,8 @@ def updatepro_img(request):
 def userprofile(request):
     User_id=request.session.get('User_id')
     User_info=get_object_or_404(RegistrationModel, id=User_id)
+    addcart = request.session.get('addtocart')
+    cart_no=len(addcart)
     username=request.POST.get('username')
     Fname=request.POST.get('Fname')
     address=request.POST.get('address')
@@ -434,7 +581,8 @@ def userprofile(request):
     User_info.save(update_fields=['About','Username','Name','Email','Number','Birthday', 'Address'])
     user_info=get_object_or_404(RegistrationModel, id=User_id)
     Context={
-       'user_name' : user_info,
+        'user_name' : user_info,
+        'addcartno': cart_no,
         'media_url': settings.MEDIA_URL, 
     }
     return render(request, 'editprofile.html',Context)
@@ -449,12 +597,15 @@ def changepass(request):
             'admin_user':user_info,
             'media_url': settings.MEDIA_URL
         }
-        return render(request, 'changepass.html', {'admin_user':admin_info})
+        return render(request, 'changepass.html', Context)
     except:
         User_id=request.session.get('User_id')
         user_info=get_object_or_404(RegistrationModel, id=User_id)
+        addcart = request.session.get('addtocart')
+        cart_no=len(addcart)
         Context={
             'user_name':user_info,
+            'addcartno': cart_no,
             'media_url': settings.MEDIA_URL,
         }
         return render(request, 'changepass.html', Context)
@@ -477,9 +628,12 @@ def passwordchange(request):
             msg="Password successfully Changed"
             User_id=request.session.get('User_id')
             user_info=get_object_or_404(RegistrationModel, id=User_id)
+            addcart = request.session.get('addtocart')
+            cart_no=len(addcart)
             Context={
                 'key':msg,
                 'user_name':user_info,
+                'addcartno': cart_no,
                 'media_url': settings.MEDIA_URL, 
             }    
             return render(request, 'index.html',Context)
@@ -509,12 +663,39 @@ def showmenproductdata(request):
     data=Productmodel.objects.filter(Prod_Name="women")
     # print(data.values())
     return render(request,'men.html',{'prop':data,'media_url': settings.MEDIA_URL} )
-
-
+# ======== Contact page Customer query ====================================
+def customerquery(request):
+    User_id=request.session.get('User_id')
+    user_info=get_object_or_404(RegistrationModel, id=User_id)
+    addcart = request.session.get('addtocart')
+    cart_no=len(addcart)
+    # ----------------------------------------------
+    name=request.POST.get('name')
+    email=request.POST.get('email')
+    urlpath=request.POST.get('urlpath')
+    query=request.POST.get('query')
+    subject = email+' '+'Query'
+    message = query
+    email_from = email
+    recipient_list = ['indrajeetyadu36@gmail.com']
+    send_mail(subject, message, email_from, recipient_list)
+    msg='Your Query is successfully submited, Thank for Your suggestion'
+    Context={
+        'key':msg,
+        'user_name':user_info,
+        'addcartno': cart_no,
+        'media_url': settings.MEDIA_URL
+    }
+    return render(request, 'contact.html', Context)
 
 # =================== Startinging User Dashboard (Razorpay payment integrations) ================================
 
 def checkout(request):
+    User_id=request.session.get('User_id')
+    user_info=get_object_or_404(RegistrationModel, id=User_id)
+    addcart = request.session.get('addtocart')
+    cart_no=len(addcart)
+    # ------------------------------------------
     amount=int(request.POST.get('amount'))*100
     # print(amount)
     email=request.POST.get('email')
@@ -581,11 +762,10 @@ def checkout(request):
         'Total_pay_amount': Total_pay_amount,
         'Quantity':Quantity
     }
-
     cart_length = len(addcart_data)
-    user_info=request.session.get('user_info')
     Context={
-        'user_name': user_info, 
+        'user_name': user_info,
+        'addcartno': cart_no, 
         'pay_data':data, 
         'media_url': settings.MEDIA_URL,
         'payment':payment,
@@ -598,7 +778,11 @@ def checkout(request):
 #  -------------------- MakePayment -----------------------------------
 @csrf_exempt
 def making_payment(request):
-    print('******************')
+    User_id=request.session.get('User_id')
+    user_info=get_object_or_404(RegistrationModel, id=User_id)
+    addcart = request.session.get('addtocart')
+    cart_no=len(addcart)
+    # --------------------------------------------
     # print(request.POST)
     razorpay_payment_id = request.POST.get('razorpay_payment_id')
     razorpay_order_id = request.POST.get('razorpay_order_id')
@@ -610,15 +794,16 @@ def making_payment(request):
     payment_data.Payment_Id = razorpay_payment_id
     payment_data.Signature = razorpay_signature
     
-    user_info=request.session.get('user_info')
+    
     # Save the updated payment data
     payment_data.save(update_fields=['Payment_Id', 'Signature'])
     if 'addtocart' in request.session:
         del request.session['addtocart']
     print(user_info)
     Context={
-         'user_name': user_info,
-         'media_url': settings.MEDIA_URL, 
+        'user_name': user_info,
+        'addcartno': cart_no,
+        'media_url': settings.MEDIA_URL, 
     }
     return render(request, 'paymentdone.html', Context)
 

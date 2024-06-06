@@ -18,6 +18,7 @@ urlpatterns=[
     #============== registration form ===========
 
     path('registerdata/',registerdata, name='registerdata'),
+    path('signup/',signup, name='signup'),
 
     # ============== login =================================
 
@@ -27,10 +28,14 @@ urlpatterns=[
     path('updatepro_img/',updatepro_img, name='updatepro_img'),
     path('userprofile/', userprofile, name='userprofile'),
     path('forgetpass/',forgetpass, name='forgetpass'),
+    path('setfogetpass1/',setfogetpass1, name='setfogetpass1'),
+    path('otpforgpass/',otpforgpass, name='otpforgpass'),
     path('changepass/', changepass, name='changepass'),
     path('passwordchange/', passwordchange, name='passwordchange'),
+    path('setforget_password/', setforget_password, name='setforget_password'),
 
     # ============= userdashboard =======================
+    path('customerquery', customerquery, name='customerquery'),
     # ============= Admin Dashboard =====================
     path('Adminlogout/',Adminlogout, name='Adminlogout'),
     path('dashbordindex/',dashbordindex, name='dashbordindex'),

@@ -2,6 +2,34 @@
 
 {% block content%}
 <div id="Register_body">
+    {% if reg_otp %}
+    <div class="container height-100 d-flex justify-content-center align-items-center">
+        <div class="position-relative">
+            <div class="card p-5 text-center">
+                <h6>Please enter the one time password <br> to verify your account</h6>
+                <div> <span>A code has been sent to</span> <small>*******{{otp_sending_mail}}</small> </div>
+                <form action="{%url 'signup' %}" method="post">
+                    {% csrf_token %}
+                    <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
+                        <input class="m-2 text-center form-control rounded" style="width:60px" name="first" value=""
+                            type="text" id="first" maxlength="1" />
+                        <input class="m-2 text-center form-control rounded" style="width:60px" name="second" value=""
+                            type="text" id="second" maxlength="1" />
+                        <input class="m-2 text-center form-control rounded" style="width:60px" name="third" value=""
+                            type="text" id="third" maxlength="1" />
+                        <input class="m-2 text-center form-control rounded" style="width:60px" name="fourth" value=""
+                            type="text" id="fourth" maxlength="1" />
+                    </div>
+                    <div class="mt-4">
+                        <button class="btn btn-danger px-4">Validate</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {% else %}
+
     <div id="registration_form">
         <h2 id="form_type"> Registration Form</h2>
         <form action="{% url 'registerdata' %}" method="post">
@@ -24,21 +52,24 @@
             <div class="mb-3">
                 <label for="inputPassword5" class="form-label">Password</label>
                 <input type="password" name="password" id="inputPassword5" class="form-control"
-                    aria-describedby="passwordHelpBlock">
+                    aria-describedby="passwordHelpBlock" maxlength="8">
             </div>
             <div class="mb-3">
                 <label for="inputPassword5" class="form-label">Password</label>
                 <input type="password" name="con_password" id="inputPassword5" class="form-control"
-                    aria-describedby="passwordHelpBlock">
+                    aria-describedby="passwordHelpBlock" maxlength="8">
             </div><br />
             <div id="submit_box">
                 <input type="submit" value="Create Account" id="submit_btn" onclick="massage()">
             </div>
         </form><br />
-        <label> If you have already Account then Please 
+        <label> If you have already Account then Please
             <a href="{% url 'login' %}" id="regist_loginbtn">Login</a>
         </label>
     </div>
+
+    {% endif %}
+
 
 
     <script>

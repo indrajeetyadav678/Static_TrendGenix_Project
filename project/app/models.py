@@ -44,6 +44,8 @@ class ProductBox(models.Model):
 
     def get_heading(self):
         return self.heading
+    
+
 Product_for=[
     ('Men','Men'),
     ('Women','Women'),
@@ -52,6 +54,7 @@ Product_for=[
     
 class Productmodel(models.Model):
     Prod_Name=models.CharField(max_length=254, null=True, choices=Product_for)
+    Product_Type=models.CharField(max_length=254, null=True)
     Prod_Image1=models.ImageField(null=True)
     Prod_Image2=models.ImageField(null=True)
     Prod_Image3=models.ImageField(null=True)

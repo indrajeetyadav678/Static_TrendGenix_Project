@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 {% if user_name %}
 <section id="editprofile_pagebody">
@@ -11,15 +12,16 @@
                     <div class="card-header">Profile Picture</div>
                     <div class="card-body text-center">
                         <img class="img-account-profile rounded-circle mb-2"
-                            style="width:80px; height: 80px; border: 50%;" src="{{media_url}}{{user_name.Profile}}"
-                            alt="">
+                            style="width:80px; height: 80px; border: 50%; cursor: pointer;"
+                            src="{{media_url}}{{user_name.Profile}}" alt="" onclick="imageloading()">
                         <form action="{% url 'updatepro_img' %}" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
-                            <input type="file" name="Profile" src="" id="">
+                            <input type="file" name="Profile" src="" id="uploading_imginput"><br/>
                             <input type="text" name="accounttype" value="user_profile" hidden>
                             <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
-                            <input type="submit" class="btn btn-primary" value="Upload new image">
+                            <input type="submit" class="btn btn-primary" value="Upload new image" id="uploading_imgsubmit">
                         </form>
+                        <button onclick="imageloading()" class="btn btn-primary" id="editproimg_btn">Change Profile</button>
                     </div>
                 </div>
             </div>
@@ -47,15 +49,13 @@
                                     <label class="small mb-1" for="inputOrgName">About</label>
 
                                     <textarea class="form-control" name="about" id="inputOrgName"
-                                        style="min-height: 100px; max-height: auto;">
-                                        {{user_name.About | default:'Guest'}}
+                                        style="min-height: 100px; max-height: auto; text-align: left;">{{user_name.About | default:'Guest'}}
                                     </textarea>
                                 </div>
                                 <div class="col-md-6" id="editprofile_input">
                                     <label class="small mb-1" for="inputOrgName">Address</label>
                                     <textarea class="form-control" name="address" id="inputOrgName"
-                                        style="min-height: 100px; max-height: auto;">
-                                        {{user_name.Address | default:'Guest'}}
+                                        style="min-height: 100px; max-height: auto; text-align: left;">{{user_name.Address | default:'Guest'}}
                                     </textarea>
                                 </div>
 
@@ -73,9 +73,10 @@
                                 </div>
                                 <div class="col-md-6" id="editprofile_input">
                                     <label class="small mb-1" for="inputBirthday">Birthday</label>
-                                    <input class="form-control" id="inputBirthday" type="date" name="birthday"
+                                    <input class="form-control" id="birthday_date_input" type="date" name="birthday"
                                         placeholder="Enter your birthday"
-                                        value="{{ user_name.Birthday | default:'guest' }}" pattern="\d{4}-\d{2}-\d{2}">
+                                        value="{{ user_name.Birthday | default:'guest' }}" pattern="\d{2}-\d{2}-\d{4}">
+                                    <div id="birthday_date_box" onclick="change_DOB()">{{ user_name.Birthday | default:'guest' }}</div>
 
                                 </div>
                             </div>
@@ -92,22 +93,20 @@
     <div class="container-xl px-4 mt-4">
         <hr class="mt-0 mb-4">
         <div class="row">
-            <div class="col-xl-4">
-                <!-- Profile picture card-->
-                <div class="card mb-4 mb-xl-0" id="editprofile_image">
-                    <div class="card-header">Profile Picture</div>
-                    <div class="card-body text-center">
-                        <img class="img-account-profile rounded-circle mb-2"
-                            style="width:80px; height: 80px; border: 50%;" src="{{media_url}}{{user_name.Profile}}"
-                            alt="">
-                        <form action="{% url 'updatepro_img' %}" method="post" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <input type="file" name="Profile" src="" id="" id="editprofile_input">
-                            <input type="text" name="accounttype" value="user_profile" hidden>
-                            <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
-                            <input type="submit" class="btn btn-primary" value="Upload new image">
-                        </form>
-                    </div>
+            <div class="card mb-4 mb-xl-0" id="editprofile_image">
+                <div class="card-header">Profile Picture</div>
+                <div class="card-body text-center">
+                    <img class="img-account-profile rounded-circle mb-2"
+                        style="width:80px; height: 80px; border: 50%; cursor: pointer;"
+                        src="{{media_url}}{{user_name.Profile}}" alt="" onclick="imageloading()">
+                    <form action="{% url 'updatepro_img' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="file" name="Profile" src="" id="uploading_imginput"><br/>
+                        <input type="text" name="accounttype" value="user_profile" hidden>
+                        <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+                        <input type="submit" class="btn btn-primary" value="Upload new image" id="uploading_imgsubmit">
+                    </form>
+                    <button onclick="imageloading()" class="btn btn-primary" id="editproimg_btn">Change Profile</button>
                 </div>
             </div>
             <div class="col-xl-8">
@@ -170,4 +169,7 @@
     </div>
     {% endif %}
 </section>
+<script >
+   
+</script>
 {% endblock %}
