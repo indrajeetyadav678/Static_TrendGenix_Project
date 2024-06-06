@@ -68,20 +68,23 @@
                 </a>
             </li>
             <li id="login_user" onclick="pro_info(1)">
+                {% if user_name %}
+                <img src="{{media_url}}{{user_name.Profile}}" alt="" id="usericon_img" />
+                {% else %}
                 <img id="usericon"
                     src="https://static.vecteezy.com/system/resources/thumbnails/004/607/791/small_2x/man-face-emotive-icon-smiling-male-character-in-blue-shirt-flat-illustration-isolated-on-white-happy-human-psychological-portrait-positive-emotions-user-avatar-for-app-web-design-vector.jpg"
                     alt="" />
+                {% endif %}
             </li>
         </ul>
     </div>
 
     <div id="profile_box">
         {% if user_name.Profile %}
-        <img id="usericon" onclick="pro_info(1)" src="{{media_url}}{{user_name.Profile}}" alt="" id="prof_image" />
+        <img src="{{media_url}}{{user_name.Profile}}" alt="" id="prof_image" />
         {% else %}
-        <img id="usericon" onclick="pro_info(1)"
-            src="https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745" alt="" id="prof_image" />
-        {% endif %}<br /><br />
+        <img src="https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745" alt="" id="prof_image" />
+        {% endif %}<br />
         <form action="{% url 'editpro' %}" method="post">
             {% csrf_token %}
             <input type="text" name="accounttype" value="user_profile" id="" hidden>
@@ -97,9 +100,9 @@
         <div id="user_account_info">
             <label>{{user_name.About}}</label>
             {% if user_name.Username %}
-            <label>Name &nbsp;&nbsp;&nbsp;:&nbsp; {{user_name.Username | default:'Guest'}}</label><br />
+            <div>Name &nbsp;&nbsp;&nbsp;:&nbsp; {{user_name.Username | default:'Guest'}}</div><br />
             {% else %}
-            <label>Name &nbsp;&nbsp;&nbsp;:&nbsp; {{user_name.Name | default:'Guest'}}</label><br />
+            <label>Name &nbsp;&nbsp;&nbsp;:&nbsp; {{user_name.Name | default:'Guest'}}</label>
             {% endif %}
             <label>Email &nbsp;&nbsp; :&nbsp; {{user_name.Email | default:'abc@gmail.com'}}</label><br />
             <label>Number &nbsp;&nbsp;&nbsp;:&nbsp; {{user_name.Number | default:'1234567890'}}</label><br />
@@ -128,12 +131,13 @@
             </div>
         </div>
         <div id="Admin_deskname">ADMIN DASHBOARD</div>
-        <div id="admin_profile_Icon">
-            {% if user_name.Profile %}
-            <img id="usericon" onclick="pro_info(1)" src="{{media_url}}{{user_name.Profile}}" alt="" />
+        <div id="admin_profile_Icon" onclick="pro_info(1)">
+            {% if admin_name %}
+            <img src="{{media_url}}{{admin_name.Profile}}" alt="" id="usericon_img" />
             {% else %}
-            <img id="usericon" onclick="pro_info(1)"
-                src="https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745" alt="" />
+            <img id="usericon"
+                src="https://static.vecteezy.com/system/resources/thumbnails/004/607/791/small_2x/man-face-emotive-icon-smiling-male-character-in-blue-shirt-flat-illustration-isolated-on-white-happy-human-psychological-portrait-positive-emotions-user-avatar-for-app-web-design-vector.jpg"
+                alt="" />
             {% endif %}
         </div>
     </div>
@@ -164,7 +168,7 @@
         </form>
         <div id="user_account_info">
             {% if admin_user.Username %}
-            <label>Name &nbsp;&nbsp;&nbsp;:&nbsp; {{admin_user.Username | default:'Guest'}}</label><br />
+            <div>&nbsp;&nbsp;&nbsp;:&nbsp; {{admin_user.Username | default:'Guest'}}</div><br/>
             {% else %}
             <label>Name &nbsp;&nbsp;&nbsp;:&nbsp; {{admin_user.Name | default:'Guest'}}</label><br />
             {% endif %}
@@ -172,7 +176,7 @@
             <label>Number &nbsp;&nbsp;&nbsp;:&nbsp; {{admin_user.Number | default:'1234567890'}}</label><br />
             <label>Password : &nbsp; {{admin_user.Password | default:'Abc12345@'}}</label><br />
         </div>
-        <button id="editpro_btn"><a href="{% url 'logout'%}">Logout</a></button>
+        <button id="editpro_btn"><a href="{% url 'Adminlogout'%}">Logout</a></button>
     </div>
     {% else %}
     <div id="Navbar" class="navbar-inverse">

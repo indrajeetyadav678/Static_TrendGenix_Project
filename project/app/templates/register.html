@@ -6,7 +6,6 @@
         <h2 id="form_type"> Registration Form</h2>
         <form action="{% url 'registerdata' %}" method="post">
             {% csrf_token %}
-            <input type="image" name="profile" Value="" />
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Customer Name</label>
                 <input type="text" name="name" value="{{data1}}" class="form-control" id="exampleFormControlInput1"

@@ -211,7 +211,41 @@
     outline: none;
 }
 #usericon {
-    width: 38px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+#editprofile_pagebody{
+    width: 100%;
+    height: auto;
+    background-image: url('../image/register_background2.jpg');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    margin-top:-15px;
+    }
+
+#editprofile_image{
+    background-color:transparent;
+}
+#editprofile_image:hover{
+    box-shadow: 2px 2px 10px black;
+}
+
+#editprofile_input input{
+    background-color:transparent;
+}
+#editprofile_input input:hover{
+    background-color:white;
+}
+#editprofile_input textarea{
+    background-color:transparent;
+}
+#editprofile_input textarea:hover{
+    background-color:white;
+}
+#usericon_img{
+    width:35px;
+    height: 35px;
     border-radius: 50%;
 }
 #addtocart_like_icon_nav {

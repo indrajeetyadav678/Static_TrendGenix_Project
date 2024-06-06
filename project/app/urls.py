@@ -25,13 +25,14 @@ urlpatterns=[
     path('logout/',logout, name='logout'),
     path('editpro/',editpro, name='editpro'),
     path('updatepro_img/',updatepro_img, name='updatepro_img'),
+    path('userprofile/', userprofile, name='userprofile'),
     path('forgetpass/',forgetpass, name='forgetpass'),
     path('changepass/', changepass, name='changepass'),
     path('passwordchange/', passwordchange, name='passwordchange'),
 
     # ============= userdashboard =======================
     # ============= Admin Dashboard =====================
-
+    path('Adminlogout/',Adminlogout, name='Adminlogout'),
     path('dashbordindex/',dashbordindex, name='dashbordindex'),
     path('productdata/',productdata, name='productdata'),
     path('userdata/',userdata, name='userdata'),

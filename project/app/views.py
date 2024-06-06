@@ -73,24 +73,14 @@ def logindata(request):
     elif login_type =='customer':
         if username:
             data=RegistrationModel.objects.get(Email=email)
-            print(data)
             print("*********************************************")
             
             Password= data.Password
-            print(Password)
             if Password==password:
                 msg="Welcome To "+data.Name
-                request.session['user_info'] = {
-                    # 'Profile':data.Profile,
-                    'Username':data.Username,
-                    'About':data.About,
-                    'Name':data.Name,
-                    'Email':data.Email,
-                    'Number':data.Number,
-                    'Password':data.Password,
-                    'Login_Type': login_type 
-                }
-                user_info=request.session.get('user_info')
+                request.session['User_id'] = data.id
+                User_id=request.session.get('User_id')
+                user_info=get_object_or_404(RegistrationModel, id=User_id)
                 print('user_info-->',user_info)
                 Context={
                          'key1': msg, 
@@ -111,19 +101,17 @@ def logindata(request):
             print(data)
             Password= data.Password
             if Password==password:
-                Context={}
+                request.session['Admin_id'] = data.id 
 
-                # Context['Profile']=request.session['Profile']= data.Profile
-                Context['Username']=request.session['Username']= data.Username
-                Context['About']=request.session['About']= data.About
-                Context['Name']=request.session['Name']= data.Name
-                Context['Email']=request.session['Email']= data.Email
-                Context['Number']=request.session['Number']= data.Number
-                Context['Password']=request.session['Password']= data.Password
-                # Context['Name']=request.session['id']= data.id
-                print(data.Name)
+                Admin_id=request.session.get('Admin_id')
+                admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
                 msg="Welcome To "+data.Name
-                return render(request, 'dashboard.html', {'key1': msg, 'admin_user':data})
+                Context={
+                    'media_url': settings.MEDIA_URL,
+                    'key1': msg, 
+                    'admin_user':admin_info 
+                }
+                return render(request, 'dashboard.html',Context )
             else:
                 msg="Enter Password is Wrong Please Enter Correct Password"
                 return render(request, 'login.html', {'key1': msg})
@@ -133,7 +121,11 @@ def logindata(request):
         
 # ============================== logout ===================================
 def logout(request):
-    del request.session['user_info']
+    del request.session['User_id']
+    return render(request, 'index.html')
+
+def Adminlogout(request):
+    del request.session['Admin_id']
     return render(request, 'index.html')
 
 
@@ -145,22 +137,37 @@ def forgetpass(request):
 
 def index(request):
     try:
-        user_info=request.session.get('user_info')
-        return render(request, 'index.html', {'user_name':user_info})
+        User_id=request.session.get('User_id')
+        user_info=get_object_or_404(RegistrationModel, id=User_id)
+        Context={
+            'user_name':user_info,
+            'media_url': settings.MEDIA_URL,
+        }
+        return render(request, 'index.html',Context )
     except:
         return render(request, 'index.html')
 
 def about(request):
     try:
-        user_info=request.session.get('user_info')           
-        return render(request, 'about.html', {'user_name':user_info})
+        User_id=request.session.get('User_id')
+        user_info=get_object_or_404(RegistrationModel, id=User_id)
+        Context={
+            'user_name':user_info,
+            'media_url': settings.MEDIA_URL,
+        }           
+        return render(request, 'about.html', Context)
     except:
         return render(request, 'about.html')
 
 def contact(request):
     try:
-        user_info=request.session.get('user_info')
-        return render(request, 'contact.html', {'user_name':user_info})
+        User_id=request.session.get('User_id')
+        user_info=get_object_or_404(RegistrationModel, id=User_id)
+        Context={
+            'user_name':user_info,
+            'media_url': settings.MEDIA_URL,
+        }
+        return render(request, 'contact.html', Context)
     except:
         return render(request, 'contact.html')
 
@@ -172,8 +179,13 @@ def login(request):
 
 def product(request):
     try:
-        user_info=request.session.get('user_info')
-        return render(request, 'product.html', {'user_name':user_info})
+        User_id=request.session.get('User_id')
+        user_info=get_object_or_404(RegistrationModel, id=User_id)
+        Context={
+            'user_name':user_info,
+            'media_url': settings.MEDIA_URL,
+        }
+        return render(request, 'product.html', Context)
     except:
         return render(request, 'product.html')
 
@@ -182,7 +194,8 @@ def men(request):
     data=Productmodel.objects.filter(Prod_Name="Men")
     print(data.values()) 
     try:
-        user_info=request.session.get('user_info')
+        User_id=request.session.get('User_id')
+        user_info=get_object_or_404(RegistrationModel, id=User_id)
         Context={
             'prop':data,
             'media_url': settings.MEDIA_URL,
@@ -201,7 +214,8 @@ def women(request):
     data=Productmodel.objects.filter(Prod_Name="Men")
     print(data.values())
     try:
-        user_info=request.session.get('user_info')
+        User_id=request.session.get('User_id')
+        user_info=get_object_or_404(RegistrationModel, id=User_id)
         Context={
         'prop':data,
         'media_url': settings.MEDIA_URL,
@@ -219,7 +233,8 @@ def girl(request):
     data=Productmodel.objects.filter(Prod_Name="Girl")
     # print(data.values())
     try:
-        user_info=request.session.get('user_info')
+        User_id=request.session.get('User_id')
+        user_info=get_object_or_404(RegistrationModel, id=User_id)
         Context={
         'prop':data,
         'media_url': settings.MEDIA_URL,
@@ -253,13 +268,31 @@ def addtocart(request, pk):
         user_info=data
         if prod_name == 'Men':
             prod_data1 = Productmodel.objects.filter(Prod_Name='Men')
-            return render(request, 'men.html', {'user_name': user_info, 'prop': prod_data1, 'addcartno': addedcartno, 'media_url': settings.MEDIA_URL})
+            Context={
+                'user_name': user_info, 
+                'prop': prod_data1, 
+                'addcartno': addedcartno, 
+                'media_url': settings.MEDIA_URL
+            }
+            return render(request, 'men.html', Context)
         elif prod_name == 'Women':
             prod_data1 = Productmodel.objects.filter(Prod_Name='Women')
-            return render(request, 'women.html', {'user_name': user_info, 'prop': prod_data1, 'addcartno': addedcartno, 'media_url': settings.MEDIA_URL})
+            Context={
+                'user_name': user_info, 
+                'prop': prod_data1, 
+                'addcartno': addedcartno, 
+                'media_url': settings.MEDIA_URL
+            }
+            return render(request, 'women.html', Context)
         elif prod_name == 'Kids':
             prod_data1 = Productmodel.objects.filter(Prod_Name='Kids')
-            return render(request, 'girl.html', {'user_name': user_info, 'prop': prod_data1, 'addcartno': addedcartno, 'media_url': settings.MEDIA_URL})
+            Context={
+                'user_name': user_info, 
+                'prop': prod_data1, 
+                'addcartno': addedcartno, 
+                'media_url': settings.MEDIA_URL
+            }
+            return render(request, 'girl.html', Context)
     else:
         return redirect('login')
     
@@ -268,7 +301,8 @@ def addtocart(request, pk):
 def cartpage(request):
     # email = request.POST.get('email')
     # data = RegistrationModel.objects.get(Email=email)
-    user_info=request.session.get('user_info')
+    User_id=request.session.get('User_id')
+    user_info=get_object_or_404(RegistrationModel, id=User_id)
     try:
         addcart_data = request.session.get('addtocart', [])
         # print(addcartround(_data)
@@ -324,53 +358,39 @@ def editpro(request):
     email=request.POST.get('email')
     Account_type=request.POST.get('accounttype')
     if Account_type=='admin_profile':
-        data={}
-        data['Name']=request.session.get('Name')
-        data['Email']=request.session.get('Email')
-        data['Number']=request.session.get('Number')
-        data['Password']=request.session.get('Password')
-        # print(data)
+        Admin_id=request.session.get('Admin_id')
+        admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
         Context={
-            'admin_user':data,
-            'profileform':Registrationform
+            'admin_user':admin_info,
+            'profileform':Registrationform,
+            'media_url': settings.MEDIA_URL, 
         }
         return render(request, 'editprofile.html', Context)
     elif Account_type=='user_profile':
-        user_info=request.session.get('user_info')
+        User_id=request.session.get('User_id')
+        user_info=get_object_or_404(RegistrationModel, id=User_id)
         Context={
             'user_name': user_info,
-            'profileform':Registrationform
+            'profileform':Registrationform,
+            'media_url': settings.MEDIA_URL, 
         }
         return render(request, 'editprofile.html', Context)
     
 # -------------- image updating -------------------
 def updatepro_img(request):
-    pro_image=request.POST.get('profile')
+    profile_img=request.FILES.get('Profile')
+    print(profile_img)
+    pro_image=request.POST.get('Profile')
     Account_type=request.POST.get('accounttype')
-    print(pro_image)
+    print(Account_type)
     if Account_type =='user_profile':
-        user_info = request.session.get('user_info')
-        regist= RegistrationModel.objects.get(Email=user_info['Email'])
+        User_id=request.session.get('User_id')
+        user_info=get_object_or_404(RegistrationModel, id=User_id)
+        regist= RegistrationModel.objects.get(Email=user_info.Email)
         print(regist)
-        regist.Profile = pro_image
-        regist.About=user_info['About']
-        regist.Username=user_info['Username']
-        regist.Name=user_info['Name']
-        regist.Email=user_info['Email']
-        regist.Number=user_info['Number']
-        regist.Password=user_info['Password']
-        regist.save()
-        data=get_object_or_404(RegistrationModel, Email=user_info['Email'])
-        # request.session['user_info']={
-        #     'Profile':data.Profile,
-        #     'Username':data.Username,
-        #     'About':data.About,
-        #     'Name':data.Name,
-        #     'Email':data.Email,
-        #     'Number':data.Number,
-        #     'Password':data.Password,
-        #     'Login_Type': user_info['login_type'] 
-        # }
+        regist.Profile=profile_img
+        regist.save(update_fields=['Profile'])
+        data=get_object_or_404(RegistrationModel, Email=user_info.Email)
         Context={
             'user_name' : user_info,
             'media_url': settings.MEDIA_URL,
@@ -378,16 +398,13 @@ def updatepro_img(request):
         }
         return render(request, 'editprofile.html', Context)
     if Account_type =='admin_profile':
-        data={}
-        data['Name']=request.session.get('Name')
-        data['Email']=request.session.get('Email')
-        data['Number']=request.session.get('Number')
-        data['Password']=request.session.get('Password')
-        regist=get_object_or_404(RegistrationModel, Email=data['Email'])
+        Admin_id=request.session.get('Admin_id')
+        admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
+        regist=get_object_or_404(RegistrationModel, Email=admin_info.Email)
         print(regist)
         regist.Profile = pro_image
         regist.save(update_fields=['Profile'])
-        registdata=get_object_or_404(RegistrationModel, Email=data['Email'])
+        registdata=get_object_or_404(RegistrationModel, Email=admin_info.Email)
         print(registdata)
         Context={
             'user_name' : registdata,
@@ -396,22 +413,51 @@ def updatepro_img(request):
         }
         return render(request, 'editprofile.html',Context )
 
+def userprofile(request):
+    User_id=request.session.get('User_id')
+    User_info=get_object_or_404(RegistrationModel, id=User_id)
+    username=request.POST.get('username')
+    Fname=request.POST.get('Fname')
+    address=request.POST.get('address')
+    about=request.POST.get('about')
+    email=request.POST.get('email')
+    number=request.POST.get('number')
+    birthday=request.POST.get('birthday')
 
-
+    User_info.About=about
+    User_info.Username=username
+    User_info.Name=Fname
+    User_info.Address=address
+    User_info.Email=email
+    User_info.Number=number
+    User_info.Birthday=birthday
+    User_info.save(update_fields=['About','Username','Name','Email','Number','Birthday', 'Address'])
+    user_info=get_object_or_404(RegistrationModel, id=User_id)
+    Context={
+       'user_name' : user_info,
+        'media_url': settings.MEDIA_URL, 
+    }
+    return render(request, 'editprofile.html',Context)
 
 # --------------------------------------------
 
 def changepass(request):
     try:
-        data={}
-        data['Name']=request.session['Name']
-        data['Email']=request.session['Email']
-        data['Number']=request.session['Number']
-        data['Password']=request.session['Password']
-        return render(request, 'changepass.html', {'admin_user':data})
+        Admin_id=request.session.get('Admin_id')
+        admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
+        Context={
+            'admin_user':user_info,
+            'media_url': settings.MEDIA_URL
+        }
+        return render(request, 'changepass.html', {'admin_user':admin_info})
     except:
-        user_info=request.session.get('user_info')
-        return render(request, 'changepass.html', {'user_name':user_info})
+        User_id=request.session.get('User_id')
+        user_info=get_object_or_404(RegistrationModel, id=User_id)
+        Context={
+            'user_name':user_info,
+            'media_url': settings.MEDIA_URL,
+        }
+        return render(request, 'changepass.html', Context)
 
 
 def passwordchange(request):
@@ -429,19 +475,12 @@ def passwordchange(request):
             register.save(update_fields=['Password'])
 
             msg="Password successfully Changed"
-            data1 = get_object_or_404(RegistrationModel, Email=email)
-            request.session['user_info']={
-                # 'Profile':data1.Profile,
-                'Name':data1.Name,
-                'Email':data1.Email,
-                'Number':data1.Number,
-                'Password':data1.Password,
-                'Login_Type': login_type    
-            }
-            user_info=request.session.get('user_info')
+            User_id=request.session.get('User_id')
+            user_info=get_object_or_404(RegistrationModel, id=User_id)
             Context={
                 'key':msg,
-                'user_name':user_info
+                'user_name':user_info,
+                'media_url': settings.MEDIA_URL, 
             }    
             return render(request, 'index.html',Context)
     except:
@@ -451,15 +490,13 @@ def passwordchange(request):
             register.save(update_fields=['Password'])
             request.session['Password']=newpassword
             msg="Password successfully Changed"
-        data1 = get_object_or_404(RegistrationModel, Email=email)
-        data={}
-        data['Name']=request.session['Name']=data1.Name
-        data['Email']=request.session['Email']=data1.Email
-        data['Number']=request.session['Number']=data1.Number
-        data['Password']=request.session['Password']=data1.Password
+
+        Admin_id=request.session.get('Admin_id')
+        admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
         Context={
             'key':msg,
-            'admin_user':data
+            'admin_user':admin_info,
+             'media_url': settings.MEDIA_URL
         }
         return render(request, 'dashboard.html', Context)    
 
@@ -581,6 +618,7 @@ def making_payment(request):
     print(user_info)
     Context={
          'user_name': user_info,
+         'media_url': settings.MEDIA_URL, 
     }
     return render(request, 'paymentdone.html', Context)
 
@@ -593,49 +631,46 @@ def making_payment(request):
     #===================Starting Admin dashboard (Navigation)============================
 
 def dashbordindex(request):
-    data={}
-    data['Name']=request.session['Name']
-    data['Email']=request.session['Email']
-    data['Number']=request.session['Number']
-    data['Password']=request.session['Password']
-    return render(request, 'dashboardindex.html', {'admin_user':data}) 
+    Admin_id=request.session.get('Admin_id')
+    admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
+    Context={
+        'media_url': settings.MEDIA_URL,
+        'admin_user':admin_info
+    }
+    return render(request, 'dashboardindex.html', Context) 
 
 def productdata(request):
-    data={}
-    data['Name']=request.session['Name']
-    data['Email']=request.session['Email']
-    data['Number']=request.session['Number']
-    data['Password']=request.session['Password']
+    Admin_id=request.session.get('Admin_id')
+    admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
     Context={
-        'admin_user':data,
-        'f_content':Context,
-        'prod_form':Productmodelform
+        'admin_user':admin_info,    
+        'prod_form':Productmodelform,
+        'media_url': settings.MEDIA_URL,
     }
     
     return render(request, 'productdata.html',Context )
 
 def userdata(request):
-    data={}
-    data['Name']=request.session['Name']
-    data['Email']=request.session['Email']
-    data['Number']=request.session['Number']
-    data['Password']=request.session['Password']
-    return render(request, 'userdata.html', {'admin_user':data})
+    Admin_id=request.session.get('Admin_id')
+    admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
+    Context={
+        'media_url': settings.MEDIA_URL,
+        'admin_user':admin_info
+    }
+    return render(request, 'userdata.html', Context)
 
 def result(request):
-    data={}
-    data['Name']=request.session['Name']
-    data['Email']=request.session['Email']
-    data['Number']=request.session['Number']
-    data['Password']=request.session['Password']
-    return render(request, 'result.html', {'admin_user':data})
+    Admin_id=request.session.get('Admin_id')
+    admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
+    Context={
+        'media_url': settings.MEDIA_URL,
+        'admin_user':admin_info
+    }
+    return render(request, 'result.html', {'admin_user':admin_info})
 
 def product_entry(request):
-    data={}
-    data['Name']=request.session['Name']
-    data['Email']=request.session['Email']
-    data['Number']=request.session['Number']
-    data['Password']=request.session['Password']
+    Admin_id=request.session.get('Admin_id')
+    admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
     if request.method == "POST":
         # print(request.POST)
         # print(request.FILES)
@@ -643,7 +678,12 @@ def product_entry(request):
         serialmodel=Productmodel.objects.filter(Serial_no=serialno)
         if serialmodel:
             msg = "This data already exist "
-            return render(request, 'productform.html', {'msg': msg, 'admin_user':data})
+            Context={
+                    'media_url': settings.MEDIA_URL,
+                    'admin_user':admin_info,
+                    'msg': msg,
+                }
+            return render(request, 'productform.html', Context)
         else:
             form = Productmodelform(request.POST, request.FILES)
         # print(form)
@@ -653,39 +693,42 @@ def product_entry(request):
                 return redirect('productdata')
             else:
                 msg = "There is some error, please try again"
-                return render(request, 'productform.html', {'msg': msg, 'admin_user':data})
+                Context={
+                    'media_url': settings.MEDIA_URL,
+                    'admin_user':admin_info,
+                    'msg': msg,
+                }
+                return render(request, 'productform.html', Context)
     else:
         form = Productmodelform()
-        return render(request, 'productform.html', {'admin_user':data})
+        Context={
+        'media_url': settings.MEDIA_URL,
+        'admin_user':admin_info
+        }
+        return render(request, 'productform.html', Context)
     
 #======================= ENDing Admin dashboard (Navigation) =================================
     
 # ====================== Starting admin Dashboard (Todo task CRUD) ============================  
 def  todoform(request):
-    data={}
-    data['Name']=request.session['Name']
-    data['Email']=request.session['Email']
-    data['Number']=request.session['Number']
-    data['Password']=request.session['Password']
+    Admin_id=request.session.get('Admin_id')
+    admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
     msg="open task form"
-    return render(request, 'dashboard.html',{'admin_user':data, 'show':msg} )
+    return render(request, 'dashboard.html',{'admin_user':admin_info, 'show':msg} )
 
 def todotask(request):
     # print(request.POST)
     title = request.POST.get('title')
     task = request.POST.get('task')
     email = request.POST.get('email')
-    # password = request.POST.get('password')
-    data={}
-    data['Name']=request.session['Name']
-    data['Email']=request.session['Email']
-    data['Number']=request.session['Number']
-    data['Password']=request.session['Password']
-    data=RegistrationModel.objects.get(Email=email)
+
+    Admin_id=request.session.get('Admin_id')
+    admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
+    
     taskcheck=Todolist.objects.filter(Title=title)
     if taskcheck:
         msg="This Tutle task Already Saved"  
-        return render(request, 'dashboard.html', {'key1': msg, 'admin_user':data})   
+        return render(request, 'dashboard.html', {'key1': msg, 'admin_user':admin_info})   
     else:
         Todolist.objects.create(
             Title=title,
@@ -693,7 +736,7 @@ def todotask(request):
             Email=email
         )
         msg="Your Task is Saved"
-        return render(request, 'dashboard.html', {'key1': msg, 'admin_user':data})
+        return render(request, 'dashboard.html', {'key1': msg, 'admin_user':admin_info})
 
 
 # def search(request):
@@ -712,15 +755,11 @@ def todotask(request):
 
 
 def showdata1(request, pk):
-    # print(pk)
-    # data=RegistrationModel.objects.filter(Email=pk)
-    data={}
-    data['Name']=request.session['Name']
-    data['Email']=request.session['Email']
-    data['Number']=request.session['Number']
-    data['Password']=request.session['Password']
-    taskdata=Todolist.objects.filter(Email=data['Email'])
-    return render(request, 'dashboard.html', {'admin_user':data, 'tododate':taskdata})
+    
+    Admin_id=request.session.get('Admin_id')
+    admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
+    taskdata=Todolist.objects.filter(Email=admin_info.Email)
+    return render(request, 'dashboard.html', {'admin_user':admin_info, 'tododate':taskdata})
 
 def showdata2(request):
     email=request.POST.get('email')
@@ -770,15 +809,12 @@ def updatedata(request):
 # ========================= Starting Admin Dashboard (Product CRUD) ========================================
 
 def product_show1(request):
-    data={}
-    data['Name']=request.session['Name']
-    data['Email']=request.session['Email']
-    data['Number']=request.session['Number']
-    data['Password']=request.session['Password']
+    Admin_id=request.session.get('Admin_id')
+    admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
     pro_data1=Productmodel.objects.all()
     print(pro_data1.values())
     Context={
-        'admin_user':data, 
+        'admin_user':admin_info, 
         'prop':pro_data1, 
         'media_url': settings.MEDIA_URL
     }
