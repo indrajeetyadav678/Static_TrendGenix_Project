@@ -4,11 +4,13 @@
 <main>
     <section class="products">
         {% for i in prop %}
-        <article class="product">
+        <article class="product" id="product_container">
             <img src="{{media_url}}{{i.Prod_Image1}}" alt="Product 1" id="Product_image">
             <h2>{{i.Prod_Name | default:'Product Name'}} </h2>
-            <p class="price">₹{{i.Prod_Price | default:'40'}}</p>
-            <p class="description">{{i.Prod_Detail | default:'A short description of the product'}}</p>
+            <p class="price">₹{{i.Prod_Price | default:'40'}}/-</p>
+            <p class="description">{{i.Prod_Detail | truncatewords:15}}</p>
+            <a href="#" id="likebtn{{i.id}}" class="heart_likeproduct" onclick="likedproduct(i.id)"><i
+                    class="fa-regular fa-heart"></i></a>
             <button id="prod_model_btn">
                 <form action="{% url 'addtocart' pk=i.id %}" method="post">
                     {% csrf_token %}
@@ -21,62 +23,7 @@
         {% endfor %}
 
         
-        <article class="product">
-            <img src="https://images.meesho.com/images/products/413678092/f0war_512.webp" alt="Product 1">
-            <h2>{{prod_name | default:'NEW DRESS, Rayon'}} </h2>
-            <p class="price">₹{{prod_price | default:'4000'}}</p>
-            <p class="description">{{prod_detail | default:'A short description of the product'}}</p>
-            <button>Add to Cart</button>
-        </article>
-        <article class="product">
-            <img src="https://images.meesho.com/images/products/415176312/zfrci_512.webp" alt="Product 1">
-            <h2>{{prod_name | default:'Product Name'}} </h2>
-            <p class="price">₹{{prod_price | default:'30'}}</p>
-            <p class="description">{{prod_detail | default:'A short description of the product'}}</p>
-            <button>Add to Cart</button>
-        </article>
-        <article class="product">
-            <img src="https://images.meesho.com/images/products/302883149/vm3zz_512.webp" alt="Product 1">
-            <h2>{{prod_name | default:'Product Name'}} </h2>
-            <p class="price">₹{{prod_price | default:'40'}}</p>
-            <p class="description">{{prod_detail | default:'A short description of the product'}}</p>
-            <button>Add to Cart</button>
-        </article>
-        <article class="product">
-            <img src="https://images.meesho.com/images/products/406870169/ydbrl_512.webp" alt="Product 1">
-            <h2>{{prod_name | default:'Product Name'}} </h2>
-            <p class="price">₹{{prod_price | default:'40'}}</p>
-            <p class="description">{{prod_detail | default:'A short description of the product'}}</p>
-            <button>Add to Cart</button>
-        </article>
-        <article class="product">
-            <img src="https://images.meesho.com/images/products/299922050/lk4ks_512.webp" alt="Product 1">
-            <h2>{{prod_name | default:'Product Name'}} </h2>
-            <p class="price">₹{{prod_price | default:'40'}}</p>
-            <p class="description">{{prod_detail | default:'A short description of the product'}}</p>
-            <button>Add to Cart</button>
-        </article>
-        <article class="product">
-            <img src="https://images.meesho.com/images/products/408535555/yxbo7_512.webp" alt="Product 1">
-            <h2>{{prod_name | default:'Product Name'}} </h2>
-            <p class="price">₹{{prod_price | default:'40'}}</p>
-            <p class="description">{{prod_detail | default:'A short description of the product'}}</p>
-            <button>Add to Cart</button>
-        </article>
-        <article class="product">
-            <img src="https://assets.ajio.com/medias/sys_master/root/20230531/lj9n/647748b1d55b7d0c632b7d51/-1117Wx1400H-443013351-blue-MODEL.jpg" alt="Product 1">
-            <h2>{{prod_name | default:'Product Name'}} </h2>
-            <p class="price">₹{{prod_price | default:'40'}}</p>
-            <p class="description">{{prod_detail | default:'A short description of the product'}}</p>
-            <button>Add to Cart</button>
-        </article>
-        <article class="product">
-            <img src="https://assets.ajio.com/medias/sys_master/root/20230828/78fW/64ecc13bafa4cf41f590ff59/-473Wx593H-442109915-blue-MODEL.jpg" alt="Product 1">
-            <h2>{{prod_name | default:'Product Name'}} </h2>
-            <p class="price">₹{{prod_price | default:'40'}}</p>
-            <p class="description">{{prod_detail | default:'A short description of the product'}}</p>
-            <button>Add to Cart</button>
-        </article>
+        
     </section>
 </main>
 

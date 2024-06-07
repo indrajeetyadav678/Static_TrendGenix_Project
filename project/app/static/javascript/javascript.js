@@ -69,3 +69,8 @@ function change_DOB(){
 	document.getElementById('birthday_date_input').style.display='block'
 	document.getElementById('birthday_date_box').style.display='none'
 }
+
+function likedproduct(pk){
+	productid='likebtn'+pk
+	document.getElementById('likebtn'+pk).style.color='red';
+}

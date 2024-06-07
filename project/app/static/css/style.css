@@ -815,15 +815,30 @@ input[type=number]::-webkit-outer-spin-button {
 #cont_text {
     width: 350px;
     height: 35px;
+    font-weight: 300;
     background-color: transparent;
     padding-left: 15px;
+    letter-spacing: 1px;
     border: 1px solid rgb(95, 88, 88);
+    color: aliceblue;
 }
+#cont_text:hover{
+    background-color: aliceblue;
+    color: #0d0d0d;
+}
+
 #cont_textarea {
     width: 350px;
     height: 100px;
+    font-weight: 300;
+    letter-spacing: 1px;
     background-color: transparent;
     padding-left: 15px;
+    color: aliceblue;
+}
+#cont_textarea:hover{
+    background-color: aliceblue;
+    color: #0d0d0d;
 }
 #cont_submit_btn {
     width: 350px;

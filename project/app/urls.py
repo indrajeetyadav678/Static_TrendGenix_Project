@@ -57,6 +57,9 @@ urlpatterns=[
 
     path('product_show1/',product_show1, name='product_show1'),
     path('addtocart/<int:pk>',addtocart, name='addtocart'),
+    path('decrement/',decrement, name='decrement'),
+    path('increment/',increment, name='increment'),
+    path('removeadd_cart/<int:pk>/',removeadd_cart, name='removeadd_cart'),
     path('cartpage/', cartpage, name='cartpage'),
     # path('update_cart_quantity/<int:pk>/<str:action>/', update_cart_quantity, name='update_cart_quantity'),
 

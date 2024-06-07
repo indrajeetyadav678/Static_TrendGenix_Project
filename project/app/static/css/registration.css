@@ -60,6 +60,22 @@ main {
     object-fit: fill;
 }
 
+.heart_likeproduct{
+    font-size: 20px;
+    position: absolute;
+    top:20px;
+    right:10px;
+}
+#product_container{
+    position: relative;
+}
+
+/* ----------------- 2 ------------------------ */
+
+.like {
+    font-size: 1.5rem;
+  }
+
 
 
 @media (max-width: 768px) {
@@ -283,6 +299,7 @@ margin-top: 15px;
     width: 120px;
     height: 35px;
     background-color: rgb(43, 43, 109);
+    color: whitesmoke;
 }
 #addcartprod_detail{
     width:25%;

@@ -429,8 +429,213 @@ def addtocart(request, pk):
             return render(request, 'girl.html', Context)
     else:
         return redirect('login')
+# --------------------------------------------------------------------
+def increment(request):
+    User_id = request.session.get('User_id')
+    user_info = get_object_or_404(RegistrationModel, id=User_id)
+    addcart = request.session.get('addtocart', [])
+    print(addcart)
+    cart_no = len(addcart)
+    prod_id = int(request.POST.get('incr'))
+    total_MRP = 0
+    total_amount = 0
+    tax = 0
+    shippingcharge = 40
+    Quantity = 0
+    pro_data = []
+
+    for item in addcart:
+        print('==============================')
+        print(prod_id)
+        print(type(prod_id))
+        print(item['id'])
+        print(type(item['id']))
+        if prod_id == item['id']:
+            print('==============================')
+            pquantity=item['Quantity']
+            # print(type(pquantity))
+            pquantity=pquantity+1
+            item['Quantity']=pquantity
+            # print(item['Quantity'])
+            print('==============================')
+
+            break  
+    request.session['addtocart'] = addcart
+    addcart = request.session.get('addtocart', [])
+    cart_no = len(addcart)
+    for item in addcart:
+        pro_value = Productmodel.objects.get(id=item['id'])
+        print(item['Quantity'])
+        pro_quantitydata = {
+            'pro_value': pro_value,
+            'Quantity': item['Quantity']
+        }
+        pro_data.append(pro_quantitydata)
+        
+        total_amount += pro_value.Prod_Price * item['Quantity']
+        total_MRP += pro_value.Prod_MRP * item['Quantity']
+        Quantity += item['Quantity']
+
+    tax = int(round((total_amount * 12) / 100, 0))
     
-#  =---------------------- ENDing Cart add Button -----------------------------------------------
+    discount = total_MRP - total_amount
+    Total_pay_amount = total_amount + shippingcharge + tax
+
+    billamount = {
+        'total_amount': total_amount,
+        'total_MRP': total_MRP,
+        'discount': discount,
+        'tax': tax,
+        'shippingcharge': shippingcharge,
+        'Total_pay_amount': Total_pay_amount,
+        'Quantity': Quantity
+    }
+    Context = {
+        'user_name': user_info,
+        'addcartno': cart_no,
+        'prod_data': pro_data,
+        'media_url': settings.MEDIA_URL,
+        'amount': billamount
+    }
+    return render(request, 'addtocart.html', Context)
+
+def decrement(request):
+    User_id = request.session.get('User_id')
+    user_info = get_object_or_404(RegistrationModel, id=User_id)
+    addcart = request.session.get('addtocart', [])
+    print(addcart)
+    cart_no = len(addcart)
+    prod_id = int(request.POST.get('decr'))
+    total_MRP = 0
+    total_amount = 0
+    tax = 0
+    shippingcharge = 40
+    Quantity = 0
+    pro_data = []
+
+    for item in addcart:
+        print('==============================')
+        print(prod_id)
+        print(type(prod_id))
+        print(item['id'])
+        print(type(item['id']))
+        if prod_id == item['id']:
+            # print('==============================')
+            pquantity=item['Quantity']
+            # print(type(pquantity))
+            if pquantity>1:
+                pquantity=pquantity-1
+            item['Quantity']=pquantity
+            # print(item['Quantity'])
+            # print('==============================')
+            break
+
+    request.session['addtocart'] = addcart
+    addcart = request.session.get('addtocart', [])
+    cart_no = len(addcart)
+    for item in addcart:
+        pro_value = Productmodel.objects.get(id=item['id'])
+        print(item['Quantity'])
+        pro_quantitydata = {
+            'pro_value': pro_value,
+            'Quantity': item['Quantity']
+        }
+        pro_data.append(pro_quantitydata)
+        
+        total_amount += pro_value.Prod_Price * item['Quantity']
+        total_MRP += pro_value.Prod_MRP * item['Quantity']
+        Quantity += item['Quantity']
+
+    tax = int(round((total_amount * 12) / 100, 0))
+    
+    discount = total_MRP - total_amount
+    Total_pay_amount = total_amount + shippingcharge + tax
+
+    billamount = {
+        'total_amount': total_amount,
+        'total_MRP': total_MRP,
+        'discount': discount,
+        'tax': tax,
+        'shippingcharge': shippingcharge,
+        'Total_pay_amount': Total_pay_amount,
+        'Quantity': Quantity
+    }
+    Context = {
+        'user_name': user_info,
+        'addcartno': cart_no,
+        'prod_data': pro_data,
+        'media_url': settings.MEDIA_URL,
+        'amount': billamount
+    }
+    return render(request, 'addtocart.html', Context)
+
+
+def removeadd_cart(request, pk):
+    User_id = request.session.get('User_id')
+    user_info = get_object_or_404(RegistrationModel, id=User_id)
+    addcart = request.session.get('addtocart', [])
+    print(addcart)
+    total_MRP = 0
+    total_amount = 0
+    tax = 0
+    shippingcharge = 40
+    Quantity = 0
+    pro_data = []
+
+    for i in range(len(addcart)):
+        print('==============================')
+        print(pk)
+        print(type(pk))
+        print(addcart[i]['id'])
+        print(type(addcart[i]['id']))
+        if pk == addcart[i]['id']:
+            # print('==============================')
+            del addcart[i]
+            # print('==============================')
+            break
+
+    request.session['addtocart'] = addcart
+    addcart = request.session.get('addtocart', [])
+    cart_no = len(addcart)
+    for item in addcart:
+        pro_value = Productmodel.objects.get(id=item['id'])
+        print(item['Quantity'])
+        pro_quantitydata = {
+            'pro_value': pro_value,
+            'Quantity': item['Quantity']
+        }
+        pro_data.append(pro_quantitydata)
+        
+        total_amount += pro_value.Prod_Price * item['Quantity']
+        total_MRP += pro_value.Prod_MRP * item['Quantity']
+        Quantity += item['Quantity']
+
+    tax = int(round((total_amount * 12) / 100, 0))
+    
+    discount = total_MRP - total_amount
+    Total_pay_amount = total_amount + shippingcharge + tax
+
+    billamount = {
+        'total_amount': total_amount,
+        'total_MRP': total_MRP,
+        'discount': discount,
+        'tax': tax,
+        'shippingcharge': shippingcharge,
+        'Total_pay_amount': Total_pay_amount,
+        'Quantity': Quantity
+    }
+    Context = {
+        'user_name': user_info,
+        'addcartno': cart_no,
+        'prod_data': pro_data,
+        'media_url': settings.MEDIA_URL,
+        'amount': billamount
+    }
+    return render(request, 'addtocart.html', Context)
+
+
+    
+# ---------------------- ENDing Cart add Button -----------------------------------------------
 
 def cartpage(request):
     # email = request.POST.get('email')
