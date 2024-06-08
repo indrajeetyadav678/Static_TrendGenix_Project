@@ -7,7 +7,7 @@
         {% for i in prop %}
         <article class="product" id="product_container">
             <img src="{{media_url}}{{i.Prod_Image1}}" alt="Product 1" id="Product_image">
-            <h2>{{i.Prod_Name | default:'Product Name'}} </h2>
+            <h2>{{i.Product_Type | default:'Product Name'}} </h2>
             <p class="price">₹{{i.Prod_Price | default:'40'}}/-</p>
             <p class="description">{{i.Prod_Detail | truncatewords:15}}</p>
             <a href="#" id="likebtn{{i.id}}" class="heart_likeproduct" onclick="likedproduct(i.id)"><i
@@ -58,8 +58,8 @@
     </section>
     <script>
         function likedproduct(pk) {
-            productid = 'likebtn' + pk
-            document.getElementById('likebtn' + pk).style.color = 'red';
+            productid = 'likebtn' + str(pk)
+            document.getElementById(productid).style.color = 'red';
         }
     </script>
 </main>

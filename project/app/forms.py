@@ -21,3 +21,8 @@ class Registrationform(forms.ModelForm):
     class Meta:
         model=RegistrationModel
         fields=['Profile']
+
+class RegistrationDataform(forms.ModelForm):
+    class Meta:
+        model=RegistrationModel
+        fields='__all__'

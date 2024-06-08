@@ -154,11 +154,11 @@
     border-radius: 10px;
     padding: 10px 2px;
     padding-bottom: 15px;
-    position: absolute;
-    right: 10px;
+    position: fixed;
+    right: 20px;
     top: 60px;
     display: none;
-    background-color: rgb(33, 38, 64);
+    background-color: rgb(29, 35, 65);
     z-index: 110;
 }
 #profile_box::before {
@@ -166,7 +166,7 @@
     width: 20px;
     height: 20px;
     display: block;
-    background-color: rgb(11, 16, 45);
+    background-color: rgb(29, 35, 65);
     /* border: 1px solid black; */
     transform: rotate(40deg);
     position: absolute;
@@ -225,6 +225,7 @@
     background-size: 100% 100%;
     background-repeat: no-repeat;
     margin-top:-15px;
+    padding: 50px 2px;
     }
 
 #editprofile_image{

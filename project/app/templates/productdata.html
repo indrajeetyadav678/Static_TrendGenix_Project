@@ -2,28 +2,38 @@
 
 {% block content%}
 <div id="product_body">
-
+    {% if Addnewproduct %}
     <div id="Product_form">
         <form action="{% url 'product_entry' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            {{f_content.prod_form}}
+            {{Productdataform}}
             <input type="submit" value="submit" id="prod_submit_btn">
         </form>
     </div><br><br>
     <br>
-    <div id="todotask_btn_container">
-        <div id="showdata_btn">
+    {% elif editdata %}
+    <div id="Product_form">
+        <form action="{% url 'product_entry' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{Productdataform}}
+            
+            <input type="submit" value="submit" id="prod_submit_btn">
+        </form>
+    </div>
+    {% else %}
+    <div id="Product_data_container">
+        <div>
             <form action="{% url 'product_show1' %}" method="post">
                 {% csrf_token %}
                 <input type="email" name="email" value="{{admin_user.Email}}" id="emailfield" hidden />
-                <input type="submit" value="Show Data" id="submitbtn" />
+                <input type="submit" value="Show Data" id="prod_data_submitbtn" />
             </form>
         </div>
-        <div id="showdata_btn">
-            <form action="{% url 'todoform' %}" method="post">
+        <div>
+            <form action="{% url 'addproductdata' %}" method="post">
                 {% csrf_token %}
                 <input type="email" name="email" value="{{admin_user.Email}}" id="emailfield" hidden />
-                <input type="submit" value="Add Task" id="submitbtn" />
+                <input type="submit" value="Add Task" id="prod_data_submitbtn" />
             </form>
         </div>
     </div>
@@ -32,6 +42,7 @@
             <thead id="prod_data_heading">
                 <tr>
                     <th>Name</th>
+                    <th>Product_Type</th>
                     <th>Image1</th>
                     <th>Image2</th>
                     <th>Image3</th>
@@ -41,27 +52,35 @@
                     <th>Offer</th>
                     <th>Details</th>
                     <th>Seial No.</th>
-                    <th>edit</th>
-                    <th>delete</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody id="prod_data_body">
+                {% for i in prop %}
                 {% if product_data %}
                 <tr id="prod_data_upadating form">
                     <td>
                         <input type="text" value="{{product_data.Prod_Name}}" name="name" id="">
                     </td>
                     <td>
-                        <input type="image" src="{{product_data.Prod_Name}}" name="Prod_Image1" value="" alt="" disabled>
+                        <input type="text" value="{{product_data.Prod_Name}}" name="name" id="">
                     </td>
                     <td>
-                        <input type="image" src="{{product_data.Prod_Image1}}" name="Prod_Image2" value="" alt="" disabled>
+                        <input type="image" src="{{product_data.Prod_Name}}" name="Prod_Image1" value="" alt=""
+                            disabled>
                     </td>
                     <td>
-                        <input type="image" src="{{product_data.Prod_Image2}}" name="Prod_Image3" value="" alt="" disabled>
+                        <input type="image" src="{{product_data.Prod_Image1}}" name="Prod_Image2" value="" alt=""
+                            disabled>
                     </td>
                     <td>
-                        <input type="image" src="{{product_data.Prod_Image4}}" name="Prod_Image4" value="" alt="" disabled>
+                        <input type="image" src="{{product_data.Prod_Image2}}" name="Prod_Image3" value="" alt=""
+                            disabled>
+                    </td>
+                    <td>
+                        <input type="image" src="{{product_data.Prod_Image4}}" name="Prod_Image4" value="" alt=""
+                            disabled>
                     </td>
                     <td><input type="number" value="{{product_data.Prod_Price}}" name="prod_price" id=""></td>
                     <td><input type="number" value="{{product_data.Prod_MRP}}" name="prod_mrp" id=""></td>
@@ -69,43 +88,49 @@
                     <td><textarea name="prod_detail" id="">{{product_data.Prod_Detail}}</textarea></td>
                     <td><input type="tel" value="" value="{{product_data.Serial_no}}" name="serialno" id=""></td>
                     <td>
-                        <button id="prod_editbtn"><a href="#">Edit</a></button>
+                        <a id="prod_editbtn" href="{% url 'editproductdata' pk=i.id %}"><i class="fa-solid fa-pen-to-square"></i></a>
                     </td>
-                    <td><button><a href="#">Delete</a></button></td>
+                    <td>
+                        <a id="prod_deletbtn" href="{% url 'deletproductdata' pk=i.id %}"><i class="fa-solid fa-trash"></i></a>
+                    </td>
                 </tr>
                 {% else %}
-                {% for i in prop %}
+
                 <tr id="Prod_data_list">
                     <td>
-                        <input type="text" value="{{i.Prod_Name}}" name="name" id="">
+                        {{i.Prod_Name}}
                     </td>
-                    <td>
+                    <td>{{i.Product_Type}}</td>
+                    <td style="width:100px; height: 100px;">
                         <img src="{{media_url}}{{i.Prod_Image1}}" alt="">
                     </td>
-                    <td>
+                    <td style="width:100px; height: 100px;">
                         <img src="{{media_url}}{{i.Prod_Image2}}" alt="">
                     </td>
-                    <td>
+                    <td style="width:100px; height: 100px;">
                         <img src="{{media_url}}{{i.Prod_Image3}}" alt="">
                     </td>
-                    <td>
+                    <td style="width:100px; height: 100px;">
                         <img src="{{media_url}}{{i.Prod_Image4}}" alt="">
                     </td>
-                    <td><input type="number" value="{{i.Prod_Price}}" name="prod_price" id="" disabled></td>
-                    <td><input type="number" value="{{i.Prod_MRP}}" name="prod_mrp" id="" disabled></td>
-                    <td><input type="text" value="{{i.Prod_Offer}}" name="prod_offer" id="" disabled></td>
+                    <td>₹{{i.Prod_Price}}/-</td>
+                    <td>₹{{i.Prod_MRP}}/-</td>
+                    <td>{{i.Prod_Offer}}</td>
                     <td>{{i.Prod_Detail}}</td>
-                    <td><input type="tel" value="{{i.Serial_no}}" name="serialno" id="" disabled></td>
+                    <td>{{i.Serial_no}}</td>
                     <td>
-                        <button id="prod_editbtn"><a href="#">Edit</a></button>
+                        <a id="prod_editbtn" href="{% url 'editproductdata' pk=i.id %}"><i class="fa-solid fa-pen-to-square"></i></a>
                     </td>
-                    <td><button><a href="#">Delete</a></button></td>
+                    <td>
+                        <a href="{% url 'deletproductdata' pk=i.id %}"><i class="fa-solid fa-trash"></i></a>
+                    </td>
                 </tr>
-                {% endfor %}
                 {% endif %}
+                {% endfor %}
             </tbody>
         </table>
     </div>
+    {% endif %}
 
 </div>
 

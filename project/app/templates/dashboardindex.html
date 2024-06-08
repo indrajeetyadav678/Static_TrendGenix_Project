@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content%}
 <div id="admin-container1">
     <div id="admin-container1-div1">
@@ -25,55 +25,107 @@
         <div id="ad-div4"></div>
     </div>
 </div>
-<div id="registration_data">
-    <table>
-        <thead id="register_data_heading">
-            <tr>
-                <th>Photo</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Contact</th>
-                <th>Password</th>
-                <th>edit/update</th>
-                <th>delete</th>
-            </tr>
-        </thead>
-        <tbody id="register_data_body">
-            {% if admin_user %}
-            <tr>
-                <td>
-                    <input type="image" src="" value="" alt="" disabled>
-                </td>
-                <td>
-                    <input type="text" value="" name="name" id="">
-                </td>
-                <td><input type="email" value="" name="email" id=""></td>
-                <td><input type="tel" value="" name="number" id=""></td>
-                <td><input type="password" value="" name="password" id=""></td>
-                <td>
-                    <button id="register_editbtn"><a href="#">Edit</a></button>
-                </td>
-                <td><button><a href="#">Delete</a></button></td>
-            </tr>
-            {% else %}
-            <tr>
-                <td>
-                    <img src="" alt="">
-                </td>
-                <td>
-                    <input type="text" name="name" value="" id="" disabled>
-                </td>
-                <td><input type="email" name="email" value="" id=""disabled ></td>
-                <td><input type="tel" name="number" value="" id="" disabled></td>
-                <td><input type="password" name="password" value="" id="" disabled></td>
-                <td>
-                    <button id="register_editbtn"><a href="#">Edit</a></button>
-                </td>
-                <td><button id="delete_editbtn"><a href="#">Delete</a></button></td>
-            </tr>
-            {% endif %}
-        </tbody>
-    </table>
+
+{% if editdata %}
+<div id="registration_Dataform_wrapper">
+    <div id="registration_Dataform">
+        <form action="{% url 'updateeditregistdata' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div style="text-align: center; font-size: 22px; font-weight: 900; margin-bottom: 10px;">Update Form</div>
+            <div id="editregist_input">
+                <label c for="inputBirthday">Profile</label><br />
+                <input type="file" name="profile"  src="">
+            </div>
+            <div id="editregist_input">
+                <label c for="inputBirthday">Name</label><br />
+                <input type="text" name="name" value="{{editdata.Name | default:'edit'}}" id="">
+            </div>
+            <div id="editregist_input">
+                <label c for="inputBirthday">Username</label><br />
+                <input type="text" name="username" value="{{editdata.Username | default:'edit'}}" id="">
+            </div>
+            <div id="editregist_input">
+                <label c for="inputBirthday">Email</label><br />
+                <input type="email" name="email" value="{{editdata.Email | default:'edit'}}" id="">
+            </div>
+            <div id="editregist_input">
+                <label for="inputBirthday">Number</label><br />
+                <input type="tel" name="number" value="{{editdata.Number | default:'edit'}}" id="">
+            </div>
+            <div id="editregist_input">
+                <label for="inputBirthday">Address</label><br />
+                <textarea name="address" id="">{{editdata.Address | default:'edit'}}</textarea>
+            </div>
+            <div id="editregist_input">
+                <label for="inputBirthday">About</label><br />
+                <textarea name="about" id="">{{editdata.About | default:'edit'}}</textarea>
+            </div>
+            <div id="editregist_input">
+                <label  for="inputBirthday">Birthday</label>
+                <input  id="birthday_date_input" type="date" name="birthday"
+                     value="{{editdata.Birthday }}">
+                <div id="birthday_date_box" onclick="change_DOB()">{{ editdata.Birthday | default:'guest' }}</div>
+            </div>
+            <div id="editregist_input">
+                <label c for="inputBirthday">Password</label><br />
+                <input type="password" name="password" value="{{editdata.Password | default:'edit'}}" id="">
+            </div>
+            <input type="submit" id="editregist_submitbtn" value="Update Data">
+        </form>
+
+    </div>
 </div>
 
+
+
+{% else %}
+<div id="registration_data">
+    <div id="userdatatable_slider">
+        <table>
+            <thead id="register_data_heading">
+                <tr>
+                    <th>Profile</th>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>About</th>
+                    <th>Address</th>
+                    <th>Contact</th>
+                    <th>Birthday</th>
+                    <th>Password</th>
+                    <th>edit/update</th>
+                    <th>delete</th>
+                </tr>
+            </thead>
+            <tbody id="register_data_body">
+                {% for i in customer %}
+                <tr>
+                    <td><img style="width:45px; height: 45px; border-radius: 50%;" src="{{media_url}}{{i.Profile}}"
+                            alt=""></td>
+                    <td style="width:100px;">{{i.Name}}</td>
+                    <td style="width:150px;">{{i.Username}}</td>
+                    <td style="width:150px;">{{i.Email}}</td>
+                    <td style="width:200px;">{{i.About}}</td>
+                    <td style="width:200px;">{{i.Address}}</td>
+                    <td style="width:150px;">{{i.Number}}</td>
+                    <td style="width:150px;">{{i.Birthday}}</td>
+                    <td style="width:150px;">{{i.Password}}</td>
+                    <td style="width:120px;">
+                        <button id="register_editbtn">
+                            <a href="{% url 'editregistdata' pk=i.id %}">Edit</a>
+                        </button>
+                    </td>
+                    <td style="width:80px;">
+                        <button id="delete_editbtn">
+                            <a href="{% url 'deletregistdata' pk=i.id %}">Delete</a>
+                        </button>
+                    </td>
+                    {% endfor %}
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
 {% endblock %}

@@ -173,13 +173,18 @@ main {
 #registration_data {
     width: 100%;
     height: auto;
-    padding: 60px 15px;
+    padding: 0px 15px 60px 15px;
     overflow: hidden;
+}
+#registration_data table{
+    width: 100%;
+    height: auto;
+    /* overflow: hidden; */
 }
 
 #register_data_heading tr th {
     border: 1px solid black;
-    width: 16%;
+    width: auto;
     height: 30px;
     text-align: center;
     background-color: black;
@@ -189,17 +194,17 @@ main {
 
 #register_data_body tr td {
     border: 1px solid black;
-    width: 16%;
+    width: auto;
     height: auto;
     text-align: center;
     padding: 15px 2px;
     background-color: aquamarine    ;
 }
-#register_data_body tr td input{
+/* #register_data_body tr td input{
     border: none;
     outline: none;
     background-color: transparent;
-}
+} */
 #register_editbtn, #delete_editbtn{
    border:none;
    outline: none;
@@ -251,13 +256,7 @@ margin-top: 15px;
     outline: none;
     text-align: center;
 }
-#prod_data_heading tr th{
-    /* width:auto; */
-    height: 100px;
-    border: 1px solid black;
-    padding: 3px 4px;
-    text-align: center;
-}
+
 
 
 /* ================= ADD TO CART page ======================== */
@@ -485,4 +484,81 @@ body{margin-top:20px;
         padding-right: 0;
         margin-left: 1rem;
         margin-right: 1rem;
+    }
+
+
+
+    /* ============= AdminDashBoard (Registration CRUD )============ */
+    #registration_Dataform_wrapper{
+        background-image: yellow;
+    }
+    #registration_Dataform{
+        padding: 20px 30px;
+        width:400px;
+        height: auto;
+        margin: 60px auto;
+        border: 2px solid black;
+        /* text-align: center; */
+    }
+    #editregist_input{
+        width: 100%;
+        height: 80px;
+    }
+    #editregist_input input{
+        width: 100%;
+        height: 35px;
+        padding-left: 15px;
+    }
+    #editregist_input textarea{
+        width: 100%;
+        /* height: 35px; */
+        padding-left: 15px;
+    }
+    #editregist_submitbtn{
+        padding: 7px 20px;
+        border-radius: 10px;
+        background-color: #0c2142;
+        color: white;
+        margin-left: 35%;
+    }
+    
+
+    /* ================ Product CRUD ====================== */
+
+    #Product_data_container{
+        width:100%;
+        height: 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 20px;
+        /* border:1px solid black; */
+    }
+
+    #prod_data_heading tr th{
+        /* width:auto; */
+        height: 100px;
+        border: 1px solid black;
+        padding: 3px 4px;
+        text-align: center;
+        background-color: #555;
+        color:white ;
+        letter-spacing: 1px;
+    }
+
+    #prod_data_body tr td{
+        background-color: aquamarine;
+    }
+    #prod_editbtn{
+        font-size: 25px;
+    }
+    #prod_deletbtn{
+        font-size: 35px;
+    }
+
+    #prod_data_submitbtn{
+        background-color: #0d2344;
+        color: #f1f3f7;
+        padding: 5px 20px;
+
     }

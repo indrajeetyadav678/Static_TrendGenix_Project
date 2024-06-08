@@ -34,8 +34,35 @@ urlpatterns=[
     path('passwordchange/', passwordchange, name='passwordchange'),
     path('setforget_password/', setforget_password, name='setforget_password'),
 
-    # ============= userdashboard =======================
+    # ============= add To Cart Page ======================================
+    path('addtocart/<int:pk>',addtocart, name='addtocart'),
+    path('decrement/',decrement, name='decrement'),
+    path('increment/',increment, name='increment'),
+    path('removeadd_cart/<int:pk>/',removeadd_cart, name='removeadd_cart'),
+    path('cartpage/', cartpage, name='cartpage'),
+
+    # ===================== Payment Checkout Url ==============================
+    path('checkout/', checkout, name='checkout'),
+    path('making_payment/', making_payment, name='making_payment'),
+    path('buyproduct/', buyproduct, name='buyproduct'),
+    path('buyproduct_payment/', buyproduct_payment, name='buyproduct_payment'),
+
+
+    # ============= userdashboard =========================================
     path('customerquery', customerquery, name='customerquery'),
+
+
+
+
+
+
+
+
+
+
+
+
+
     # ============= Admin Dashboard =====================
     path('Adminlogout/',Adminlogout, name='Adminlogout'),
     path('dashbordindex/',dashbordindex, name='dashbordindex'),
@@ -56,16 +83,24 @@ urlpatterns=[
     # ========== product data save Show ============
 
     path('product_show1/',product_show1, name='product_show1'),
-    path('addtocart/<int:pk>',addtocart, name='addtocart'),
-    path('decrement/',decrement, name='decrement'),
-    path('increment/',increment, name='increment'),
-    path('removeadd_cart/<int:pk>/',removeadd_cart, name='removeadd_cart'),
-    path('cartpage/', cartpage, name='cartpage'),
+
+    # =============== Registration data CRUD ===================
+    path('editregistdata/<int:pk>/',editregistdata, name='editregistdata'),
+    path('deletregistdata/<int:pk>/',deletregistdata, name='deletregistdata'),
+    path('updateeditregistdata/',updateeditregistdata, name='updateeditregistdata'),
+
+    # =============== Product data CRUD ===============================================
+    path('editproductdata/<int:pk>/',editproductdata, name='editproductdata'),
+    path('deletproductdata/<int:pk>/',deletproductdata, name='deletproductdata'),
+    path('updateditproductdata/',updateditproductdata, name='updateditproductdata'),
+    path('addproductdata/',addproductdata, name='addproductdata'),
+
+
+
+
     # path('update_cart_quantity/<int:pk>/<str:action>/', update_cart_quantity, name='update_cart_quantity'),
 
-    # ===================== Payment Checkout Url ==============================
-    path('checkout/', checkout, name='checkout'),
-    path('making_payment/', making_payment, name='making_payment'),
+    
 
 
 

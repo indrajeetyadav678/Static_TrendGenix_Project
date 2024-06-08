@@ -35,12 +35,21 @@
                     {{i.pro_value.Prod_Detail}}
                 </div>
                 <div id="paymentbuy_btn">
-                    <form action="{% url 'checkout'%}" method="post">
+                    {% if buyproduct %}
+                    <form id="payment-form" action="{% url 'buyproduct_payment' %}" method="post">
+                        {% csrf_token %}
+                        <input type="number" name="pid" value="{{i.pro_value.id}}" hidden>
+                        <button type="submit" id="rzp-button1">Pay with Razorpay</button>
+                    </form>
+                    {% else %}
+                    <form action="{% url 'buyproduct'%}" method="post">
                         {% csrf_token %}
                         <input type="email" name="email" value="{{user_name.Email}}" id="" hidden>
-                        <input type="number" name="amount" value="{{amount.Total_pay_amount}}" hidden>
+                        <input type="number" name="amount" value="{{i.pro_value.Prod_Price}}" hidden>
+                        <input type="number" name="pid" value="{{i.pro_value.id}}" hidden>
                         <input type="submit" value="Buy" id="Buy_btn">
                     </form>
+                    {% endif %}  
                 </div>
             </div>
             <div id="addcart_deletebtn">
@@ -93,8 +102,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        {% if payment %}
-                                        {{user_name.Email}}
+                                        {% if makepay %}
                                         <form id="payment-form" action="{% url 'making_payment' %}" method="post">
                                             {% csrf_token %}
                                             <input type="email" name="email" value="{{ user_name.Email }}" id="" hidden>

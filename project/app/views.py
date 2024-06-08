@@ -97,7 +97,7 @@ def signup(request):
         recipient_list = ['indrajeetyadu36@gmail.com']
         send_mail(subject, message, email_from, recipient_list)
         msg="Registration Successfully Done"
-        del request.session.get['regist_customer_info']
+        del request.session['regist_customer_info']
         return render(request, 'login.html', {'key': msg})
     else:
         msg="Enter Correct OTP"
@@ -251,7 +251,10 @@ def index(request):
         User_id=request.session.get('User_id')
         user_info=get_object_or_404(RegistrationModel, id=User_id)
         addcart = request.session.get('addtocart')
-        cart_no=len(addcart)
+        try:
+            cart_no=len(addcart)
+        except:
+            cart_no=0
         Context={
             'user_name':user_info,
             'addcartno': cart_no,
@@ -266,7 +269,10 @@ def about(request):
         User_id=request.session.get('User_id')
         user_info=get_object_or_404(RegistrationModel, id=User_id)
         addcart = request.session.get('addtocart')
-        cart_no=len(addcart)
+        try:
+            cart_no=len(addcart)
+        except:
+            cart_no=0
         Context={
             'user_name':user_info,
             'addcartno': cart_no,
@@ -281,7 +287,10 @@ def contact(request):
         User_id=request.session.get('User_id')
         user_info=get_object_or_404(RegistrationModel, id=User_id)
         addcart = request.session.get('addtocart')
-        cart_no=len(addcart)
+        try:
+            cart_no=len(addcart)
+        except:
+            cart_no=0
         Context={
             'user_name':user_info,
             'addcartno': cart_no,
@@ -302,7 +311,10 @@ def product(request):
         User_id=request.session.get('User_id')
         user_info=get_object_or_404(RegistrationModel, id=User_id)
         addcart = request.session.get('addtocart')
-        cart_no=len(addcart)
+        try:
+            cart_no=len(addcart)
+        except:
+            cart_no=0
         Context={
             'user_name':user_info,
             'addcartno': cart_no,
@@ -320,7 +332,10 @@ def men(request):
         User_id=request.session.get('User_id')
         user_info=get_object_or_404(RegistrationModel, id=User_id)
         addcart = request.session.get('addtocart')
-        cart_no=len(addcart)
+        try:
+            cart_no=len(addcart)
+        except:
+            cart_no=0
         Context={
             'prop':data,
             'media_url': settings.MEDIA_URL,
@@ -337,13 +352,16 @@ def men(request):
 
 
 def women(request):
-    data=Productmodel.objects.filter(Prod_Name="Men")
+    data=Productmodel.objects.filter(Prod_Name="Women")
     print(data.values())
     try:
         User_id=request.session.get('User_id')
         user_info=get_object_or_404(RegistrationModel, id=User_id)
         addcart = request.session.get('addtocart')
-        cart_no=len(addcart)
+        try:
+            cart_no=len(addcart)
+        except:
+            cart_no=0
         Context={
         'prop':data,
         'media_url': settings.MEDIA_URL,
@@ -365,7 +383,10 @@ def girl(request):
         User_id=request.session.get('User_id')
         user_info=get_object_or_404(RegistrationModel, id=User_id)
         addcart = request.session.get('addtocart')
-        cart_no=len(addcart)
+        try:
+            cart_no=len(addcart)
+        except:
+            cart_no=0
         Context={
         'prop':data,
         'media_url': settings.MEDIA_URL,
@@ -398,7 +419,10 @@ def addtocart(request, pk):
             }
             addtocart.append(add_cartdata)
         request.session['addtocart'] = addtocart
-        cart_no = len(addtocart)
+        try:
+            cart_no=len(addcart)
+        except:
+            cart_no=0
         user_info=data
         if prod_name == 'Men':
             prod_data1 = Productmodel.objects.filter(Prod_Name='Men')
@@ -435,7 +459,10 @@ def increment(request):
     user_info = get_object_or_404(RegistrationModel, id=User_id)
     addcart = request.session.get('addtocart', [])
     print(addcart)
-    cart_no = len(addcart)
+    try:
+        cart_no=len(addcart)
+    except:
+        cart_no=0
     prod_id = int(request.POST.get('incr'))
     total_MRP = 0
     total_amount = 0
@@ -462,7 +489,10 @@ def increment(request):
             break  
     request.session['addtocart'] = addcart
     addcart = request.session.get('addtocart', [])
-    cart_no = len(addcart)
+    try:
+        cart_no=len(addcart)
+    except:
+        cart_no=0
     for item in addcart:
         pro_value = Productmodel.objects.get(id=item['id'])
         print(item['Quantity'])
@@ -504,7 +534,10 @@ def decrement(request):
     user_info = get_object_or_404(RegistrationModel, id=User_id)
     addcart = request.session.get('addtocart', [])
     print(addcart)
-    cart_no = len(addcart)
+    try:
+        cart_no=len(addcart)
+    except:
+        cart_no=0
     prod_id = int(request.POST.get('decr'))
     total_MRP = 0
     total_amount = 0
@@ -532,7 +565,10 @@ def decrement(request):
 
     request.session['addtocart'] = addcart
     addcart = request.session.get('addtocart', [])
-    cart_no = len(addcart)
+    try:
+        cart_no=len(addcart)
+    except:
+        cart_no=0
     for item in addcart:
         pro_value = Productmodel.objects.get(id=item['id'])
         print(item['Quantity'])
@@ -596,7 +632,10 @@ def removeadd_cart(request, pk):
 
     request.session['addtocart'] = addcart
     addcart = request.session.get('addtocart', [])
-    cart_no = len(addcart)
+    try:
+        cart_no=len(addcart)
+    except:
+        cart_no=0
     for item in addcart:
         pro_value = Productmodel.objects.get(id=item['id'])
         print(item['Quantity'])
@@ -642,44 +681,58 @@ def cartpage(request):
     # data = RegistrationModel.objects.get(Email=email)
     User_id=request.session.get('User_id')
     user_info=get_object_or_404(RegistrationModel, id=User_id)
-    addcart = request.session.get('addtocart')
-    cart_no=len(addcart)
     try:
+        addcart = request.session.get('addtocart')
+        print(addcart,'----------------------1--')
+
+        try:
+            cart_no=len(addcart)
+        except:
+            cart_no=0
+
         addcart_data = request.session.get('addtocart', [])
-        # print(addcartround(_data)
+        print(addcart_data,'============================  2  ======')
         total_MRP = 0
         total_amount = 0
         tax = 0
         shippingcharge = 40
         Quantity=0
         pro_data = []
+
         for item in addcart_data:
-            # print(item)
-            pro_value = Productmodel.objects.get(id=item['id'])
-            # print(pro_value)
+            print(item)
+            pro_value = get_object_or_404(Productmodel, id=item['id'])
+            print(pro_value,'-------------------- 3 ----')
             pro_quantitydata = {
                 'pro_value': pro_value,
                 'Quantity': item['Quantity']
             }
+            print(pro_value,'-----------------  04-------')
             pro_data.append(pro_quantitydata)
-            # print(pro_quantitydata)
+            print(pro_quantitydata)
             total_amount += pro_value.Prod_Price * item['Quantity']
             total_MRP += pro_value.Prod_MRP * item['Quantity']
             tax += int(round((total_amount * 12) / 100,0))
             Quantity += item['Quantity']
-
+            print(pro_value,'-----------------  05-------')
+              
+            print(pro_value,'-----------------  06-------')
+                
         discount = total_MRP - total_amount
+        print(discount,'================ 6.2 ==================')    
         Total_pay_amount = total_amount + shippingcharge + tax
-
+        print(Total_pay_amount,'================ 6.5 ==================')
         billamount = {
-            'total_amount': total_amount,
-            'total_MRP': total_MRP,
-            'discount': discount,
-            'tax': tax,
-            'shippingcharge': shippingcharge,
-            'Total_pay_amount': Total_pay_amount,
-            'Quantity':Quantity     
+                'total_amount': total_amount,
+                'total_MRP': total_MRP,
+                'discount': discount,
+                'tax': tax,
+                'shippingcharge': shippingcharge,
+                'Total_pay_amount': Total_pay_amount,
+                'Quantity':Quantity     
         }
+        print(billamount,'============================ 7 ===')
+    
         Context={
             'user_name': user_info,
             'addcartno': cart_no, 
@@ -687,6 +740,7 @@ def cartpage(request):
             'media_url': settings.MEDIA_URL, 
             'amount': billamount
         }
+        print(Context,'------------- 8  -')
         return render(request, 'addtocart.html', Context)
     except:
         return render(request, 'login.html')
@@ -704,7 +758,6 @@ def editpro(request):
         admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
         Context={
             'admin_user':admin_info,
-            'addcartno': cart_no,
             'profileform':Registrationform,
             'media_url': settings.MEDIA_URL, 
         }
@@ -713,7 +766,10 @@ def editpro(request):
         User_id=request.session.get('User_id')
         user_info=get_object_or_404(RegistrationModel, id=User_id)
         addcart = request.session.get('addtocart')
-        cart_no=len(addcart)
+        try:
+            cart_no=len(addcart)
+        except:
+            cart_no=0
         Context={
             'user_name': user_info,
             'addcartno': cart_no,
@@ -733,7 +789,10 @@ def updatepro_img(request):
         User_id=request.session.get('User_id')
         user_info=get_object_or_404(RegistrationModel, id=User_id)
         addcart = request.session.get('addtocart')
-        cart_no=len(addcart)
+        try:
+            cart_no=len(addcart)
+        except:
+            cart_no=0
         regist= RegistrationModel.objects.get(Email=user_info.Email)
         print(regist)
         regist.Profile=profile_img
@@ -749,7 +808,8 @@ def updatepro_img(request):
     if Account_type =='admin_profile':
         Admin_id=request.session.get('Admin_id')
         admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
-        regist=get_object_or_404(RegistrationModel, Email=admin_info.Email)
+        # regist=get_object_or_404(RegistrationModel, Email=admin_info.Email)
+        regist=RegistrationModel.objects.get(Email=admin_info.Email)
         print(regist)
         regist.Profile = pro_image
         regist.save(update_fields=['Profile'])
@@ -767,7 +827,10 @@ def userprofile(request):
     User_id=request.session.get('User_id')
     User_info=get_object_or_404(RegistrationModel, id=User_id)
     addcart = request.session.get('addtocart')
-    cart_no=len(addcart)
+    try:
+        cart_no=len(addcart)
+    except:
+        cart_no=0
     username=request.POST.get('username')
     Fname=request.POST.get('Fname')
     address=request.POST.get('address')
@@ -807,7 +870,10 @@ def changepass(request):
         User_id=request.session.get('User_id')
         user_info=get_object_or_404(RegistrationModel, id=User_id)
         addcart = request.session.get('addtocart')
-        cart_no=len(addcart)
+        try:
+            cart_no=len(addcart)
+        except:
+            cart_no=0
         Context={
             'user_name':user_info,
             'addcartno': cart_no,
@@ -873,7 +939,10 @@ def customerquery(request):
     User_id=request.session.get('User_id')
     user_info=get_object_or_404(RegistrationModel, id=User_id)
     addcart = request.session.get('addtocart')
-    cart_no=len(addcart)
+    try:
+        cart_no=len(addcart)
+    except:
+        cart_no=0
     # ----------------------------------------------
     name=request.POST.get('name')
     email=request.POST.get('email')
@@ -899,18 +968,18 @@ def checkout(request):
     User_id=request.session.get('User_id')
     user_info=get_object_or_404(RegistrationModel, id=User_id)
     addcart = request.session.get('addtocart')
-    cart_no=len(addcart)
+    try:
+        cart_no=len(addcart)
+    except:
+        cart_no=0
     # ------------------------------------------
     amount=int(request.POST.get('amount'))*100
     # print(amount)
     email=request.POST.get('email')
     # print(email)
-    userdata=RegistrationModel.objects.get(Email=email)
+    # userdata=RegistrationModel.objects.get(Email=email)
     global Payableamount 
-    # amount in paisa
     client = razorpay.Client(auth =("rzp_test_8jTLUV3aVex82Q" , "n3PL7ZbSgnKSWJeA1s9ndhaO"))
-    # amount = int(amount * 100)
-    #create order
     data = { "amount": amount, "currency": "INR", "receipt": "order_rcptid_11" }
     # print(data)
     payment = client.order.create(data=data)
@@ -976,7 +1045,8 @@ def checkout(request):
         'payment':payment,
         'amount': billamount,
         'prod_data': pro_data,
-        'length':cart_length
+        'length':cart_length,
+        'makepay':True
     }
     # print(payment)
     return render(request, 'addtocart.html', Context)
@@ -990,29 +1060,216 @@ def making_payment(request):
     # --------------------------------------------
     # print(request.POST)
     razorpay_payment_id = request.POST.get('razorpay_payment_id')
+    print('razorpay_payment_id-------->',razorpay_payment_id)
     razorpay_order_id = request.POST.get('razorpay_order_id')
     email = request.POST.get('email')
     print(razorpay_order_id)
     razorpay_signature = request.POST.get('razorpay_signature')
-    payment_data= get_object_or_404(PaymentdataModel, Order_id=razorpay_order_id)
+    print('razorpay_signature-------->',razorpay_signature)
+    # payment_data= get_object_or_404(PaymentdataModel, Order_id=razorpay_order_id)
+    payment_data=PaymentdataModel.objects.get(Order_id=razorpay_order_id)
     print(payment_data)
+
     payment_data.Payment_Id = razorpay_payment_id
     payment_data.Signature = razorpay_signature
-    
-    
-    # Save the updated payment data
-    payment_data.save(update_fields=['Payment_Id', 'Signature'])
-    if 'addtocart' in request.session:
+    payment_data.save(update_fields=['Payment_Id','Signature'])
+
+    payment_data=PaymentdataModel.objects.get(Order_id=razorpay_order_id)
+    if addtocart in request.session['addtocart']:
         del request.session['addtocart']
     print(user_info)
     Context={
         'user_name': user_info,
         'addcartno': cart_no,
-        'media_url': settings.MEDIA_URL, 
+        'media_url': settings.MEDIA_URL,
+        'payment_data':payment_data,
+    }
+    return render(request, 'paymentdone.html', Context)
+
+# ------------------------- Product Payment function ----------------------------
+
+def buyproduct(request):
+    User_id=request.session.get('User_id')
+    user_info=get_object_or_404(RegistrationModel, id=User_id)
+    addcart = request.session.get('addtocart')
+    cart_no=len(addcart)
+    # ------------------------------------------
+    amount=int(request.POST.get('amount'))*100
+    print(amount)
+    email=request.POST.get('email')
+    pid=request.POST.get('pid')
+    # print(email)
+    userdata=RegistrationModel.objects.get(Email=email)
+    global Payableamount 
+    # amount in paisa
+    client = razorpay.Client(auth =("rzp_test_8jTLUV3aVex82Q" , "n3PL7ZbSgnKSWJeA1s9ndhaO"))
+    # amount = int(amount * 100)
+    data = { "amount": amount, "currency": "INR", "receipt": "order_rcptid_11" }
+    # print(data)
+    payment = client.order.create(data=data)
+    print("Payment ----->",payment)
+    Payableamount=payment
+
+
+    print(payment['id'])
+    PaymentdataModel.objects.create(
+        Email=email,
+        Amount=payment['amount'],
+        Amount_paid=payment['amount_paid'],
+        Amount_due=payment['amount_due'],
+        Currency=payment['currency'],
+        Receipt =payment['receipt'],
+        Status=payment['status'],
+        Attempts=payment['attempts'],
+        Notes=payment['notes'],
+        Created_at=payment['created_at'], 
+        Order_id=payment['id']
+    )
+    addcart_data = request.session.get('addtocart', [])
+    # print(addcartround(_data)
+    total_MRP = 0
+    total_amount = 0
+    tax = 0
+    shippingcharge = 40
+    Quantity=0
+    pro_data = []
+
+    for item in addcart_data:
+        # print(item)
+        pro_value = Productmodel.objects.get(id=item['id'])
+        # print(pro_value)
+        pro_quantitydata = {
+            'pro_value': pro_value,
+            'Quantity': item['Quantity']
+        }
+        pro_data.append(pro_quantitydata)
+        # print(pro_quantitydata)
+        total_amount += pro_value.Prod_Price * item['Quantity']
+        total_MRP += pro_value.Prod_MRP * item['Quantity']
+        tax += int(round((total_amount * 12) / 100,2))
+        Quantity += item['Quantity']
+
+    discount = total_MRP - total_amount
+    Total_pay_amount = total_amount + shippingcharge + tax
+    
+    billamount = {
+        'total_amount': total_amount,
+        'total_MRP': total_MRP,
+        'discount': discount,
+        'tax': tax,
+        'shippingcharge': shippingcharge,
+        'Total_pay_amount': Total_pay_amount,
+        'Quantity':Quantity
+    }
+    cart_length = len(addcart_data)
+    Context={
+        'user_name': user_info,
+        'addcartno': cart_no, 
+        'pay_data':data, 
+        'media_url': settings.MEDIA_URL,
+        'payment':payment,
+        'amount': billamount,
+        'prod_data': pro_data,
+        'length':cart_length,
+        'buyproduct':pid,
+    }
+    # print(payment)
+    return render(request, 'addtocart.html', Context)
+#  -------------------- MakePayment -----------------------------------
+@csrf_exempt
+def buyproduct_payment(request):
+    User_id=request.session.get('User_id')
+    user_info=get_object_or_404(RegistrationModel, id=User_id)
+    addcart = request.session.get('addtocart')
+    cart_no=len(addcart)
+    # --------------------------------------------
+    pid = request.POST.get('pid')
+    print('product id ------->', pid)
+    # print(request.POST)
+    razorpay_payment_id = request.POST.get('razorpay_payment_id')
+    print('razorpay_payment_id------>',razorpay_payment_id)
+    razorpay_order_id = request.POST.get('razorpay_order_id')
+    print('razorpay_payment_id------>',razorpay_payment_id)
+    # print(razorpay_order_id)
+    razorpay_signature = request.POST.get('razorpay_signature')
+    print('razorpay_payment_id------>',razorpay_payment_id)
+
+    # payment_data= get_object_or_404(PaymentdataModel, Order_id=razorpay_order_id)
+    payment_data=PaymentdataModel.objects.get(Order_id=razorpay_order_id)
+    # print(payment_data)
+
+    payment_data.Payment_Id = razorpay_payment_id
+    payment_data.Signature = razorpay_signature
+    # Save the updated payment data
+    payment_data.save(update_fields=['Payment_Id', 'Signature'])
+    for i in range(len(addtocart)):
+        if pid==addtocart[i]['id']:
+            del addtocart[i]
+
+    request.session['addtocart'] = addcart
+
+    addcart_data = request.session.get('addtocart', [])
+    # print(addcartround(_data)
+    total_MRP = 0
+    total_amount = 0
+    tax = 0
+    shippingcharge = 40
+    Quantity=0
+    pro_data = []
+
+    for item in addcart_data:
+        # print(item)
+        pro_value = Productmodel.objects.get(id=item['id'])
+        # print(pro_value)
+        pro_quantitydata = {
+            'pro_value': pro_value,
+            'Quantity': item['Quantity']
+        }
+        pro_data.append(pro_quantitydata)
+        # print(pro_quantitydata)
+        total_amount += pro_value.Prod_Price * item['Quantity']
+        total_MRP += pro_value.Prod_MRP * item['Quantity']
+        tax += int(round((total_amount * 12) / 100,2))
+        Quantity += item['Quantity']
+
+    discount = total_MRP - total_amount
+    Total_pay_amount = total_amount + shippingcharge + tax
+    
+    billamount = {
+        'total_amount': total_amount,
+        'total_MRP': total_MRP,
+        'discount': discount,
+        'tax': tax,
+        'shippingcharge': shippingcharge,
+        'Total_pay_amount': Total_pay_amount,
+        'Quantity':Quantity
+    }
+    cart_length = len(addcart_data)
+    Context={
+        'user_name': user_info,
+        'addcartno': cart_no, 
+        'media_url': settings.MEDIA_URL,
+        'amount': billamount,
+        'prod_data': pro_data,
+        'length':cart_length
     }
     return render(request, 'paymentdone.html', Context)
 
 # ====================== Ending User Dashboard (Razorpay payment integrations) ======================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1023,22 +1280,169 @@ def making_payment(request):
 def dashbordindex(request):
     Admin_id=request.session.get('Admin_id')
     admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
+    customer_data=RegistrationModel.objects.all()
+    print(customer_data)
     Context={
         'media_url': settings.MEDIA_URL,
-        'admin_user':admin_info
+        'admin_user':admin_info,
+        'customer':customer_data
     }
     return render(request, 'dashboardindex.html', Context) 
+# ------------------------ register data CRUD -----------------------
+def editregistdata(request, pk):
+    data=RegistrationModel.objects.get(id=pk)
+    
+    Admin_id=request.session.get('Admin_id')
+    admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
+    customer_data=RegistrationModel.objects.all()
+    print(customer_data)
+    Context={
+        'media_url': settings.MEDIA_URL,
+        'admin_user':admin_info,
+        'customer':customer_data,
+        'registform':Registrationform,
+        'editdata':data
+    }
+    return render(request, 'dashboardindex.html', Context)
+
+def deletregistdata(request, pk):
+    data=RegistrationModel.objects.get(id=pk)
+    data.delete()
+    Admin_id=request.session.get('Admin_id')
+    admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
+    customer_data=RegistrationModel.objects.all()
+    print(customer_data)
+    Context={
+        'media_url': settings.MEDIA_URL,
+        'admin_user':admin_info,
+        'customer':customer_data
+    }
+    return render(request, 'dashboardindex.html', Context)
+
+
+
+def updateeditregistdata(request):
+    print(request.FILES)
+    print(request.POST)
+
+
+    data=RegistrationModel.objects.get(Email=request.POST['email'])
+    data.Profile=request.FILES.get('profile')
+    data.Name=request.POST['name']
+    data.Username=request.POST['username']
+    data.Email=request.POST['email']
+    data.Address=request.POST['address']
+    data.Number=request.POST['number']
+    data.Password=request.POST['password']
+    data.Birthday=request.POST['birthday']
+    data.About=request.POST['about']
+    data.save()
+    Admin_id=request.session.get('Admin_id')
+    admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
+    customer_data=RegistrationModel.objects.all()
+    print(customer_data)
+    Context={
+        'media_url': settings.MEDIA_URL,
+        'admin_user':admin_info,
+        'customer':customer_data,
+        'key':'Data Suceesfully Updated'
+    }
+    return render(request, 'dashboardindex.html', Context)
+
+
+# =============== completed Registrationt data CRUD =====================
+# =============== Starting Product data CRUD ===========================
 
 def productdata(request):
     Admin_id=request.session.get('Admin_id')
     admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
+    data=Productmodel.objects.all()
     Context={
         'admin_user':admin_info,    
         'prod_form':Productmodelform,
         'media_url': settings.MEDIA_URL,
+        'prop':data
     }
     
     return render(request, 'productdata.html',Context )
+# -------------- product dtat CRUD -------------------------
+def editproductdata(request, pk):
+    data=Productmodel.objects.get(id=pk)
+    
+    Admin_id=request.session.get('Admin_id')
+    admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
+    product_data=Productmodel.objects.all()
+    print(product_data)
+    Context={
+        'media_url': settings.MEDIA_URL,
+        'admin_user':admin_info,
+        'prop':product_data,
+        'Productdataform':Productmodelform,
+        'editdata':data
+    }
+    return render(request, 'productdata.html', Context)
+
+def deletproductdata(request, pk):
+    print(pk)
+    data=Productmodel.objects.get(id=pk)
+    data.delete()
+    Admin_id=request.session.get('Admin_id')
+    admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
+    product_data=Productmodel.objects.all()
+    print(product_data)
+    Context={
+        'media_url': settings.MEDIA_URL,
+        'admin_user':admin_info,
+        'prop':product_data,
+        'key':'Data Successfully Deleted'
+    }
+    return render(request, 'productdata.html', Context)
+
+
+
+def updateditproductdata(request):
+    print(request.FILES)
+    print(request.POST)
+    data=Productmodel.objects.get(id=request.POST['id'])
+    data.Profile=request.FILES.get('profile')
+    data.Name=request.POST['name']
+    data.Username=request.POST['username']
+    data.Email=request.POST['email']
+    data.Address=request.POST['address']
+    data.Number=request.POST['number']
+    data.Password=request.POST['password']
+    data.Birthday=request.POST['birthday']
+    data.About=request.POST['about']
+    data.save()
+    Admin_id=request.session.get('Admin_id')
+    admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
+    product_data=Productmodel.objects.all()
+    # print(product_data)
+    Context={
+        'media_url': settings.MEDIA_URL,
+        'admin_user':admin_info,
+        'customer':product_data,
+        'key':'Data Suceesfully Updated'
+    }
+    return render(request, 'productdata.html', Context)
+
+def addproductdata(request):
+    Admin_id=request.session.get('Admin_id')
+    admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
+    product_data=Productmodel.objects.all()
+    # print(product_data)
+    Context={
+        'media_url': settings.MEDIA_URL,
+        'admin_user':admin_info,
+        'customer':product_data,
+        'Productdataform':Productmodelform,
+        'Addnewproduct':'add new Product',
+        
+    }
+    return render(request, 'productdata.html', Context)
+
+# =============== Ending Product data CRUD ===========================
+
 
 def userdata(request):
     Admin_id=request.session.get('Admin_id')
@@ -1096,6 +1500,7 @@ def product_entry(request):
         'admin_user':admin_info
         }
         return render(request, 'productform.html', Context)
+    
     
 #======================= ENDing Admin dashboard (Navigation) =================================
     
@@ -1211,6 +1616,10 @@ def product_show1(request):
     return render(request, 'productdata.html', Context)
 
 # ================ ENDing Admin Dashboard (Product CRUD) ======================
+# ===============@@@@@$     Admin Panel        $@@@@===========================
+
+
+
 
 #=================== User Dashboard login after Navition =============
 # def home(request):
