@@ -63,6 +63,7 @@ class Productmodel(models.Model):
     Prod_MRP=models.IntegerField(null=True)
     Prod_Offer=models.CharField(max_length=254, null=True)
     Prod_Detail=models.TextField(null=True)
+    prod_color=models.CharField(max_length=254, null=True)
     Serial_no=models.IntegerField(null=True)
 
     def __str__(self):
@@ -86,4 +87,43 @@ class PaymentdataModel(models.Model):
 
     def __str__(self):
         return self.Order_id
+
+class Purchaseproduct(models.Model):
+    Product_Type=models.CharField(max_length=254, null=True)
+    Prod_Image1=models.ImageField(null=True)
+    Prod_Image2=models.ImageField(null=True)
+    Prod_Image3=models.ImageField(null=True)
+    Prod_Image4=models.ImageField(null=True)
+    Prod_Price =models.IntegerField(null=True)
+    Prod_MRP=models.IntegerField(null=True)
+    Prod_Offer=models.CharField(max_length=254, null=True)
+    Prod_Detail=models.TextField(null=True)
+    prod_color=models.CharField(max_length=254, null=True)
+    Serial_no=models.IntegerField(null=True)
+    Purchase_date=models.DateTimeField(auto_created=True)
+    Order_id=models.CharField(max_length=255, null=True)
+    Email_id=models.EmailField(null= True)
+    
+    def __str__(self):
+        return self.Email
+
+def Invoice(request):
+    Invoice_id=models.CharField(max_length=255, blank=True)
+    invoice_number=models.CharField(max_length=255, blank=True)
+    Customer_id=models.CharField(max_length=255, blank=True)
+    Order_id=models.CharField(max_length=255, blank=True)
+    Payment_id=models.CharField(max_length=255, blank=True)
+    Gross_amount=models.IntegerField(blank=True)
+    Tax_amount=models.IntegerField(blank=True)
+    Amount=models.IntegerField(blank=True)
+    Amount_paid=models.IntegerField(blank=True)
+    Amount_due=models.IntegerField(blank=True)
+    Currency=models.CharField(max_length=255, blank=True)
+    Billing_address=models.TextField( blank=True)
+    Shipping_address=models.TextField( blank=True)
+    Status=models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return self.Customer_id
+
 

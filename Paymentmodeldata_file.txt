@@ -1,0 +1,104 @@
+# git config --list
+
+Paymentmodel:
+
+'customer_details' : {
+	'id': 'cust_OKdsf27FDnCoyT', 
+	'name': 'Indrajeet', 
+	'email': 'indra@gmail.com', 
+	'contact': '9999999999', 
+	'gstin': None, 
+	'billing_address': None, 
+	'shipping_address': None, 
+	'customer_name': 'Indrajeet', 
+	'customer_email': 'indra@gmail.com', 
+	'customer_contact': '9999999999'
+},
+
+'line_items'=[
+     {
+	'id': 'li_OL0gU7e6uG3EDX', 
+	'item_id': None, 
+	'ref_id': None, 
+	'ref_type': None, 
+	'name': 'Watch', 
+	'description': None, 
+	'amount': 36000, 
+	'unit_amount': 36000, 
+	'gross_amount': 36000, 
+	'tax_amount': 0, 
+	'taxable_amount': 36000, 
+	'net_amount': 36000, 
+	'currency': 'INR', 
+	'type': 'invoice', 
+	'tax_inclusive': False, 
+	'hsn_code': None, 
+	'sac_code': None, 
+	'tax_rate': None, 
+	'unit': None, 
+	'quantity': 1, 
+	'taxes': []
+     }, 
+	
+     {
+	'id': 'li_OL0gUAK4XRA4IN', 'item_id': None, 'ref_id': None, 
+	'ref_type': None, 'name': 'Belt', 'description': None, 
+	'amount': 20000, 'unit_amount': 20000, 'gross_amount': 20000, 
+	'tax_amount': 0, 'taxable_amount': 20000, 'net_amount': 20000, 
+	'currency': 'INR', 'type': 'invoice', 'tax_inclusive': False, 
+	'hsn_code': None, 'sac_code': None, 'tax_rate': None, 'unit': None, 
+	'quantity': 1, 'taxes': []
+     }
+],
+
+
+
+
+puchaseproductModel:
+productmodul
+Odder_Id=models.CharField(max_length=255)
+Email=models.EmailField()
+Shipping_address=
+Delivery_address=
+
+1. 'id'
+2. 'entity'
+3. 'receipt'
+4. 'invoice_number'
+5. 'customer_id'
+6. 'customer_details'
+7.  'order_id'
+8. 'line_items'
+9. 'payment_id'
+10. 'status'
+
+11. 'expire_by'
+12. 'issued_at'
+13. 'paid_at'
+14. 'cancelled_at'
+15. 'expired_at'
+16. 'sms_status'
+17. 'email_status'
+18. 'date'
+19. 'terms'
+20. 'partial_payment'
+21. 'gross_amount'
+22. 'tax_amount'
+23. 'taxable_amount'
+24. 'amount'
+25. 'amount_paid'
+26. 'amount_due'
+27. 'currency'
+28. 'currency_symbol'
+29. 'description'
+30. 'notes'
+31. 'comment'
+32. 'short_url'
+33. 'view_less'
+34. 'billing_start'
+35. 'billing_end'
+36. 'type'
+37. 'group_taxes_discounts'
+38. 'created_at'
+39. 'ref_num'
+
