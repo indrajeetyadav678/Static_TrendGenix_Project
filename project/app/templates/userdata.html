@@ -4,13 +4,45 @@
 
 
 <div>
-    <table>
-        <thead>
-            <tr>
-                <th></th>
+n    <table>
+        <thead id="paydata_hearder">
+            <tr >
+                <th>Invoice_id</th>
+                <th>Customer_id</th>
+                <th>Customer_Name</th>
+                <th>Customer_Email</th>
+                <th>Product Quantity</th>
+                <th>Order_id</th>
+                <th>Amount</th>
+                <th>Shipping_address</th>
+                <th>Billingtime</th>
+                <th>Status</th>
+                <th>Product Details</th>
+                <th>View Invoice</th>
+                <th>Edit</th>
+                <th>Delete</th>
             </tr>
         </thead>
-        <tbody></tbody>
+        <tbody id="paydata_body">
+            {% for i in all_invoice %} 
+            <tr>
+                <td>{{i.Invoice_id}}</td>
+                <td>{{i.Customer_id}}</td>
+                <td>{{i.inuser_in.Customer_id}}</td>
+                <td>{{i.user_info.Q}}</td>
+                <td>{{i.Order_id}}</td>
+                <td>{{i.Amount}}</td>
+                <td>{{i.Shipping_address}}</td>
+                <td>{{l.Status}}</td>
+                <td>{{i.Billingtime}}</td>
+                <td>{{l.Status}}</td>
+                <td><a href="#">views</a></td>
+                <td><a href="#">View Invoice</a></td>
+                <td><a href="#">Edit</a></td>
+                <td><a href="#">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
 </div>
 

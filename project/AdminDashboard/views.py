@@ -187,16 +187,35 @@ def addproductdata(request):
     return render(request, 'productdata.html', Context)
 
 # =============== Ending Product data CRUD ===========================
-
+#=================  USERDATA CRUD START=============================
 
 def userdata(request):
     Admin_id=request.session.get('Admin_id')
     admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
+    invoiceData = Invoicemodel.objects.all()
+    print(invoiceData)
+    # customer_info=[]
+    # for user in invoiceData:
+        # cust_data=RegistrationModel.objects.get(id=user.Customer_id) 
+        # customer_info.append(cust_data)
+
+    # invoice_dict={
+    #      "invoice_detail": invoiceData,
+    #      "user_info": customer_info
+    #     }
+
     Context={
         'media_url': settings.MEDIA_URL,
-        'admin_user':admin_info
+        'admin_user':admin_info,
+        'all_invoice':invoiceData,
+        # 'customer_data':customer_info
     }
     return render(request, 'userdata.html', Context)
+
+
+
+
+# ===============================UserData CRUD END =============================
 
 def result(request):
     Admin_id=request.session.get('Admin_id')

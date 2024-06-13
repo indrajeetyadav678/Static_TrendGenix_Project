@@ -1056,16 +1056,12 @@ def making_payment(request):
     addcart = request.session.get('addtocart', [])
     cart_no = len(addcart)
     
-    # Fetching payment details from the POST request
     razorpay_payment_id = request.POST.get('razorpay_payment_id')
     razorpay_order_id = request.POST.get('razorpay_order_id')
     razorpay_signature = request.POST.get('razorpay_signature')
     
-    # Fetching the corresponding payment data from the database
-   
     payment_data = PaymentdataModel.objects.get(Order_id=razorpay_order_id)
     
-  
     if payment_data:
         payment_data.Payment_Id = razorpay_payment_id
         payment_data.Signature = razorpay_signature
