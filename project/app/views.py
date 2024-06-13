@@ -10,6 +10,7 @@ from .forms import*
 from datetime import datetime
 import string
 import random
+import logging
 import razorpay
 # from django.http import HttpResponse
 
@@ -574,7 +575,7 @@ def decrement(request):
         }
         pro_data.append(pro_quantitydata)
         
-        total_amount += pro_value.Prod_Price * item['Quantity']
+        total_amount += pro_value.Prod_Net_amount * item['Quantity']
         total_MRP += pro_value.Prod_MRP * item['Quantity']
         Quantity += item['Quantity']
 
@@ -706,9 +707,9 @@ def cartpage(request):
             print(pro_value,'-----------------  04-------')
             pro_data.append(pro_quantitydata)
             print(pro_quantitydata)
-            total_amount += pro_value.Prod_Price * item['Quantity']
+            total_amount += pro_value.Prod_Net_amount * item['Quantity']
             total_MRP += pro_value.Prod_MRP * item['Quantity']
-            tax += int(round((total_amount * 12) / 100,0))
+            tax += pro_value.Prod_tax * item['Quantity']
             Quantity += item['Quantity']
             print(pro_value,'-----------------  05-------')
               
@@ -1015,7 +1016,7 @@ def checkout(request):
         }
         pro_data.append(pro_quantitydata)
         # print(pro_quantitydata)
-        total_amount += pro_value.Prod_Price * item['Quantity']
+        total_amount += pro_value.Prod_Net_amount * item['Quantity']
         total_MRP += pro_value.Prod_MRP * item['Quantity']
         tax += int(round((total_amount * 12) / 100,2))
         Quantity += item['Quantity']
@@ -1047,41 +1048,101 @@ def checkout(request):
     # print(payment)
     return render(request, 'addtocart.html', Context)
 #  -------------------- MakePayment -----------------------------------
+
 @csrf_exempt
 def making_payment(request):
-    User_id=request.session.get('User_id')
-    user_info=get_object_or_404(RegistrationModel, id=User_id)
-    addcart = request.session.get('addtocart')
-    cart_no=len(addcart)
-    # --------------------------------------------
-    # print(request.POST)
+    User_id = request.session.get('User_id')
+    user_info = get_object_or_404(RegistrationModel, id=User_id)
+    addcart = request.session.get('addtocart', [])
+    cart_no = len(addcart)
+    
+    # Fetching payment details from the POST request
     razorpay_payment_id = request.POST.get('razorpay_payment_id')
-    print('razorpay_payment_id-------->',razorpay_payment_id)
     razorpay_order_id = request.POST.get('razorpay_order_id')
-    email = request.POST.get('email')
-    print(razorpay_order_id)
     razorpay_signature = request.POST.get('razorpay_signature')
-    print('razorpay_signature-------->',razorpay_signature)
-    # payment_data= get_object_or_404(PaymentdataModel, Order_id=razorpay_order_id)
-    payment_data=PaymentdataModel.objects.get(Order_id=razorpay_order_id)
-    print(payment_data)
+    
+    # Fetching the corresponding payment data from the database
+   
+    payment_data = PaymentdataModel.objects.get(Order_id=razorpay_order_id)
+    
+  
+    if payment_data:
+        payment_data.Payment_Id = razorpay_payment_id
+        payment_data.Signature = razorpay_signature
+        payment_data.save(update_fields=['Payment_Id', 'Signature'])
+    
+    
+    pro_list = []
+    client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_SECRET_KEY))
+    
+    for item in addcart:
+        pro_value = get_object_or_404(Productmodel, id=item['id'])
+        item_data = {
+            'name': pro_value.Product_Type,
+            'description': pro_value.Prod_Detail,
+            'amount': pro_value.Prod_MRP * item['Quantity'],
+            'unit_amount': pro_value.Prod_MRP,
+            # 'gross_amount': pro_value.Prod_gross_amount * item['Quantity'],
+            # 'tax_amount': pro_value.Prod_tax * item['Quantity'],
+            # 'net_amount': pro_value.Prod_Net_amount * item['Quantity'],
+            'currency': 'INR',
+            'quantity': item['Quantity']
+        }
+        pro_list.append(item_data)
 
-    payment_data.Payment_Id = razorpay_payment_id
-    payment_data.Signature = razorpay_signature
-    payment_data.save(update_fields=['Payment_Id','Signature'])
+    # print(pro_list)
+    invoice_data = {
+        "type": "invoice",
+        "customer": {
+            "name": user_info.Name,
+            "contact":"9657758586",
+            # "gstin":435467852334546,  #format is invalid
+            "email":"indrajeetyadu36@gmail.com",
+            "billing_address" :"CybromTechnology MP Nagar Zone-1, Bhopal Madhya Pradesh",
+            # "customer_name":user_info.Name,   #this information is not required
+            # "customer_email":user_info.Email,  #this information is not required
+            # "customer_contact":9755306511,     #this information is not required
+            "shipping_address":user_info.Address,
+        },
+        "line_items": pro_list,
+        # "Order_id": razorpay_order_id,
+        # "payment_id": razorpay_payment_id,
+        # "status": "Paid"
+    }
+    invoice = client.invoice.create(data=invoice_data)
+    print(invoice)
+    Invoicemodel.objects.create(
+        Invoice_id=invoice['id'],
+        # invoice_number=invoice['invoice_number'],
+        Customer_id=user_info.id,
+        Order_id=razorpay_order_id,
+        Payment_id=razorpay_payment_id,
+        Gross_amount=invoice['gross_amount'],
+        Tax_amount=invoice['tax_amount'],
+        Amount=invoice['amount'],
+        Amount_paid=invoice['amount_due'],
+        Amount_due=invoice['amount_paid'],
+        Currency=invoice['currency'],
+        Billing_address="CybromTechnology MP Nagar Zone-1, Bhopal Madhya Pradesh",
+        Shipping_address=user_info.Address,
+        Status="Paid"
+    )
 
-    payment_data=PaymentdataModel.objects.get(Order_id=razorpay_order_id)
-    if addtocart in request.session['addtocart']:
+    savedata = Invoicemodel.objects.get(Invoice_id=invoice['id'])
+    print(savedata)
+
+    if 'addtocart' in request.session:
         del request.session['addtocart']
-    print(user_info)
-    Context={
+    
+
+    context = {
         'user_name': user_info,
         'addcartno': cart_no,
         'media_url': settings.MEDIA_URL,
-        'payment_data':payment_data,
+        'payment_data': payment_data,
     }
-    return render(request, 'paymentdone.html', Context)
 
+    return render(request, 'paymentdone.html', context)
 # ------------------------- Product Payment function ----------------------------
 
 def buyproduct(request):

@@ -208,44 +208,90 @@ def result(request):
     return render(request, 'result.html', {'admin_user':admin_info})
 
 def product_entry(request):
-    Admin_id=request.session.get('Admin_id')
-    admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
+    Admin_id = request.session.get('Admin_id')
+    admin_info = get_object_or_404(RegistrationModel, id=Admin_id)
+
     if request.method == "POST":
-        # print(request.POST)
-        # print(request.FILES)
-        serialno=request.POST.get('Serial_no')
-        serialmodel=Productmodel.objects.filter(Serial_no=serialno)
-        if serialmodel:
-            msg = "This data already exist "
-            Context={
-                    'media_url': settings.MEDIA_URL,
-                    'admin_user':admin_info,
-                    'msg': msg,
-                }
-            return render(request, 'productform.html', Context)
+        print(request.POST)
+
+        # try:
+        MRP = float(request.POST.get('Prod_MRP'))
+        print(MRP)
+        # except (TypeError, ValueError):
+        #     MRP = 0.0
+
+        # offer = request.POST.get('Prod_Offer', "")
+        offer = request.POST.get('Prod_Offer')
+        print(offer)
+
+        tax = MRP * 12 / 100
+        Prod_gross_amount = MRP + tax
+
+        discount_off = ""
+        special_char = ""
+        discount = 0
+
+        for char in offer:
+            if char.isdigit():
+                discount_off += char
+            else:
+                special_char += char
+
+        print(discount_off)
+        print(special_char)
+
+        try:
+            if discount_off:
+                discount = MRP * int(discount_off) / 100
+                # added one more condition
+            elif offer.isdigit():
+                discount=int(offer)
+        except ValueError:
+            discount = 0
+
+        Prod_Net_amount = Prod_gross_amount - discount
+
+        print(request.FILES)
+        serialno = request.POST.get('Serial_no')
+        serialmodel = Productmodel.objects.filter(Serial_no=serialno)
+
+        if serialmodel.exists():
+            msg = "This data already exists."
+            context = {
+                'media_url': settings.MEDIA_URL,
+                'admin_user': admin_info,
+                'msg': msg,
+            }
+            return render(request, 'productform.html', context)
         else:
             form = Productmodelform(request.POST, request.FILES)
-        # print(form)
             if form.is_valid():
-                form.save()
+                product = form.save(commit=False)
+                product.Prod_tax = tax
+                product.Prod_gross_amount = Prod_gross_amount
+                product.Prod_Net_amount = Prod_Net_amount
+                product.Prod_Price = MRP
+                product.save()
+
                 msg = "Data submitted successfully"
                 return redirect('productdata')
             else:
                 msg = "There is some error, please try again"
-                Context={
+                context = {
                     'media_url': settings.MEDIA_URL,
-                    'admin_user':admin_info,
+                    'admin_user': admin_info,
                     'msg': msg,
+                    'form': form,
                 }
-                return render(request, 'productform.html', Context)
+                return render(request, 'productform.html', context)
     else:
         form = Productmodelform()
-        Context={
-        'media_url': settings.MEDIA_URL,
-        'admin_user':admin_info
+        context = {
+            'media_url': settings.MEDIA_URL,
+            'admin_user': admin_info,
+            'form': form,
         }
-        return render(request, 'productform.html', Context)
-    
+        return render(request, 'productform.html', context)    
     
 #======================= ENDing Admin dashboard (Navigation) =================================
     

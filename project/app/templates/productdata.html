@@ -43,23 +43,25 @@
                 <tr>
                     <th>Name</th>
                     <th>Product_Type</th>
-                    <th>Image1</th>
-                    <th>Image2</th>
-                    <th>Image3</th>
-                    <th>Image4</th>
-                    <th>Price</th>
+                    <th>Image_0.1</th>
+                    <th>Image_0.2</th>
+                    <th>Image_0.3</th>
+                    <th>Image_0.4</th>
+                    <th>Net_amount</th>
+                    <th>Gross_amount</th>
                     <th>MRP</th>
                     <th>Offer</th>
                     <th>Details</th>
                     <th>Seial No.</th>
                     <th>Edit</th>
                     <th>Delete</th>
+                    <th>Viewa</th>
                 </tr>
             </thead>
             <tbody id="prod_data_body">
                 {% for i in prop %}
                 {% if product_data %}
-                <tr id="prod_data_upadating form">
+                <tr id="prod_data_upadating_form">
                     <td>
                         <input type="text" value="{{product_data.Prod_Name}}" name="name" id="">
                     </td>
@@ -82,7 +84,8 @@
                         <input type="image" src="{{product_data.Prod_Image4}}" name="Prod_Image4" value="" alt=""
                             disabled>
                     </td>
-                    <td><input type="number" value="{{product_data.Prod_Price}}" name="prod_price" id=""></td>
+                    <td><input type="number" value="{{product_data.Prod_Net_amount}}" name="prod_price" id=""></td>
+                    <td><input type="number" value="{{product_data.Prod_gross_amount}}" name="prod_price" id=""></td>
                     <td><input type="number" value="{{product_data.Prod_MRP}}" name="prod_mrp" id=""></td>
                     <td><input type="text" value="{{product_data.Prod_Offer}}" name="prod_offer" id=""></td>
                     <td><textarea name="prod_detail" id="">{{product_data.Prod_Detail}}</textarea></td>
@@ -113,16 +116,20 @@
                     <td style="width:100px; height: 100px;">
                         <img src="{{media_url}}{{i.Prod_Image4}}" alt="">
                     </td>
-                    <td>₹{{i.Prod_Price}}/-</td>
+                    <td>₹{{i.Prod_Net_amount}}/-</td>
+                    <td>₹{{i.Prod_gross_amount}}/-</td>
                     <td>₹{{i.Prod_MRP}}/-</td>
                     <td>{{i.Prod_Offer}}</td>
-                    <td>{{i.Prod_Detail}}</td>
+                    <td style="width:250px; height: 100px;">{{i.Prod_Detail | truncatewords:15}}</td>
                     <td>{{i.Serial_no}}</td>
                     <td>
                         <a id="prod_editbtn" href="{% url 'editproductdata' pk=i.id %}"><i class="fa-solid fa-pen-to-square"></i></a>
                     </td>
                     <td>
                         <a href="{% url 'deletproductdata' pk=i.id %}"><i class="fa-solid fa-trash"></i></a>
+                    </td>
+                    <td>
+                        <a href="{% url 'deletproductdata' pk=i.id %}"><i class="fa-solid fa-eye"></i></a>
                     </td>
                 </tr>
                 {% endif %}

@@ -61,6 +61,9 @@ class Productmodel(models.Model):
     Prod_Image4=models.ImageField(null=True)
     Prod_Price =models.IntegerField(null=True)
     Prod_MRP=models.IntegerField(null=True)
+    Prod_tax=models.IntegerField(null=True)
+    Prod_gross_amount=models.IntegerField(null=True)
+    Prod_Net_amount=models.IntegerField(null=True)
     Prod_Offer=models.CharField(max_length=254, null=True)
     Prod_Detail=models.TextField(null=True)
     prod_color=models.CharField(max_length=254, null=True)
@@ -107,7 +110,7 @@ class Purchaseproduct(models.Model):
     def __str__(self):
         return self.Email
 
-def Invoice(request):
+class Invoicemodel(models.Model):
     Invoice_id=models.CharField(max_length=255, blank=True)
     invoice_number=models.CharField(max_length=255, blank=True)
     Customer_id=models.CharField(max_length=255, blank=True)
@@ -121,6 +124,7 @@ def Invoice(request):
     Currency=models.CharField(max_length=255, blank=True)
     Billing_address=models.TextField( blank=True)
     Shipping_address=models.TextField( blank=True)
+    Billingtime=models.DateTimeField(auto_now=True)
     Status=models.CharField(max_length=255, blank=True)
 
     def __str__(self):

@@ -15,7 +15,12 @@ class ProductBoxform(forms.ModelForm):
 class Productmodelform(forms.ModelForm):
     class Meta:
         model=Productmodel
-        fields='__all__'
+        fields=['Prod_Name','Product_Type',
+                'Prod_Image1','Prod_Image2', 
+                'Prod_Image3', 'Prod_Image4',
+                'Prod_MRP','Prod_Offer','Prod_Detail',
+                'prod_color','Serial_no'
+                ]
 
 class Registrationform(forms.ModelForm):
     class Meta:
