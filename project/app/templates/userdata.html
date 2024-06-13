@@ -11,7 +11,6 @@ n    <table>
                 <th>Customer_id</th>
                 <th>Customer_Name</th>
                 <th>Customer_Email</th>
-                <th>Product Quantity</th>
                 <th>Order_id</th>
                 <th>Amount</th>
                 <th>Shipping_address</th>
@@ -28,14 +27,13 @@ n    <table>
             <tr>
                 <td>{{i.Invoice_id}}</td>
                 <td>{{i.Customer_id}}</td>
-                <td>{{i.inuser_in.Customer_id}}</td>
-                <td>{{i.user_info.Q}}</td>
+                <td>{{admin_user.Name}}</td>
+                <td>{{admin_user.Email}}</td>
                 <td>{{i.Order_id}}</td>
                 <td>{{i.Amount}}</td>
                 <td>{{i.Shipping_address}}</td>
-                <td>{{l.Status}}</td>
                 <td>{{i.Billingtime}}</td>
-                <td>{{l.Status}}</td>
+                <td>{{i.Status}}</td>
                 <td><a href="#">views</a></td>
                 <td><a href="#">View Invoice</a></td>
                 <td><a href="#">Edit</a></td>
