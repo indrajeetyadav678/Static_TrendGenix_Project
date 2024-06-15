@@ -24,6 +24,9 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css"
         integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- paymentdone page invoice link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
 
     <script src="{% static '/javascript/javascript.js' %}"></script>
 </head>
@@ -134,7 +137,7 @@
 
 
 
-    
+
 
 
     {% elif admin_user %}
@@ -175,39 +178,41 @@
     </ul>
 
     <div id="profile_box">
-    {% if user_name.Profile %}
+        {% if user_name.Profile %}
         <img id="usericon" onclick="pro_info(1)" src="{{media_url}}{{user_name.Profile}}" alt="Profile Image" />
-    {% else %}
-        <img id="usericon" onclick="pro_info(1)" src="https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745" alt="Default Profile Image" />
-    {% endif %}
-    <br /><br />
-
-    <form action="{% url 'editpro' %}" method="post">
-        {% csrf_token %}
-        <input type="text" name="accounttype" value="admin_profile" hidden>
-        <input type="email" value="{{admin_user.Email}}" name="email" hidden>
-        <input id="editpro_btn" type="submit" value="Edit Profile">
-    </form>
-
-    <form action="{% url 'changepass' %}" method="post">
-        {% csrf_token %}
-        <input type="email" value="{{admin_user.Email}}" name="email" hidden>
-        <input id="editpro_btn" type="submit" value="Change password">
-    </form>
-
-    <div id="user_account_info">
-        {% if admin_user.Username %}
-            <label class="text-center">&nbsp;&nbsp;&nbsp;:&nbsp; {{admin_user.Username | default:'Guest'}}</label>
         {% else %}
-            <label>Name &nbsp;&nbsp;&nbsp;:&nbsp; {{admin_user.Name | default:'Guest'}}</label>
+        <img id="usericon" onclick="pro_info(1)"
+            src="https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745"
+            alt="Default Profile Image" />
         {% endif %}
-        <label>Email &nbsp;&nbsp; :&nbsp; {{admin_user.Email | default:'abc@gmail.com'}}</label><br />
-        <label>Number &nbsp;&nbsp;&nbsp;:&nbsp; {{admin_user.Number | default:'1234567890'}}</label><br />
-        <label>Password : &nbsp; {{admin_user.Password | default:'Abc12345@'}}</label><br />
-    </div>
+        <br /><br />
 
-    <button id="logout_btn"><a href="{% url 'Adminlogout' %}">Logout</a></button>
-</div>
+        <form action="{% url 'editpro' %}" method="post">
+            {% csrf_token %}
+            <input type="text" name="accounttype" value="admin_profile" hidden>
+            <input type="email" value="{{admin_user.Email}}" name="email" hidden>
+            <input id="editpro_btn" type="submit" value="Edit Profile">
+        </form>
+
+        <form action="{% url 'changepass' %}" method="post">
+            {% csrf_token %}
+            <input type="email" value="{{admin_user.Email}}" name="email" hidden>
+            <input id="editpro_btn" type="submit" value="Change password">
+        </form>
+
+        <div id="user_account_info">
+            {% if admin_user.Username %}
+            <label class="text-center">&nbsp;&nbsp;&nbsp;:&nbsp; {{admin_user.Username | default:'Guest'}}</label>
+            {% else %}
+            <label>Name &nbsp;&nbsp;&nbsp;:&nbsp; {{admin_user.Name | default:'Guest'}}</label>
+            {% endif %}
+            <label>Email &nbsp;&nbsp; :&nbsp; {{admin_user.Email | default:'abc@gmail.com'}}</label><br />
+            <label>Number &nbsp;&nbsp;&nbsp;:&nbsp; {{admin_user.Number | default:'1234567890'}}</label><br />
+            <label>Password : &nbsp; {{admin_user.Password | default:'Abc12345@'}}</label><br />
+        </div>
+
+        <button id="logout_btn"><a href="{% url 'Adminlogout' %}">Logout</a></button>
+    </div>
 
 
 

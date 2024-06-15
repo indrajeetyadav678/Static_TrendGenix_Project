@@ -1,55 +1,53 @@
 {% extends 'base.html' %}
-{% block content%}
-
+{% block content %}
 {% if prod_data %}
 <section id="addcartpage_body">
     <div id="addproduct_container">
         {% for i in prod_data %}
         <div id="addcartpage_container">
             <div id="addcart_imagediv">
-                <img src="{{media_url}}{{i.pro_value.Prod_Image1}}" alt="">
+                <img src="{{ media_url }}{{ i.pro_value.Prod_Image1 }}" alt="">
             </div>
             <div id="addcartprod_detail">
-                <label> Price&nbsp;&nbsp;&nbsp;₹&nbsp;&nbsp;{{i.pro_value.Prod_Price}}</label><br />
-                <label>Offer &nbsp;&nbsp;&nbsp; {{i.pro_value.Prod_Offer}}</label><br />
-                <label> MRP &nbsp;&nbsp;&nbsp;₹{{i.pro_value.Prod_MRP}}</label><br />
+                <label> Price ₹ {{ i.pro_value.Prod_Price }}</label><br />
+                <label>Offer {{ i.pro_value.Prod_Offer }}</label><br />
+                <label> MRP ₹ {{ i.pro_value.Prod_MRP }}</label><br />
                 <div id="quantity_adding">
                     <form action="{% url 'increment' %}" method="post">
                         {% csrf_token %}
-                        <input type="number" name="incr" value="{{i.pro_value.id}}" id="" hidden>
+                        <input type="number" name="incr" value="{{ i.pro_value.id }}" hidden>
                         <input type="submit" value="+" id="incrementbtn">
                     </form>
                     <div id="increase_value">
-                        {{i.Quantity | default:'1'}}
+                        {{ i.Quantity | default:'1' }}
                     </div>
                     <form action="{% url 'decrement' %}" method="post">
                         {% csrf_token %}
-                        <input type="number" name="decr" value="{{i.pro_value.id}}" id="" hidden>
+                        <input type="number" name="decr" value="{{ i.pro_value.id }}" hidden>
                         <input type="submit" value="-" id="incrementbtn">
                     </form>
-
                 </div>
             </div>
             <div id="addcart_price">
                 <div id="ProdDetail_box">
-                    {{i.pro_value.Prod_Detail}}
+                    {{ i.pro_value.Prod_Detail }}
                 </div>
                 <div id="paymentbuy_btn">
                     {% if buyproduct %}
                     <form id="payment-form" action="{% url 'buyproduct_payment' %}" method="post">
                         {% csrf_token %}
-                        <input type="number" name="pid" value="{{i.pro_value.id}}" hidden>
+                        <input type="number" name="pid" value="{{ i.pro_value.id }}" hidden>
                         <button type="submit" id="rzp-button1">Pay with Razorpay</button>
                     </form>
                     {% else %}
-                    <form action="{% url 'buyproduct'%}" method="post">
+                    <form action="{% url 'buyproduct' %}" method="post">
                         {% csrf_token %}
-                        <input type="email" name="email" value="{{user_name.Email}}" id="" hidden>
-                        <input type="number" name="amount" value="{{i.pro_value.Prod_Price}}" hidden>
-                        <input type="number" name="pid" value="{{i.pro_value.id}}" hidden>
+                        <input type="email" name="email" value="{{ user_name.Email }}" hidden>
+                        <input type="number" name="amount" value="{{ i.pro_value.Prod_Price }}" hidden>
+                        <input type="number" name="pid" value="{{ i.pro_value.id }}" hidden>
                         <input type="submit" value="Buy" id="Buy_btn">
                     </form>
-                    {% endif %}  
+                    {% endif %}
                 </div>
             </div>
             <div id="addcart_deletebtn">
@@ -68,36 +66,33 @@
                     <h5 class="font-size-16 mb-0">Order Summary <span class="float-end">#MN0124</span></h5>
                 </div>
                 <div class="card-body p-4 pt-2">
-
                     <div class="table-responsive">
                         <table class="table mb-0">
                             <tbody>
                                 <tr>
                                     <td>Sub Total :</td>
-                                    <td class="text-end">₹&nbsp;{{amount.total_amount}}</td>
+                                    <td class="text-end">₹ {{ amount.total_amount }}</td>
                                 </tr>
                                 <tr>
-                                    <td>Discount : </td>
-                                    <td class="text-end">₹&nbsp;{{amount.discount}}</td>
+                                    <td>Discount :</td>
+                                    <td class="text-end">₹ {{ amount.discount }}</td>
                                 </tr>
                                 <tr>
-                                    <td>Product Quantity : </td>
-                                    <td class="text-end">{{amount.Quantity | default:'0'}}&nbsp;&nbsp;Items</td>
+                                    <td>Product Quantity :</td>
+                                    <td class="text-end">{{ amount.Quantity | default:'0' }} Items</td>
                                 </tr>
                                 <tr>
                                     <td>Shipping Charge :</td>
-                                    <td class="text-end">₹&nbsp;{{amount.shippingcharge}}</td>
+                                    <td class="text-end">₹ {{ amount.shippingcharge }}</td>
                                 </tr>
                                 <tr>
-                                    <td>Estimated Tax : </td>
-                                    <td class="text-end"> ₹&nbsp;{{amount.tax}}</td>
+                                    <td>Estimated Tax :</td>
+                                    <td class="text-end">₹ {{ amount.tax }}</td>
                                 </tr>
                                 <tr class="bg-light">
                                     <th>Total :</th>
                                     <td class="text-end">
-                                        <span class="fw-bold">
-                                            ₹&nbsp;{{amount.Total_pay_amount}}
-                                        </span>
+                                        <span class="fw-bold">₹ {{ amount.Total_pay_amount }}</span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -105,8 +100,8 @@
                                         {% if makepay %}
                                         <form id="payment-form" action="{% url 'making_payment' %}" method="post">
                                             {% csrf_token %}
-                                            <input type="email" name="email" value="{{ user_name.Email }}" id="" hidden>
-                                            <button type="submit" id="rzp-button1">Pay with Razorpay</button>
+                                            <input type="email" name="email" value="{{ user_name.Email }}" hidden>
+                                            <button type="button" id="rzp-button1">Pay with Razorpay</button>
                                         </form>
 
                                         <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
@@ -115,50 +110,79 @@
                                                 "key": "rzp_test_8jTLUV3aVex82Q",
                                                 "amount": "{{ payment.amount }}",
                                                 "currency": "INR",
-                                                "name": "indrayadu36@gmail.com",
+                                                "name": "TrendGenix",
                                                 "description": "Test Transaction",
                                                 "image": "https://cdn.freebiesupply.com/logos/large/2x/trigenix-logo-png-transparent.png",
                                                 "order_id": "{{ payment.id }}",
-                                                "callback_url": "http://127.0.0.1:8000/making_payment/",
+                                                "callback_url": "{% url 'making_payment' %}",
+                                                "prefill": {
+                                                    "name": "{{ user_name.Name }}",
+                                                    "email": "{{ user_name.Email }}",
+                                                    "contact": "9000090000"
+                                                },
+                                                "notes": {
+                                                    "address": "Cybrom Technology MP Nagar Zone-1, Bhopal, Madhya Pradesh"
+                                                },
                                                 "theme": {
                                                     "color": "#3399cc"
                                                 },
+                                                "modal": {
+                                                    "backdropclose": true,
+                                                    "confirm_close": true,
+                                                    "animation": true
+                                                },
+                                                "subscription_card_change": true,
+                                                "timeout": 100,
+                                                "send_sms_hash": true,
+                                                "retry": {
+                                                    "enabled": true,
+                                                    "max_count": 4
+                                                },
                                                 "handler": function (response) {
-                                                    // Handle the payment success response
                                                     var paymentForm = document.getElementById('payment-form');
-                                                    var input = document.createElement('input');
+                                                    var input;
+
+                                                    input = document.createElement('input');
                                                     input.type = 'hidden';
                                                     input.name = 'razorpay_payment_id';
                                                     input.value = response.razorpay_payment_id;
                                                     paymentForm.appendChild(input);
+
                                                     input = document.createElement('input');
                                                     input.type = 'hidden';
                                                     input.name = 'razorpay_order_id';
                                                     input.value = response.razorpay_order_id;
                                                     paymentForm.appendChild(input);
+
                                                     input = document.createElement('input');
                                                     input.type = 'hidden';
                                                     input.name = 'razorpay_signature';
                                                     input.value = response.razorpay_signature;
                                                     paymentForm.appendChild(input);
-                                                    // Submit the form
+
+                                                    var methodInput = document.createElement('input');
+                                                    methodInput.type = 'hidden';
+                                                    methodInput.name = 'payment_method';
+                                                    methodInput.value = response.payment_method;
+                                                    paymentForm.appendChild(methodInput);
+
                                                     paymentForm.submit();
                                                 }
                                             };
+
                                             var rzp1 = new Razorpay(options);
+
                                             document.getElementById('rzp-button1').onclick = function (e) {
                                                 rzp1.open();
                                                 e.preventDefault();
                                             }
                                         </script>
 
-
                                         {% else %}
-                                        <form action="{% url 'checkout'%}" method="post">
+                                        <form action="{% url 'checkout' %}" method="post">
                                             {% csrf_token %}
-                                            <input type="email" name="email" value="{{user_name.Email}}" id="" hidden>
-                                            <input type="number" name="amount" value="{{amount.Total_pay_amount}}"
-                                                hidden>
+                                            <input type="email" name="email" value="{{ user_name.Email }}" hidden>
+                                            <input type="number" name="amount" value="{{ amount.Total_pay_amount }}" hidden>
                                             <input type="submit" value="Checkout" id="Checkoutbtn">
                                         </form>
                                         {% endif %}
@@ -167,17 +191,11 @@
                             </tbody>
                         </table>
                     </div>
-                    <!-- end table-responsive -->
                 </div>
             </div>
         </div>
     </div>
 </section>
-
-
-
-
-
 {% else %}
 <section id="addcartpageelse_body">
     <img src="https://mir-s3-cdn-cf.behance.net/projects/404/95974e121862329.Y3JvcCw5MjIsNzIxLDAsMTM5.png" alt="">

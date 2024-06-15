@@ -37,6 +37,12 @@ urlpatterns=[
     path('updateditproductdata/',updateditproductdata, name='updateditproductdata'),
     path('addproductdata/',addproductdata, name='addproductdata'),
 
+    # ============= Payment Data CRUD =============================================
+    path('deletpay/<int:pk>/',deletpay, name='deletpay'),
+    path('deletoder/<int:pk>/',deletoder, name='deletoder'),
+    path('deletpurch_prod/<int:pk>/',deletpurch_prod, name='deletpurch_prod'),
+
+
 
 
 

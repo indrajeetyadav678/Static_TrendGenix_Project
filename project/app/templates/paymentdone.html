@@ -1,74 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Done</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Done</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
 
-.container {
-    text-align: center;
-    background: white;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+    .container {
+      text-align: center;
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
-.success-icon {
-    font-size: 100px;
-    color: #4CAF50;
-    margin-bottom: 20px;
-}
+    .success-icon {
+      font-size: 100px;
+      color: #4CAF50;
+      margin-bottom: 20px;
+    }
 
-h1 {
-    font-size: 2em;
-    margin-bottom: 20px;
-    color: #333;
-}
+    h1 {
+      font-size: 2em;
+      margin-bottom: 20px;
+      color: #333;
+    }
 
-p {
-    font-size: 1.2em;
-    color: #666;
-    margin-bottom: 30px;
-}
+    p {
+      font-size: 1.2em;
+      color: #666;
+      margin-bottom: 30px;
+    }
 
-button {
-    font-size: 1em;
-    color: white;
-    background-color: #4CAF50;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
+    button {
+      font-size: 1em;
+      color: white;
+      background-color: #4CAF50;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
 
-button:hover {
-    background-color: #45a049;
-}
-button a{
-    color: white;
-    text-decoration: none;
-}
+    button:hover {
+      background-color: #45a049;
+    }
 
-    </style>
+    button a {
+      color: white;
+      text-decoration: none;
+    }
+
+    #itemtable {
+      width: 100%;
+      height: auto;
+      border-bottom: 1px solid black;
+    }
+
+    #invoice_body {
+      font-family: 'Arial', sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+    }
+
+    .invoice-box {
+      max-width: 800px;
+      margin: auto;
+      padding: 30px;
+      border: 1px solid #eee;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+      font-size: 16px;
+      line-height: 24px;
+      color: #555;
+    }
+
+    .invoice-box table {
+      width: 100%;
+      line-height: inherit;
+      text-align: left;
+    }
+
+    .invoice-box table td {
+      padding: 5px;
+      vertical-align: top;
+    }
+
+    .invoice-box table tr td:nth-child(2) {
+      text-align: right;
+    }
+
+    .invoice-box table tr.top table td {
+      padding-bottom: 20px;
+    }
+
+    .invoice-box table tr.top table td.title {
+      font-size: 45px;
+      line-height: 45px;
+      color: #333;
+    }
+
+    .invoice-box table tr.information table td {
+      padding-bottom: 40px;
+    }
+
+    .invoice-box table tr.heading td {
+      background: #eee;
+      border-bottom: 1px solid #ddd;
+      font-weight: bold;
+    }
+
+    .invoice-box table tr.details td {
+      padding-bottom: 20px;
+    }
+
+    .invoice-box table tr.item td {
+      border-bottom: 1px solid #eee;
+    }
+
+    .invoice-box table tr.item.last td {
+      border-bottom: none;
+    }
+
+    .invoice-box table tr.total td:nth-child(2) {
+      border-top: 2px solid #eee;
+      font-weight: bold;
+    }
+  </style>
 </head>
+
 <body>
+  {% if payment_fail %}
     <div class="container">
-        <div class="success-icon">&#10004;</div>
-        <h1>Payment Successful!</h1>
-        <p>Thank you for your purchase. Your payment has been processed successfully.</p>
-        <button><a href="{% url 'index' %}">Back to Home</a></button>
+      <div class="success-icon">&#10004;</div>
+      <h1>Payment Failed</h1>
+      <p>Unfortunately, your payment could not be processed. Please try again.</p>
+      <button><a href="{% url 'index' %}">Back to Home</a></button>
     </div>
+  {% else %}
+    <div id="invoice_body">
+      <div class="invoice-box">
+        <table cellpadding="0" cellspacing="0">
+          <tr class="top">
+            <td colspan="2">
+              <table>
+                <tr>
+                  <td class="title">
+                    <img src="https://cdn.freebiesupply.com/logos/large/2x/trigenix-logo-png-transparent.png"
+                      style="width:100px;">
+                  </td>
+                  <td>
+                    Invoice: {{ invoice_data.Invoice_id }}<br>
+                    Payment ID: {{ invoice_data.Payment_id }}<br>
+                    Date: {{ invoice_data.Billingtime }}<br>
+                    Status: {{ invoice_data.Status }}<br>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr class="information">
+            <td colspan="2">
+              <table>
+                <tr>
+                  <td>
+                    {{ user_name.Name }}<br>
+                    {{ user_name.Email }}<br>
+                    {{ user_name.Contact }}<br>
+                    {{ invoice_data.Shipping_address }}
+                  </td>
+                  <td>
+                    TrendGenix, Inc.<br>
+                    Indrajeetyadu36@gmail.com<br>
+                    {{ invoice_data.Billing_address }}
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr class="heading">
+            <td>Payment Method</td>
+            <td>Check #</td>
+          </tr>
+          <tr class="details">
+            <td>Check</td>
+            <td>1000</td>
+          </tr>
+          <tr class="heading">
+            <td>Item</td>
+            <td>Price</td>
+          </tr>
+          {% for item in purchase_data %}
+          <tr class="item">
+            <td>{{ item.Product_Type }}</td>
+            <td>{{ item.Prod_MRP }}</td>
+          </tr>
+          {% endfor %}
+          <tr class="total">
+            <td>Total Amount:</td>
+            <td>{{ invoice_data.Amount }}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  {% endif %}
+
+  <script>
+    const paymentData = "{{ payment_data }}";
+    if (paymentData) {
+      window.confirm(
+        "Thank you for your purchase. Your payment has been processed successfully"
+      );
+    }
+  </script>
 </body>
+
 </html>

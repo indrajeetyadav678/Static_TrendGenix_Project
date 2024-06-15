@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.http import FileResponse
 from .models import*
 from datetime import datetime
 from django.core.mail import send_mail
@@ -10,9 +10,10 @@ from .forms import*
 from datetime import datetime
 import string
 import random
-import logging
+import pdfkit
 import razorpay
 # from django.http import HttpResponse
+from django.template.loader import render_to_string
 
 # Create your views here.
 
@@ -417,7 +418,8 @@ def addtocart(request, pk):
         request.session['addtocart'] = addtocart
         # request.session['addtocart'].clear()
         try:
-            cart_no=len(addcart)
+            cart_no=len(addtocart)
+            print(cart_no)
         except:
             cart_no=0
         user_info=data
@@ -1056,89 +1058,134 @@ def making_payment(request):
     addcart = request.session.get('addtocart', [])
     cart_no = len(addcart)
     
+    payment_method = request.POST.get('payment_method')
+    print(payment_method)
     razorpay_payment_id = request.POST.get('razorpay_payment_id')
+    print(razorpay_payment_id)
     razorpay_order_id = request.POST.get('razorpay_order_id')
+    print(razorpay_order_id)
     razorpay_signature = request.POST.get('razorpay_signature')
-    
+    print(razorpay_signature)
+    print('------------------1 -------------------------------')
+    # try:
     payment_data = PaymentdataModel.objects.get(Order_id=razorpay_order_id)
     
     if payment_data:
-        payment_data.Payment_Id = razorpay_payment_id
-        payment_data.Signature = razorpay_signature
-        payment_data.save(update_fields=['Payment_Id', 'Signature'])
-    
+            payment_data.Payment_Id = razorpay_payment_id
+            payment_data.Signature = razorpay_signature
+            payment_data.save(update_fields=['Payment_Id', 'Signature'])
     
     pro_list = []
     client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_SECRET_KEY))
-    
+    print('------------------2 -------------------------------')
+        
     for item in addcart:
-        pro_value = get_object_or_404(Productmodel, id=item['id'])
-        item_data = {
-            'name': pro_value.Product_Type,
-            'description': pro_value.Prod_Detail,
-            'amount': pro_value.Prod_MRP * item['Quantity'],
-            'unit_amount': pro_value.Prod_MRP,
-            # 'gross_amount': pro_value.Prod_gross_amount * item['Quantity'],
-            # 'tax_amount': pro_value.Prod_tax * item['Quantity'],
-            # 'net_amount': pro_value.Prod_Net_amount * item['Quantity'],
-            'currency': 'INR',
-            'quantity': item['Quantity']
-        }
-        pro_list.append(item_data)
-
-    # print(pro_list)
+            pro_value = get_object_or_404(Productmodel, id=item['id'])
+            item_data = {
+                'name': pro_value.Product_Type,
+                'description': pro_value.Prod_Detail,
+                'amount': pro_value.Prod_MRP * item['Quantity'],
+                'unit_amount': pro_value.Prod_MRP,
+                'currency': 'INR',
+                'quantity': item['Quantity']
+            }
+            pro_list.append(item_data)
+            pr_data={
+                "Product_Type":pro_value.Product_Type,
+                "Prod_Image1":pro_value.Prod_Image1,
+                "Prod_Image2":pro_value.Prod_Image2,
+                "Prod_Image3":pro_value.Prod_Image3,
+                "Prod_Image4":pro_value.Prod_Image4,
+                "Prod_Price":pro_value.Prod_Price,
+                "Prod_MRP":pro_value.Prod_MRP,
+                "Prod_Offer":pro_value.Prod_Offer,
+                "Prod_Detail":pro_value.Prod_Detail,
+                "prod_color":pro_value.prod_color,
+                "Serial_no":pro_value.Serial_no,
+                "Order_id":razorpay_order_id,
+                "Email_id":user_info.Email,
+            }
+            Purchaseproduct.objects.create(**pr_data)
+    print('------------------3 -------------------------------')
+        
     invoice_data = {
-        "type": "invoice",
-        "customer": {
-            "name": user_info.Name,
-            "contact":"9657758586",
-            # "gstin":435467852334546,  #format is invalid
-            "email":"indrajeetyadu36@gmail.com",
-            "billing_address" :"CybromTechnology MP Nagar Zone-1, Bhopal Madhya Pradesh",
-            # "customer_name":user_info.Name,   #this information is not required
-            # "customer_email":user_info.Email,  #this information is not required
-            # "customer_contact":9755306511,     #this information is not required
-            "shipping_address":user_info.Address,
-        },
-        "line_items": pro_list,
-        # "Order_id": razorpay_order_id,
-        # "payment_id": razorpay_payment_id,
-        # "status": "Paid"
+            "type": "invoice",
+            "customer": {
+                "name": user_info.Name,
+                "contact": user_info.Number,
+                "email": user_info.Email,
+                "billing_address": "TrendGenix MP Nagar Kolar Road, BHopal Madhya Pradesh",
+                "shipping_address": user_info.Address,
+            },
+            "line_items": pro_list,
     }
+    print('------------------ 3.5 -------------------------------')
+
     invoice = client.invoice.create(data=invoice_data)
     print(invoice)
+    print('------------------ 4 -------------------------------')
+
     Invoicemodel.objects.create(
-        Invoice_id=invoice['id'],
-        # invoice_number=invoice['invoice_number'],
-        Customer_id=user_info.id,
-        Order_id=razorpay_order_id,
-        Payment_id=razorpay_payment_id,
-        Gross_amount=invoice['gross_amount'],
-        Tax_amount=invoice['tax_amount'],
-        Amount=invoice['amount'],
-        Amount_paid=invoice['amount_due'],
-        Amount_due=invoice['amount_paid'],
-        Currency=invoice['currency'],
-        Billing_address="CybromTechnology MP Nagar Zone-1, Bhopal Madhya Pradesh",
-        Shipping_address=user_info.Address,
-        Status="Paid"
+            Invoice_id=invoice['id'],
+            Customer_id=user_info.id,
+            Order_id=razorpay_order_id,
+            Payment_id=razorpay_payment_id,
+            Gross_amount=invoice['gross_amount'],
+            Tax_amount=invoice['tax_amount'],
+            Amount=invoice['amount'],
+            Amount_paid=invoice['amount_due'],
+            Amount_due=invoice['amount_paid'],
+            Currency=invoice['currency'],
+            Billing_address="TrendGenix MP Nagar Kolar Road, BHopal Madhya Pradesh",
+            Shipping_address=user_info.Address,
+            Status="Paid"
     )
-
-    savedata = Invoicemodel.objects.get(Invoice_id=invoice['id'])
-    print(savedata)
-
+    print('------------------ 5 -------------------------------')
+        
     if 'addtocart' in request.session:
-        del request.session['addtocart']
+            del request.session['addtocart']
     
-
+    payment_data = PaymentdataModel.objects.get(Order_id=razorpay_order_id)
+    invoice_data = Invoicemodel.objects.get(Order_id=razorpay_order_id)
+    purchase_data = Purchaseproduct.objects.filter(Order_id=razorpay_order_id)
+    print('------------------ 6 -------------------------------')
+        
     context = {
-        'user_name': user_info,
-        'addcartno': cart_no,
-        'media_url': settings.MEDIA_URL,
-        'payment_data': payment_data,
+            'user_name': user_info,
+            'addcartno': cart_no,
+            'media_url': settings.MEDIA_URL,
+            'payment_data': payment_data,
+            "invoice_data": invoice_data,
+            "purchase_data": purchase_data,
     }
+        
+        # Render the HTML template to a string
+    html_string = render_to_string('paymentdone.html', context)
 
-    return render(request, 'paymentdone.html', context)
+        # Convert the HTML string to PDF
+    output_pdf = '/tmp/invoice.pdf'  # You can change this path as needed
+    pdfkit.from_string(html_string, output_pdf)
+    print('------------------ 7 -------------------------------')
+        
+        # Serve the PDF file as a downloadable response
+    return FileResponse(open(output_pdf, 'rb'), as_attachment=True, filename='invoice.pdf')
+
+    # except Exception as e:
+    #     print(e)
+    #     payment_data = PaymentdataModel.objects.get(Order_id=razorpay_order_id)
+    #     payment_data.Status = "Fail"
+    #     payment_data.save(update_fields=['Status'])
+        
+    #     context = {
+    #         'user_name': user_info,
+    #         'addcartno': cart_no,
+    #         'media_url': settings.MEDIA_URL,
+    #         "payment_fail": True,
+    #     }
+    #     return render(request, 'paymentdone.html', context)
+
+
+
 # ------------------------- Product Payment function ----------------------------
 
 def buyproduct(request):

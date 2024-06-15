@@ -255,3 +255,39 @@ def cartpage(request):
         </ul>
 
     </div>
+
+
+
+
+    <!-- invoice -->
+    invoice_data = {
+        "type": "invoice",
+        "customer": {
+            "name": user_info.Name,
+            "contact": user_info.Contact,
+            "email": user_info.Email,
+            "billing_address": {
+                "line1": "T",
+                "line2": "",
+                "zipcode": "000000",
+                "city": "City",
+                "state": "State",
+                "country": "Country"
+            },
+            "shipping_address": {
+                "line1": user_info.Address,
+                "line2": "",
+                "zipcode": "000000",
+                "city": "City",
+                "state": "State",
+                "country": "Country"
+            }
+        },
+        "line_items": pro_list,
+        "currency": "INR",
+        "amount": order['amount'],
+        "description": "Purchase from TrendGenix",
+        "receipt": order['receipt']
+    }
+    invoice = client.invoice.create(data=invoice_data)
+    client.invoice.issue(invoice['id'])

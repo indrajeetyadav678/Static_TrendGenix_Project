@@ -1,6 +1,8 @@
 from django.db import models
 
-# Create your models here.
+# Create your models here.\
+# ========================== 1. User Registration Model ==============================
+
 class RegistrationModel(models.Model):
     Profile=models.ImageField(null=True, upload_to=True)
     About=models.TextField( null=True)
@@ -15,6 +17,8 @@ class RegistrationModel(models.Model):
     def __str__(self):
         return self.Email
     
+# ========================== 2. TODO TASK MODEL ==============================
+
 class Todolist(models.Model):
     Title=models.CharField(max_length=200)
     Task=models.TextField()
@@ -24,12 +28,17 @@ class Todolist(models.Model):
     def __str__(self):
         return self.Email
 
+# ========================== 3. CAROUSEL MODEL ==============================
+
 class IndexCarousel(models.Model):
     slide_image1 = models.ImageField(upload_to='carousel_images/')
     caption = models.CharField(max_length=250)
     cap_title = models.CharField(max_length=250)
     def __str__(self):
         return self.cap_title
+
+
+# ========================== 4. MULTI IMAGE CAROUSEL MODEL ==============================
 
 class ProductBox(models.Model):
     heading = models.CharField(max_length=250)
@@ -45,6 +54,8 @@ class ProductBox(models.Model):
     def get_heading(self):
         return self.heading
     
+
+# ========================== 5. PRODUCT  ADDING MODEL ==============================
 
 Product_for=[
     ('Men','Men'),
@@ -72,6 +83,9 @@ class Productmodel(models.Model):
     def __str__(self):
         return self.Prod_Name
 
+# ========================== 6. PYMENT DATA MODEL ==============================
+
+
 class PaymentdataModel(models.Model):
     Email=models.EmailField(null= True)
     Amount=models.IntegerField( null=True)
@@ -91,6 +105,8 @@ class PaymentdataModel(models.Model):
     def __str__(self):
         return self.Order_id
 
+# ========================== 7. PURCHASE PEODUCT DATA MODEL ==============================
+
 class Purchaseproduct(models.Model):
     Product_Type=models.CharField(max_length=254, null=True)
     Prod_Image1=models.ImageField(null=True)
@@ -103,12 +119,15 @@ class Purchaseproduct(models.Model):
     Prod_Detail=models.TextField(null=True)
     prod_color=models.CharField(max_length=254, null=True)
     Serial_no=models.IntegerField(null=True)
-    Purchase_date=models.DateTimeField(auto_created=True)
+    Purchase_date=models.DateTimeField(auto_now=True)
     Order_id=models.CharField(max_length=255, null=True)
     Email_id=models.EmailField(null= True)
     
     def __str__(self):
         return self.Email
+
+
+# ========================== 8. INVOICE DATA MODEL ==============================
 
 class Invoicemodel(models.Model):
     Invoice_id=models.CharField(max_length=255, blank=True)

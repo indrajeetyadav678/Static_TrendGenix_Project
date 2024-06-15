@@ -193,6 +193,9 @@ def userdata(request):
     Admin_id=request.session.get('Admin_id')
     admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
     invoiceData = Invoicemodel.objects.all()
+    Purchaseproductdata = Purchaseproduct.objects.all()
+    Paymentdata = PaymentdataModel.objects.all()
+
     print(invoiceData)
     # customer_info=[]
     # for user in invoiceData:
@@ -208,10 +211,95 @@ def userdata(request):
         'media_url': settings.MEDIA_URL,
         'admin_user':admin_info,
         'all_invoice':invoiceData,
+        'purchase_data':Purchaseproductdata,
+        'Paymentdata':Paymentdata,
         # 'customer_data':customer_info
     }
     return render(request, 'userdata.html', Context)
 
+
+# ---------------------- CRUD ------------------------------------
+
+def deletpay(request, pk):
+    try:
+        data=PaymentdataModel.objects.get(id=pk)
+        data.delete()
+        msg="Data Deleted Successfully"
+    except:
+        msg="Data does not exist"
+
+    Admin_id=request.session.get('Admin_id')
+    admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
+    customer_data=RegistrationModel.objects.all()
+    print(customer_data)
+    invoiceData = Invoicemodel.objects.all()
+    Purchaseproductdata = Purchaseproduct.objects.all()
+    Paymentdata = PaymentdataModel.objects.all()
+    Context={
+        'media_url': settings.MEDIA_URL,
+        'admin_user':admin_info,
+        'customer':customer_data,
+        'all_invoice':invoiceData,
+        'purchase_data':Purchaseproductdata,
+        'Paymentdata':Paymentdata,
+        'key':msg
+    }
+    return render(request, 'userdata.html', Context)
+
+# ---------- PaymentdataModel data deleting  -----------
+
+def deletoder(request, pk):
+    try:
+        data=PaymentdataModel.objects.get(id=pk)
+        data.delete()
+        msg="Data Deleted Successfully"
+    except:
+        msg="Data does not exist"
+
+    Admin_id=request.session.get('Admin_id')
+    admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
+    customer_data=RegistrationModel.objects.all()
+    print(customer_data)
+    invoiceData = Invoicemodel.objects.all()
+    Purchaseproductdata = Purchaseproduct.objects.all()
+    Paymentdata = PaymentdataModel.objects.all()
+    Context={
+        'media_url': settings.MEDIA_URL,
+        'admin_user':admin_info,
+        'customer':customer_data,
+        'all_invoice':invoiceData,
+        'purchase_data':Purchaseproductdata,
+        'Paymentdata':Paymentdata,
+        'key':msg
+    }
+    return render(request, 'userdata.html', Context)
+
+# ------------ purchase Product deleting -----------
+def deletpurch_prod(request, pk):
+    try:
+        data=Purchaseproduct.objects.get(id=pk)
+        data.delete()
+        msg="Data Deleted Successfully"
+    except:
+        msg="Data does not exist"
+
+    Admin_id=request.session.get('Admin_id')
+    admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
+    customer_data=RegistrationModel.objects.all()
+    print(customer_data)
+    invoiceData = Invoicemodel.objects.all()
+    Purchaseproductdata = Purchaseproduct.objects.all()
+    Paymentdata = PaymentdataModel.objects.all()
+    Context={
+        'media_url': settings.MEDIA_URL,
+        'admin_user':admin_info,
+        'customer':customer_data,
+        'all_invoice':invoiceData,
+        'purchase_data':Purchaseproductdata,
+        'Paymentdata':Paymentdata,
+        'key':msg
+    }
+    return render(request, 'userdata.html', Context)
 
 
 
