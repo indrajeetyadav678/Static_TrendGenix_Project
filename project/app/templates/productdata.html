@@ -47,15 +47,15 @@
                     <th>Image_0.2</th>
                     <th>Image_0.3</th>
                     <th>Image_0.4</th>
-                    <th>Net_amount</th>
-                    <th>Gross_amount</th>
                     <th>MRP</th>
                     <th>Offer</th>
+                    <th>Discount</th>
+                    <th>Price</th>
                     <th>Details</th>
                     <th>Seial No.</th>
                     <th>Edit</th>
                     <th>Delete</th>
-                    <th>Viewa</th>
+                    <th>Views</th>
                 </tr>
             </thead>
             <tbody id="prod_data_body">
@@ -116,10 +116,10 @@
                     <td style="width:100px; height: 100px;">
                         <img src="{{media_url}}{{i.Prod_Image4}}" alt="">
                     </td>
-                    <td>₹{{i.Prod_Net_amount}}/-</td>
-                    <td>₹{{i.Prod_gross_amount}}/-</td>
                     <td>₹{{i.Prod_MRP}}/-</td>
-                    <td>{{i.Prod_Offer}}</td>
+                    <td>₹{{i.Prod_Offer}}/-</td>
+                    <td>₹{{i.Discount}}/-</td>
+                    <td>{{i.Prod_Price}}</td>
                     <td style="width:250px; height: 100px;">{{i.Prod_Detail | truncatewords:15}}</td>
                     <td>{{i.Serial_no}}</td>
                     <td>

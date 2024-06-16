@@ -12,6 +12,7 @@
                 <th>Amount</th>
                 <th>Amount_paid</th>
                 <th>Amount_due</th>
+                <th>Quantity</th>
                 <th>Currency</th>
                 <th>Receipt</th>
                 <th>Attempts</th>
@@ -33,6 +34,7 @@
                 <td>{{i.Amount}}</td>
                 <td>{{i.Amount_paid}}</td>
                 <td>{{i.Amount_due}}</td>
+                <td>{{i.Prod_Quantity}}</td>
                 <td>{{i.Currency}}</td>
                 <td>{{i.Receipt}}</td>
                 <td>{{i.Attempts}}</td>
@@ -59,6 +61,7 @@
         <thead id="paydata_hearder">
             <tr >
                 <th>Invoice_id</th>
+                <th>invoice_number</th>
                 <th>Customer_id</th>
                 <th>Customer_Name</th>
                 <th>Customer_Email</th>
@@ -130,8 +133,8 @@
                 <td><img src="{{media_url}}{{i.Prod_Image2}}" style="width: 100px; height: 100px;" alt=""></td>
                 <td><img src="{{media_url}}{{i.Prod_Image3}}" style="width: 100px; height: 100px;" alt=""></td>
                 <td><img src="{{media_url}}{{i.Prod_Image4}}" style="width: 100px; height: 100px;" alt=""></td>
-                <td>{{i.Prod_Price}}</td>
                 <td>{{i.Prod_MRP}}</td>
+                <td>{{i.Prod_Price}}</td>
                 <td>{{i.Prod_Offer}}</td>
                 <td>{{i.Prod_Detail | truncatewords:5 }}</td>
                 <td>{{i.prod_color}}</td>

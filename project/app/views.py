@@ -422,6 +422,7 @@ def addtocart(request, pk):
             print(cart_no)
         except:
             cart_no=0
+
         user_info=data
         if prod_name == 'Men':
             prod_data1 = Productmodel.objects.filter(Prod_Name='Men')
@@ -689,45 +690,49 @@ def cartpage(request):
         except:
             cart_no=0
 
-        addcart_data = request.session.get('addtocart', [])
-        print(addcart_data,'============================  2  ======')
+        # addcart_data = request.session.get('addtocart', [])
+        print(addcart,'============================  2  ======')
         total_MRP = 0
         total_amount = 0
-        tax = 0
+        total_discount=0
         shippingcharge = 40
         Quantity=0
         pro_data = []
 
-        for item in addcart_data:
+        for item in addcart:
             print(item)
             pro_value = get_object_or_404(Productmodel, id=item['id'])
-            print(pro_value,'-------------------- 3 ----')
+            print(pro_value.Prod_Price,'-------------------- 3 ----')
             pro_quantitydata = {
                 'pro_value': pro_value,
                 'Quantity': item['Quantity']
             }
             print(pro_value,'-----------------  04-------')
             pro_data.append(pro_quantitydata)
-            print(pro_quantitydata)
-            total_amount += pro_value.Prod_Net_amount * item['Quantity']
+            print(pro_quantitydata,"<-------------")
+            total_amount += pro_value.Prod_Price * item['Quantity']
+            print("total_amount------------>",total_amount)
             total_MRP += pro_value.Prod_MRP * item['Quantity']
-            tax += pro_value.Prod_tax * item['Quantity']
+            print("total_MRP------------>",total_MRP)
             Quantity += item['Quantity']
+            print("Quantity------------>",Quantity)
+            total_discount += pro_value.Discount
+            print("total_discount------------>",total_discount)
             print(pro_value,'-----------------  05-------')
-              
-            print(pro_value,'-----------------  06-------')
-                
-        discount = total_MRP - total_amount
-        print(discount,'================ 6.2 ==================')    
-        Total_pay_amount = total_amount + shippingcharge + tax
-        print(Total_pay_amount,'================ 6.5 ==================')
+
+        # total_amount= total_MRP -  total_discount    
+        tax=int(total_amount*12/100)
+        gross_amount = total_MRP + shippingcharge+tax
+        net_amount=gross_amount-total_discount
+        print('================ 6.5 ==================')
         billamount = {
                 'total_amount': total_amount,
                 'total_MRP': total_MRP,
-                'discount': discount,
+                'discount': total_discount,
                 'tax': tax,
                 'shippingcharge': shippingcharge,
-                'Total_pay_amount': Total_pay_amount,
+                'gross_amount':gross_amount,
+                'Total_pay_amount': net_amount,
                 'Quantity':Quantity     
         }
         print(billamount,'============================ 7 ===')
@@ -976,33 +981,21 @@ def checkout(request):
     # print(amount)
     email=request.POST.get('email')
     # print(email)
-    # userdata=RegistrationModel.objects.get(Email=email)
-    global Payableamount 
-    client = razorpay.Client(auth =("rzp_test_8jTLUV3aVex82Q" , "n3PL7ZbSgnKSWJeA1s9ndhaO"))
+    client = razorpay.Client(auth =(settings.RAZORPAY_KEY_ID , settings.RAZORPAY_SECRET_KEY))
     data = { "amount": amount, "currency": "INR", "receipt": "order_rcptid_11" }
     # print(data)
     payment = client.order.create(data=data)
-    print("Payment ----->",payment)
+    # print("Payment ----->",payment)
+    global Payableamount 
     Payableamount=payment
+    # print(payment['id'])
 
-    print(payment['id'])
-    PaymentdataModel.objects.create(
-        Email=email,
-        Amount=payment['amount'],
-        Amount_paid=payment['amount_paid'],
-        Amount_due=payment['amount_due'],
-        Currency=payment['currency'],
-        Receipt =payment['receipt'],
-        Status=payment['status'],
-        Attempts=payment['attempts'],
-        Notes=payment['notes'],
-        Created_at=payment['created_at'], 
-        Order_id=payment['id']
-    )
+    # ------------- get data from addtocard session ------------------
     addcart_data = request.session.get('addtocart', [])
     # print(addcartround(_data)
     total_MRP = 0
     total_amount = 0
+    total_discount=0
     tax = 0
     shippingcharge = 40
     Quantity=0
@@ -1011,28 +1004,64 @@ def checkout(request):
     for item in addcart_data:
         # print(item)
         pro_value = Productmodel.objects.get(id=item['id'])
-        # print(pro_value)
+        print(pro_value)
         pro_quantitydata = {
             'pro_value': pro_value,
             'Quantity': item['Quantity']
         }
         pro_data.append(pro_quantitydata)
-        # print(pro_quantitydata)
-        total_amount += pro_value.Prod_Net_amount * item['Quantity']
+        print(pro_quantitydata)
+        total_amount += pro_value.Prod_Price * item['Quantity']
         total_MRP += pro_value.Prod_MRP * item['Quantity']
-        tax += int(round((total_amount * 12) / 100,2))
         Quantity += item['Quantity']
-
-    discount = total_MRP - total_amount
-    Total_pay_amount = total_amount + shippingcharge + tax
+        total_discount += pro_value.Discount
+        #-------------- purchase Product data save ------------ 
+        pr_data={
+            "Product_Type":pro_value.Product_Type,
+            "Prod_Image1":pro_value.Prod_Image1,
+            "Prod_Image2":pro_value.Prod_Image2,
+            "Prod_Image3":pro_value.Prod_Image3,
+            "Prod_Image4":pro_value.Prod_Image4,
+            "Prod_Price":pro_value.Prod_Price,
+            "Prod_MRP":pro_value.Prod_MRP,
+            "Prod_Offer":pro_value.Prod_Offer,
+            "Prod_Detail":pro_value.Prod_Detail,
+            "prod_color":pro_value.Prod_color,
+            "Serial_no":pro_value.Serial_no,
+            "Order_id":payment['id'],
+            "Email_id":user_info.Email,
+            "Prod_Quantity":item['Quantity']
+        }
+        Purchaseproduct.objects.create(**pr_data)
     
+    # total_amount = total_MRP -  total_discount 
+    tax = int(total_amount*12/100)
+    print(tax)  
+    gross_amount = total_MRP + shippingcharge + tax
+    net_amount = gross_amount - total_discount
+    # ---------- Order Create data save in Paymentdatamodel ------------------
+    PaymentdataModel.objects.create(
+        Email=email,
+        Amount=payment['amount']/100,
+        Amount_paid=payment['amount_paid']/100,
+        Amount_due=payment['amount_due']/100,
+        Currency=payment['currency'],
+        Receipt =payment['receipt'],
+        Status=payment['status'],
+        Attempts=payment['attempts'],
+        Notes=payment['notes'],
+        Order_id=payment['id'],
+        Prod_Quantity=Quantity
+    )
+    global billamount    
     billamount = {
         'total_amount': total_amount,
         'total_MRP': total_MRP,
-        'discount': discount,
+        'discount': total_discount,
         'tax': tax,
         'shippingcharge': shippingcharge,
-        'Total_pay_amount': Total_pay_amount,
+        'gross_amount':gross_amount,
+        'Total_pay_amount': net_amount,
         'Quantity':Quantity
     }
     cart_length = len(addcart_data)
@@ -1066,123 +1095,115 @@ def making_payment(request):
     print(razorpay_order_id)
     razorpay_signature = request.POST.get('razorpay_signature')
     print(razorpay_signature)
+    fname = request.POST.get('firstname')
+    email = request.POST.get('email')
+    billing_address = request.POST.get('address')
+    city = request.POST.get('city')
+    state = request.POST.get('state')
+    zip = request.POST.get('zip')
+    print(request.POST)
+    shipping_address = billing_address
     print('------------------1 -------------------------------')
-    # try:
-    payment_data = PaymentdataModel.objects.get(Order_id=razorpay_order_id)
-    
-    if payment_data:
+    try:
+        payment_data = PaymentdataModel.objects.get(Order_id=razorpay_order_id)
+
+        if payment_data:
             payment_data.Payment_Id = razorpay_payment_id
             payment_data.Signature = razorpay_signature
-            payment_data.save(update_fields=['Payment_Id', 'Signature'])
+            payment_data.save(update_fields=['Payment_Id', 'Signature', 'Datetime'])
     
-    pro_list = []
-    client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_SECRET_KEY))
-    print('------------------2 -------------------------------')
+        pro_list = []
+        client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_SECRET_KEY))
         
-    for item in addcart:
+        for item in addcart:
             pro_value = get_object_or_404(Productmodel, id=item['id'])
             item_data = {
                 'name': pro_value.Product_Type,
                 'description': pro_value.Prod_Detail,
-                'amount': pro_value.Prod_MRP * item['Quantity'],
-                'unit_amount': pro_value.Prod_MRP,
+                'amount': pro_value.Prod_Price * item['Quantity'],
+                'unit_amount': pro_value.Prod_Price,
                 'currency': 'INR',
                 'quantity': item['Quantity']
             }
             pro_list.append(item_data)
-            pr_data={
-                "Product_Type":pro_value.Product_Type,
-                "Prod_Image1":pro_value.Prod_Image1,
-                "Prod_Image2":pro_value.Prod_Image2,
-                "Prod_Image3":pro_value.Prod_Image3,
-                "Prod_Image4":pro_value.Prod_Image4,
-                "Prod_Price":pro_value.Prod_Price,
-                "Prod_MRP":pro_value.Prod_MRP,
-                "Prod_Offer":pro_value.Prod_Offer,
-                "Prod_Detail":pro_value.Prod_Detail,
-                "prod_color":pro_value.prod_color,
-                "Serial_no":pro_value.Serial_no,
-                "Order_id":razorpay_order_id,
-                "Email_id":user_info.Email,
-            }
-            Purchaseproduct.objects.create(**pr_data)
-    print('------------------3 -------------------------------')
-        
-    invoice_data = {
+            
+        invoice_data = {
             "type": "invoice",
             "customer": {
-                "name": user_info.Name,
+                "name": fname,
                 "contact": user_info.Number,
-                "email": user_info.Email,
-                "billing_address": "TrendGenix MP Nagar Kolar Road, BHopal Madhya Pradesh",
-                "shipping_address": user_info.Address,
+                "email": email,
+                "billing_address": {
+                    "line1": billing_address,
+                    "zipcode":zip,
+                    "city": city,
+                    "state": state,
+                    "country": "india"
+                },
+                "shipping_address": {
+                    "line1": billing_address,
+                    "line2": "",
+                    "zipcode": zip,
+                    "city": city,
+                    "state": state,
+                    "country": "india"
+                },
             },
             "line_items": pro_list,
-    }
-    print('------------------ 3.5 -------------------------------')
-
-    invoice = client.invoice.create(data=invoice_data)
-    print(invoice)
-    print('------------------ 4 -------------------------------')
-
-    Invoicemodel.objects.create(
+        }
+        print('------------------ 3.5 -------------------------------')
+        invoice = client.invoice.create(data=invoice_data)
+        print(invoice)
+    
+        Invoicemodel.objects.create(
             Invoice_id=invoice['id'],
             Customer_id=user_info.id,
             Order_id=razorpay_order_id,
             Payment_id=razorpay_payment_id,
-            Gross_amount=invoice['gross_amount'],
-            Tax_amount=invoice['tax_amount'],
+            Gross_amount= billamount['gross_amount'],
+            Tax_amount=billamount['tax'],
             Amount=invoice['amount'],
             Amount_paid=invoice['amount_due'],
             Amount_due=invoice['amount_paid'],
             Currency=invoice['currency'],
-            Billing_address="TrendGenix MP Nagar Kolar Road, BHopal Madhya Pradesh",
-            Shipping_address=user_info.Address,
+            Billing_address = billing_address,
+            Shipping_address = billing_address,
             Status="Paid"
-    )
-    print('------------------ 5 -------------------------------')
+        )
+        print('------------------ 5 -------------------------------')
         
-    if 'addtocart' in request.session:
+        if 'addtocart' in request.session:
             del request.session['addtocart']
     
-    payment_data = PaymentdataModel.objects.get(Order_id=razorpay_order_id)
-    invoice_data = Invoicemodel.objects.get(Order_id=razorpay_order_id)
-    purchase_data = Purchaseproduct.objects.filter(Order_id=razorpay_order_id)
-    print('------------------ 6 -------------------------------')
+        payment_data = PaymentdataModel.objects.get(Order_id=razorpay_order_id)
+        invoice_data = Invoicemodel.objects.get(Order_id=razorpay_order_id)
+        purchase_data = Purchaseproduct.objects.filter(Order_id=razorpay_order_id)
+        print('------------------ 6 -------------------------------')
         
-    context = {
+        context = {
             'user_name': user_info,
             'addcartno': cart_no,
             'media_url': settings.MEDIA_URL,
             'payment_data': payment_data,
             "invoice_data": invoice_data,
             "purchase_data": purchase_data,
-    }
+        }
         
-        # Render the HTML template to a string
-    html_string = render_to_string('paymentdone.html', context)
+        return render(request, 'paymentdone.html', context)
 
-        # Convert the HTML string to PDF
-    output_pdf = '/tmp/invoice.pdf'  # You can change this path as needed
-    pdfkit.from_string(html_string, output_pdf)
-    print('------------------ 7 -------------------------------')
+    except Exception as e:
+        print(e)
+        payment_data = PaymentdataModel.objects.get(Order_id=razorpay_order_id)
+        payment_data.Status = "Fail"
+        payment_data.save(update_fields=['Status'])
         
-        # Serve the PDF file as a downloadable response
-    return FileResponse(open(output_pdf, 'rb'), as_attachment=True, filename='invoice.pdf')
-
-    # except Exception as e:
-    #     print(e)
-    #     payment_data = PaymentdataModel.objects.get(Order_id=razorpay_order_id)
-    #     payment_data.Status = "Fail"
-    #     payment_data.save(update_fields=['Status'])
-        
-    #     context = {
-    #         'user_name': user_info,
-    #         'addcartno': cart_no,
-    #         'media_url': settings.MEDIA_URL,
-    #         "payment_fail": True,
-    #     }
-    #     return render(request, 'paymentdone.html', context)
+        context = {
+            'user_name': user_info,
+            'addcartno': cart_no,
+            'media_url': settings.MEDIA_URL,
+            "payment_fail": True,
+        }
+        return render(request, 'paymentdone.html', context)
 
 
 
@@ -1356,3 +1377,34 @@ def buyproduct_payment(request):
     return render(request, 'paymentdone.html', Context)
 
 # ============= Ending User Dashboard (Razorpay payment integrations) ======================
+# ================ invoice pdf download function =====================================
+
+def invoice_load(request, pk):
+    print(pk)
+    payment_data = PaymentdataModel.objects.get(Order_id=pk)
+    invoice_data = Invoicemodel.objects.get(Order_id=pk)
+    purchase_data = Purchaseproduct.objects.filter(Order_id=pk)
+    print('------------------ 6 -------------------------------')
+        
+    context = {
+            'user_name': user_info,
+            'addcartno': cart_no,
+            'media_url': settings.MEDIA_URL,
+            'payment_data': payment_data,
+            "invoice_data": invoice_data,
+            "purchase_data": purchase_data,
+    }
+    User_id=request.session.get('User_id')
+    user_info=get_object_or_404(RegistrationModel, id=User_id)
+    addcart = request.session.get('addtocart')
+    try:
+        cart_no=len(addcart)
+    except:
+        cart_no=0
+        context = {
+            'user_name': user_info,
+            'addcartno': cart_no,
+            'media_url': settings.MEDIA_URL,
+        }
+        return render(request, 'paymentdone.html', context)
+    return render()

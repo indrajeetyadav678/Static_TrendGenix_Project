@@ -44,6 +44,7 @@ urlpatterns=[
     # ===================== Payment Checkout Url ==============================
     path('checkout/', checkout, name='checkout'),
     path('making_payment/', making_payment, name='making_payment'),
+    path('invoice_load/<str:pk>/', invoice_load, name='invoice_load'),
     path('buyproduct/', buyproduct, name='buyproduct'),
     path('buyproduct_payment/', buyproduct_payment, name='buyproduct_payment'),
 

@@ -138,10 +138,17 @@
       border-top: 2px solid #eee;
       font-weight: bold;
     }
+
+    #Invoice_downbtn{
+      position: absolute;
+      top:60px;
+      right: 70px;
+    }
   </style>
 </head>
 
 <body>
+  <button id="Invoice_downbtn"><a href="{% url 'invoice_load' pk=invoice_data.Order_id %}" download="download">Download invoice</a></button>
   {% if payment_fail %}
     <div class="container">
       <div class="success-icon">&#10004;</div>
@@ -162,6 +169,7 @@
                       style="width:100px;">
                   </td>
                   <td>
+                  <h4>Billing Address</h4>
                     Invoice: {{ invoice_data.Invoice_id }}<br>
                     Payment ID: {{ invoice_data.Payment_id }}<br>
                     Date: {{ invoice_data.Billingtime }}<br>
@@ -176,6 +184,7 @@
               <table>
                 <tr>
                   <td>
+                  <h4>Shipping Address</h4>
                     {{ user_name.Name }}<br>
                     {{ user_name.Email }}<br>
                     {{ user_name.Contact }}<br>

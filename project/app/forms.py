@@ -19,7 +19,7 @@ class Productmodelform(forms.ModelForm):
                 'Prod_Image1','Prod_Image2', 
                 'Prod_Image3', 'Prod_Image4',
                 'Prod_MRP','Prod_Offer','Prod_Detail',
-                'prod_color','Serial_no'
+                'Prod_color','Serial_no'
                 ]
 
 class Registrationform(forms.ModelForm):

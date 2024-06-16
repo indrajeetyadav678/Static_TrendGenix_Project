@@ -291,3 +291,20 @@ def cartpage(request):
     }
     invoice = client.invoice.create(data=invoice_data)
     client.invoice.issue(invoice['id'])
+
+
+
+
+    <!--  pdf conversion -->
+
+    # Render the HTML template to a string
+    html_string = render_to_string('paymentdone.html', context)
+    print(html_string,"------------> Done")
+        # Convert the HTML string to PDF
+    output_pdf = '/templates/invoice/invoice.pdf'  # You can change this path as needed
+    print(output_pdf,"------------->Done")
+    pdfkit.from_string(html_string, output_pdf, options={'enable-local-file-acess' : ""})
+    print('------------------ 7 -------------------------------')
+        
+        # Serve the PDF file as a downloadable response
+    return FileResponse(open(output_pdf, 'r'), as_attachment=True, filename='invoice.pdf')

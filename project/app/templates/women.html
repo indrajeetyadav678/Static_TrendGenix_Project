@@ -7,7 +7,7 @@
         <article class="product" id="product_container">
             <img src="{{media_url}}{{i.Prod_Image1}}" alt="Product 1" id="Product_image">
             <h2>{{i.Product_Type | default:'Product Name'}} </h2>
-            <p class="price">₹{{i.Prod_Net_amount | default:'40'}}/-</p>
+            <p class="price">₹{{i.Prod_Price | default:'40'}}/-</p>
             <p class="description">{{i.Prod_Detail | truncatechars:60}}</p>
             <a href="#" id="likebtn{{i.id}}" class="heart_likeproduct" onclick="likedproduct(i.id)"><i
                     class="fa-regular fa-heart"></i></a>

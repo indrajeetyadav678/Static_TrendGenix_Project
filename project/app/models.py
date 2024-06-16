@@ -72,12 +72,10 @@ class Productmodel(models.Model):
     Prod_Image4=models.ImageField(null=True)
     Prod_Price =models.IntegerField(null=True)
     Prod_MRP=models.IntegerField(null=True)
-    Prod_tax=models.IntegerField(null=True)
-    Prod_gross_amount=models.IntegerField(null=True)
-    Prod_Net_amount=models.IntegerField(null=True)
+    Discount=models.IntegerField(null=True)
     Prod_Offer=models.CharField(max_length=254, null=True)
     Prod_Detail=models.TextField(null=True)
-    prod_color=models.CharField(max_length=254, null=True)
+    Prod_color=models.CharField(max_length=254, null=True)
     Serial_no=models.IntegerField(null=True)
 
     def __str__(self):
@@ -96,11 +94,12 @@ class PaymentdataModel(models.Model):
     Status=models.CharField(max_length=30, null=True)
     Attempts=models.IntegerField( null=True)
     Notes=models.TextField(null=True)
-    Created_at=models.CharField(max_length=255, null=True)
+    Created_at=models.DateTimeField(auto_now=True, null=True)
     Payment_Id=models.CharField(max_length=255, null=True, blank=True)
     Order_id=models.CharField(max_length=255, null=True)
     Signature=models.CharField(max_length=255, null=True, blank=True)
-    Datetime=models.DateTimeField(auto_now=True, null=True)
+    Datetime=models.DateTimeField(auto_now=True)
+    Prod_Quantity=models.IntegerField( null=True)
 
     def __str__(self):
         return self.Order_id
@@ -122,6 +121,8 @@ class Purchaseproduct(models.Model):
     Purchase_date=models.DateTimeField(auto_now=True)
     Order_id=models.CharField(max_length=255, null=True)
     Email_id=models.EmailField(null= True)
+    Prod_Quantity=models.IntegerField( null=True)
+
     
     def __str__(self):
         return self.Email

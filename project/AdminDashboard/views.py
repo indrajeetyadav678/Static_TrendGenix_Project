@@ -314,15 +314,15 @@ def result(request):
     }
     return render(request, 'result.html', {'admin_user':admin_info})
 
+# =================== Product adding functions =====================
 def product_entry(request):
     Admin_id = request.session.get('Admin_id')
     admin_info = get_object_or_404(RegistrationModel, id=Admin_id)
 
     if request.method == "POST":
         print(request.POST)
-
         # try:
-        MRP = float(request.POST.get('Prod_MRP'))
+        MRP = int(request.POST.get('Prod_MRP'))
         print(MRP)
         # except (TypeError, ValueError):
         #     MRP = 0.0
@@ -330,9 +330,6 @@ def product_entry(request):
         # offer = request.POST.get('Prod_Offer', "")
         offer = request.POST.get('Prod_Offer')
         print(offer)
-
-        tax = MRP * 12 / 100
-        Prod_gross_amount = MRP + tax
 
         discount_off = ""
         special_char = ""
@@ -346,17 +343,16 @@ def product_entry(request):
 
         print(discount_off)
         print(special_char)
-
         try:
             if discount_off:
                 discount = MRP * int(discount_off) / 100
-                # added one more condition
             elif offer.isdigit():
                 discount=int(offer)
         except ValueError:
             discount = 0
 
-        Prod_Net_amount = Prod_gross_amount - discount
+        # tax = MRP * 12 / 100
+        # Prod_gross_amount = MRP + tax
 
         print(request.FILES)
         serialno = request.POST.get('Serial_no')
@@ -374,10 +370,8 @@ def product_entry(request):
             form = Productmodelform(request.POST, request.FILES)
             if form.is_valid():
                 product = form.save(commit=False)
-                product.Prod_tax = tax
-                product.Prod_gross_amount = Prod_gross_amount
-                product.Prod_Net_amount = Prod_Net_amount
-                product.Prod_Price = MRP
+                product.Discount = discount
+                product.Prod_Price = MRP - discount
                 product.save()
 
                 msg = "Data submitted successfully"
