@@ -1378,33 +1378,47 @@ def buyproduct_payment(request):
 
 # ============= Ending User Dashboard (Razorpay payment integrations) ======================
 # ================ invoice pdf download function =====================================
+# from django.shortcuts import render, get_object_or_404
+# from django.template.loader import render_to_string
+# import pdfkit
+# from django.conf import settings
+# from .models import PaymentdataModel, Invoicemodel, Purchaseproduct, RegistrationModel
+# from django.http import FileResponse
+import os
 
 def invoice_load(request, pk):
-    print(pk)
-    payment_data = PaymentdataModel.objects.get(Order_id=pk)
-    invoice_data = Invoicemodel.objects.get(Order_id=pk)
+    User_id = request.session.get('User_id')
+    user_info = get_object_or_404(RegistrationModel, id=User_id)
+    addcart = request.session.get('addtocart', [])
+    cart_no = len(addcart)
+
+    payment_data = get_object_or_404(PaymentdataModel, Order_id=pk)
+    invoice_data = get_object_or_404(Invoicemodel, Order_id=pk)
     purchase_data = Purchaseproduct.objects.filter(Order_id=pk)
-    print('------------------ 6 -------------------------------')
-        
+
     context = {
-            'user_name': user_info,
-            'addcartno': cart_no,
-            'media_url': settings.MEDIA_URL,
-            'payment_data': payment_data,
-            "invoice_data": invoice_data,
-            "purchase_data": purchase_data,
+        'user_name': user_info,
+        'addcartno': cart_no,
+        'media_url': settings.MEDIA_URL,
+        'payment_data': payment_data,
+        "invoice_data": invoice_data,
+        "purchase_data": purchase_data,
     }
-    User_id=request.session.get('User_id')
-    user_info=get_object_or_404(RegistrationModel, id=User_id)
-    addcart = request.session.get('addtocart')
+    
+    html_string = render_to_string('paymentdone.html', context)
+    html_file_path = os.path.join(settings.BASE_DIR,'app', 'templates', 'paymentdone.html')
+
+    with open(html_file_path, 'w', encoding='utf-8') as f:
+        f.write(html_string)
+
+    path_to_wkhtmltopdf = r'D:\\Django\\PROJECT\\invoice_pdf\\wkhtmltopdf\\bin\\wkhtmltopdf.exe'  # Update this to your path
+
+    config = pdfkit.configuration(wkhtmltopdf=path_to_wkhtmltopdf)
+
     try:
-        cart_no=len(addcart)
-    except:
-        cart_no=0
-        context = {
-            'user_name': user_info,
-            'addcartno': cart_no,
-            'media_url': settings.MEDIA_URL,
-        }
-        return render(request, 'paymentdone.html', context)
-    return render()
+        pdfkit.from_file(html_file_path, 'output.pdf', configuration=config, options={'enable-local-file-access': ""})
+    except OSError as e:
+        print(f"Error generating PDF: {e}")
+        return render(request, 'error_page.html', {'message': 'Error generating PDF'})
+
+    return FileResponse(open('output.pdf', 'rb'), as_attachment=True, filename='invoice.pdf')

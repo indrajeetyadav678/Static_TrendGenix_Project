@@ -38,13 +38,13 @@ urlpatterns=[
     path('addtocart/<int:pk>',addtocart, name='addtocart'),
     path('decrement/',decrement, name='decrement'),
     path('increment/',increment, name='increment'),
-    path('removeadd_cart/<int:pk>/',removeadd_cart, name='removeadd_cart'),
+    path('removeadd_cart/<slug:pk>/',removeadd_cart, name='removeadd_cart'),
     path('cartpage/', cartpage, name='cartpage'),
 
     # ===================== Payment Checkout Url ==============================
     path('checkout/', checkout, name='checkout'),
     path('making_payment/', making_payment, name='making_payment'),
-    path('invoice_load/<str:pk>/', invoice_load, name='invoice_load'),
+   path('invoice_load/<str:pk>/', invoice_load, name='invoice_load'),
     path('buyproduct/', buyproduct, name='buyproduct'),
     path('buyproduct_payment/', buyproduct_payment, name='buyproduct_payment'),
 

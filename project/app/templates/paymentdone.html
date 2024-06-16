@@ -139,95 +139,103 @@
       font-weight: bold;
     }
 
-    #Invoice_downbtn{
-      position: absolute;
-      top:60px;
-      right: 70px;
+    .button-like {
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      color: #fff;
+      background-color: #007bff;
+      border: none;
+      border-radius: 4px;
+    }
+
+    .button-like:hover {
+      background-color: #0056b3;
     }
   </style>
 </head>
 
 <body>
-  <button id="Invoice_downbtn"><a href="{% url 'invoice_load' pk=invoice_data.Order_id %}" download="download">Download invoice</a></button>
-  {% if payment_fail %}
-    <div class="container">
-      <div class="success-icon">&#10004;</div>
-      <h1>Payment Failed</h1>
-      <p>Unfortunately, your payment could not be processed. Please try again.</p>
-      <button><a href="{% url 'index' %}">Back to Home</a></button>
-    </div>
-  {% else %}
-    <div id="invoice_body">
-      <div class="invoice-box">
-        <table cellpadding="0" cellspacing="0">
-          <tr class="top">
-            <td colspan="2">
-              <table>
-                <tr>
-                  <td class="title">
-                    <img src="https://cdn.freebiesupply.com/logos/large/2x/trigenix-logo-png-transparent.png"
-                      style="width:100px;">
-                  </td>
-                  <td>
-                  <h4>Billing Address</h4>
-                    Invoice: {{ invoice_data.Invoice_id }}<br>
-                    Payment ID: {{ invoice_data.Payment_id }}<br>
-                    Date: {{ invoice_data.Billingtime }}<br>
-                    Status: {{ invoice_data.Status }}<br>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-          <tr class="information">
-            <td colspan="2">
-              <table>
-                <tr>
-                  <td>
-                  <h4>Shipping Address</h4>
-                    {{ user_name.Name }}<br>
-                    {{ user_name.Email }}<br>
-                    {{ user_name.Contact }}<br>
-                    {{ invoice_data.Shipping_address }}
-                  </td>
-                  <td>
-                    TrendGenix, Inc.<br>
-                    Indrajeetyadu36@gmail.com<br>
-                    {{ invoice_data.Billing_address }}
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-          <tr class="heading">
-            <td>Payment Method</td>
-            <td>Check #</td>
-          </tr>
-          <tr class="details">
-            <td>Check</td>
-            <td>1000</td>
-          </tr>
-          <tr class="heading">
-            <td>Item</td>
-            <td>Price</td>
-          </tr>
-          {% for item in purchase_data %}
-          <tr class="item">
-            <td>{{ item.Product_Type }}</td>
-            <td>{{ item.Prod_MRP }}</td>
-          </tr>
-          {% endfor %}
-          <tr class="total">
-            <td>Total Amount:</td>
-            <td>{{ invoice_data.Amount }}</td>
-          </tr>
-        </table>
+  <div class="container">
+    <button id="Invoice_downbtn">
+      <a href="/invoice_load/order_ONKnV33H44UJfJ/" class="button-like">Download invoice</a>
+    </button>
+    
+      <div id="invoice_body">
+        <div class="invoice-box">
+          <table cellpadding="0" cellspacing="0">
+            <tr class="top">
+              <td colspan="2">
+                <table>
+                  <tr>
+                    <td class="title">
+                      <img src="https://cdn.freebiesupply.com/logos/large/2x/trigenix-logo-png-transparent.png"
+                        style="width:100px;">
+                    </td>
+                    <td>
+                      <h4>Billing Address</h4>
+                      Invoice: inv_ONKo33uafpzrPf<br>
+                      Payment ID: pay_ONKnoZ5qEPsCCb<br>
+                      Date: June 16, 2024, 6:32 a.m.<br>
+                      Status: Paid<br>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr class="information">
+              <td colspan="2">
+                <table>
+                  <tr>
+                    <td>
+                      <h4>Shipping Address</h4>
+                      indrajeet<br>
+                      indra@gmail.com<br>
+                      <br>
+                      Mahagaon jadeed, post-Digwad,teh.-Rehti ,Sehore, Madhya Pradesh
+                    </td>
+                    <td>
+                      TrendGenix, Inc.<br>
+                      Indrajeetyadu36@gmail.com<br>
+                      Mahagaon jadeed, post-Digwad,teh.-Rehti ,Sehore, Madhya Pradesh
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr class="heading">
+              <td>Payment Method</td>
+              <td>Check #</td>
+            </tr>
+            <tr class="details">
+              <td>Check</td>
+              <td>1000</td>
+            </tr>
+            <tr class="heading">
+              <td>Item</td>
+              <td>Price</td>
+            </tr>
+            
+              <tr class="item">
+                <td>Casual T-Shirt With Half Sleeves And Spread Collar</td>
+                <td>899</td>
+              </tr>
+            
+            <tr class="total">
+              <td>Total Amount:</td>
+              <td>692</td>
+            </tr>
+          </table>
+        </div>
       </div>
-    </div>
-  {% endif %}
+    
+  </div>
 
   <script>
-    const paymentData = "{{ payment_data }}";
+    const paymentData = "order_ONKnV33H44UJfJ";
     if (paymentData) {
       window.confirm(
         "Thank you for your purchase. Your payment has been processed successfully"
