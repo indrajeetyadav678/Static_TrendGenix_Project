@@ -1184,6 +1184,7 @@ def making_payment(request):
             'user_name': user_info,
             'addcartno': cart_no,
             'media_url': settings.MEDIA_URL,
+            'invoice':invoice,
             'payment_data': payment_data,
             "invoice_data": invoice_data,
             "purchase_data": purchase_data,
@@ -1417,6 +1418,7 @@ def invoice_load(request, pk):
 
     try:
         pdfkit.from_file(html_file_path, 'output.pdf', configuration=config, options={'enable-local-file-access': ""})
+        # print(output)
     except OSError as e:
         print(f"Error generating PDF: {e}")
         return render(request, 'error_page.html', {'message': 'Error generating PDF'})
