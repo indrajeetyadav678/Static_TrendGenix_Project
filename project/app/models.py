@@ -121,7 +121,7 @@ class Purchaseproduct(models.Model):
     Purchase_date=models.DateTimeField(auto_now=True)
     Order_id=models.CharField(max_length=255, null=True)
     Email_id=models.EmailField(null= True)
-    Prod_Quantity=models.IntegerField( null=True)
+    Prod_Quantity=models.IntegerField(null=True)
 
     
     def __str__(self):
@@ -146,6 +146,7 @@ class Invoicemodel(models.Model):
     Shipping_address=models.TextField( blank=True)
     Billingtime=models.DateTimeField(auto_now=True)
     Status=models.CharField(max_length=255, blank=True)
+    Invoice_pdf=models.FileField(upload_to='../invoice_pdf/', null=True)
 
     def __str__(self):
         return self.Customer_id

@@ -1405,6 +1405,7 @@ def invoice_load(request, pk):
     payment_data = get_object_or_404(PaymentdataModel, Order_id=pk)
     print(payment_data)
     invoice_data = get_object_or_404(Invoicemodel, Order_id=pk)
+
     print(invoice_data)
     purchase_data = Purchaseproduct.objects.filter(Order_id=pk)
     print(purchase_data.values())
@@ -1417,7 +1418,7 @@ def invoice_load(request, pk):
         "invoice_data": invoice_data,
         "purchase_data": purchase_data,
     }
-    
+
     html_file_path1 = os.path.join(settings.BASE_DIR,'app', 'templates', 'paymentdone.html')
     html_file_path2 = os.path.join(settings.BASE_DIR,'app', 'templates', 'invoice.html')
     lis=[]
@@ -1430,7 +1431,7 @@ def invoice_load(request, pk):
     html_string = render_to_string('paymentdone.html', context)
     with open(html_file_path1, 'w', encoding='utf-8') as h:
         h.write(html_string)
-        
+    
 
 
     path_to_wkhtmltopdf = r'D:\\Django\\PROJECT\\invoice_pdf\\wkhtmltopdf\\bin\\wkhtmltopdf.exe'  # Update this to your path
@@ -1438,14 +1439,15 @@ def invoice_load(request, pk):
     config = pdfkit.configuration(wkhtmltopdf=path_to_wkhtmltopdf)
 
     try:
-        pdfkit.from_file(html_file_path1, 'output.pdf', configuration=config, options={'enable-local-file-access': ""})
+        pdf_file_path = os.path.join(settings.BASE_DIR,'invoice_pdf',f'{invoice_data.Invoice_id}.pdf')
+        pdfkit.from_file(html_file_path1, pdf_file_path, configuration=config, options={'enable-local-file-access': ""})
+
         # print(output)
+        invoice_data1 = get_object_or_404(Invoicemodel, Order_id=pk)
+        invoice_data1.Invoice_pdf= pdf_file_path
+        invoice_data1.save(update_fields=['Invoice_pdf'])
     except OSError as e:
         print(f"Error generating PDF: {e}")
         return render(request, 'error_page.html', {'message': 'Error generating PDF'})
 
-    return FileResponse(open('output.pdf', 'rb'), as_attachment=True, filename='invoice.pdf')
-
-
-
-
+    return FileResponse(open(pdf_file_path, 'rb'), as_attachment=True, filename='invoice.pdf')

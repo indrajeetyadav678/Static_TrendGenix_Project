@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Payment Done</title>
+  <title>invoice</title>
   <style>
     body {
       margin: 0;
@@ -13,7 +13,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      height: 120vh;
     }
 
     .container {
@@ -154,15 +154,19 @@
     .button-like:hover {
       background-color: #0056b3;
     }
+    #pdf_downloadbtn{
+      position: absolute;
+      top:20px;
+      right: 15px;
+    }
   </style>
 </head>
 
 <body>
+  <button id="pdf_downloadbtn">
+    <a href="/invoice_load/order_ONLI5y58Spjhro/" class="button-like">Download invoice</a>
+  </button>
   <div class="container">
-    <button id="Invoice_downbtn">
-      <a href="/invoice_load/order_ONLI5y58Spjhro/" class="button-like">Download invoice</a>
-    </button>
-
     <div id="invoice_body">
       <div class="invoice-box">
         <table cellpadding="0" cellspacing="0">
@@ -224,23 +228,13 @@
 
           
           <tr>
-            <td>Casual T-Shirt With Half Sleeves And Spread Collar</td>
-            <td>692</td>
-          </tr>
-          
-          <tr>
-            <td>PATCHWORK PRINT MINI DRESS</td>
-            <td>2840</td>
-          </tr>
-          
-          <tr>
             <td>MINI PAREO SKIRT WITH FRETWORK AND FLORAL PRINT</td>
             <td>2212</td>
           </tr>
           
           <tr class="total" style="background-color: #d9e3e0;">
             <td>Total Amount:</td>
-            <td>5744</td>
+            <td>2212</td>
           </tr>
         </table>
       </div>

@@ -242,7 +242,7 @@ def deletpay(request, pk):
         'all_invoice':invoiceData,
         'purchase_data':Purchaseproductdata,
         'Paymentdata':Paymentdata,
-        'key':msg
+        # 'key':msg
     }
     return render(request, 'userdata.html', Context)
 
@@ -270,7 +270,7 @@ def deletoder(request, pk):
         'all_invoice':invoiceData,
         'purchase_data':Purchaseproductdata,
         'Paymentdata':Paymentdata,
-        'key':msg
+        # 'key':msg
     }
     return render(request, 'userdata.html', Context)
 
@@ -297,7 +297,7 @@ def deletpurch_prod(request, pk):
         'all_invoice':invoiceData,
         'purchase_data':Purchaseproductdata,
         'Paymentdata':Paymentdata,
-        'key':msg
+        # 'key':msg
     }
     return render(request, 'userdata.html', Context)
 

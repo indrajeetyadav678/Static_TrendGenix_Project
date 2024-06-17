@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Payment Done</title>
+  <title>invoice</title>
   <style>
     body {
       margin: 0;
@@ -13,7 +13,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      height: 140vh;
     }
 
     .container {
@@ -154,15 +154,15 @@
     .button-like:hover {
       background-color: #0056b3;
     }
+    #pdf_downloadbtn{
+      color:rgb(21, 21, 100)
+    }
   </style>
 </head>
 
 <body>
+  
   <div class="container">
-    <button id="Invoice_downbtn">
-      <a href="/invoice_load/order_ONLI5y58Spjhro/" class="button-like">Download invoice</a>
-    </button>
-
     <div id="invoice_body">
       <div class="invoice-box">
         <table cellpadding="0" cellspacing="0">
@@ -215,7 +215,7 @@
           </tr>
           <tr class="details">
             <td>Check</td>
-            <td>pay_ONLIK6o0THY71L</td>
+            <td>{{invoice_data.Payment_id}}</td>
           </tr>
           <tr class="heading">
             <td>Item</td>
@@ -234,6 +234,9 @@
           </tr>
         </table>
       </div>
+    </div><br/><br/>
+    <div id="pdf_downbtn">
+      <a href="/invoice_load/order_ONLI5y58Spjhro/">Download invoice</a>
     </div>
 
   </div>
