@@ -681,7 +681,7 @@ def cartpage(request):
     # data = RegistrationModel.objects.get(Email=email)
     User_id=request.session.get('User_id')
     user_info=get_object_or_404(RegistrationModel, id=User_id)
-    try:
+    if user_info:
         addcart = request.session.get('addtocart')
         print(addcart,'----------------------1--')
 
@@ -689,43 +689,51 @@ def cartpage(request):
             cart_no=len(addcart)
         except:
             cart_no=0
-
-        # addcart_data = request.session.get('addtocart', [])
-        print(addcart,'============================  2  ======')
-        total_MRP = 0
-        total_amount = 0
-        total_discount=0
-        shippingcharge = 40
-        Quantity=0
-        pro_data = []
-
-        for item in addcart:
-            print(item)
-            pro_value = get_object_or_404(Productmodel, id=item['id'])
-            print(pro_value.Prod_Price,'-------------------- 3 ----')
-            pro_quantitydata = {
-                'pro_value': pro_value,
-                'Quantity': item['Quantity']
+        
+        if cart_no==0:
+            Context={
+            'user_name': user_info,
+            'addcartno': cart_no, 
+            'media_url': settings.MEDIA_URL, 
             }
-            print(pro_value,'-----------------  04-------')
-            pro_data.append(pro_quantitydata)
-            print(pro_quantitydata,"<-------------")
-            total_amount += pro_value.Prod_Price * item['Quantity']
-            print("total_amount------------>",total_amount)
-            total_MRP += pro_value.Prod_MRP * item['Quantity']
-            print("total_MRP------------>",total_MRP)
-            Quantity += item['Quantity']
-            print("Quantity------------>",Quantity)
-            total_discount += pro_value.Discount
-            print("total_discount------------>",total_discount)
-            print(pro_value,'-----------------  05-------')
+            return render(request, 'addtocart.html', Context)
+        else:
 
-        # total_amount= total_MRP -  total_discount    
-        tax=int(total_amount*12/100)
-        gross_amount = total_MRP + shippingcharge+tax
-        net_amount=gross_amount-total_discount
-        print('================ 6.5 ==================')
-        billamount = {
+            # addcart_data = request.session.get('addtocart', [])
+            total_MRP = 0
+            total_amount = 0
+            total_discount=0
+            shippingcharge = 40
+            Quantity=0
+            pro_data = []
+
+            for item in addcart:
+                print(item)
+                pro_value = get_object_or_404(Productmodel, id=item['id'])
+                print(pro_value.Prod_Price,'-------------------- 3 ----')
+                pro_quantitydata = {
+                    'pro_value': pro_value,
+                    'Quantity': item['Quantity']
+                }
+                print(pro_value,'-----------------  04-------')
+                pro_data.append(pro_quantitydata)
+                print(pro_quantitydata,"<-------------")
+                total_amount += pro_value.Prod_Price * item['Quantity']
+                print("total_amount------------>",total_amount)
+                total_MRP += pro_value.Prod_MRP * item['Quantity']
+                print("total_MRP------------>",total_MRP)
+                Quantity += item['Quantity']
+                print("Quantity------------>",Quantity)
+                total_discount += pro_value.Discount
+                print("total_discount------------>",total_discount)
+                print(pro_value,'-----------------  05-------')
+
+            # total_amount= total_MRP -  total_discount    
+            tax=int(total_amount*12/100)
+            gross_amount = total_MRP + shippingcharge+tax
+            net_amount=gross_amount-total_discount
+            print('================ 6.5 ==================')
+            billamount = {
                 'total_amount': total_amount,
                 'total_MRP': total_MRP,
                 'discount': total_discount,
@@ -734,19 +742,19 @@ def cartpage(request):
                 'gross_amount':gross_amount,
                 'Total_pay_amount': net_amount,
                 'Quantity':Quantity     
-        }
-        print(billamount,'============================ 7 ===')
+            }
+            print(billamount,'============================ 7 ===')
     
-        Context={
-            'user_name': user_info,
-            'addcartno': cart_no, 
-            'prod_data': pro_data, 
-            'media_url': settings.MEDIA_URL, 
-            'amount': billamount
-        }
-        print(Context,'------------- 8  -')
-        return render(request, 'addtocart.html', Context)
-    except:
+            Context={
+                'user_name': user_info,
+                'addcartno': cart_no, 
+                'prod_data': pro_data, 
+                'media_url': settings.MEDIA_URL, 
+                'amount': billamount
+            }
+            print(Context,'------------- 8  -')
+            return render(request, 'addtocart.html', Context)
+    else:
         return render(request, 'login.html')
 
 
@@ -1154,7 +1162,10 @@ def making_payment(request):
         print('------------------ 3.5 -------------------------------')
         invoice = client.invoice.create(data=invoice_data)
         print(invoice)
-    
+        global invoice_data_value
+        invoice_data_value=invoice
+        
+        
         Invoicemodel.objects.create(
             Invoice_id=invoice['id'],
             Customer_id=user_info.id,
@@ -1190,7 +1201,7 @@ def making_payment(request):
             "purchase_data": purchase_data,
         }
         
-        return render(request, 'paymentdone.html', context)
+        return render(request, 'invoice.html', context)
 
     except Exception as e:
         print(e)
@@ -1204,7 +1215,7 @@ def making_payment(request):
             'media_url': settings.MEDIA_URL,
             "payment_fail": True,
         }
-        return render(request, 'paymentdone.html', context)
+        return render(request, 'invoice.html', context)
 
 
 
@@ -1390,37 +1401,51 @@ import os
 def invoice_load(request, pk):
     User_id = request.session.get('User_id')
     user_info = get_object_or_404(RegistrationModel, id=User_id)
-    addcart = request.session.get('addtocart', [])
-    cart_no = len(addcart)
 
     payment_data = get_object_or_404(PaymentdataModel, Order_id=pk)
+    print(payment_data)
     invoice_data = get_object_or_404(Invoicemodel, Order_id=pk)
+    print(invoice_data)
     purchase_data = Purchaseproduct.objects.filter(Order_id=pk)
+    print(purchase_data.values())
 
     context = {
         'user_name': user_info,
-        'addcartno': cart_no,
         'media_url': settings.MEDIA_URL,
+        'invoice':invoice_data_value,
         'payment_data': payment_data,
         "invoice_data": invoice_data,
         "purchase_data": purchase_data,
     }
     
-    html_string = render_to_string('paymentdone.html', context)
-    html_file_path = os.path.join(settings.BASE_DIR,'app', 'templates', 'paymentdone.html')
+    html_file_path1 = os.path.join(settings.BASE_DIR,'app', 'templates', 'paymentdone.html')
+    html_file_path2 = os.path.join(settings.BASE_DIR,'app', 'templates', 'invoice.html')
+    lis=[]
+    with open(html_file_path2, 'r', encoding='utf-8') as f:
+        invoice_html_content=f.read()
 
-    with open(html_file_path, 'w', encoding='utf-8') as f:
-        f.write(html_string)
+    with open(html_file_path1, 'w', encoding='utf-8') as g:
+        g.write(invoice_html_content)
+
+    html_string = render_to_string('paymentdone.html', context)
+    with open(html_file_path1, 'w', encoding='utf-8') as h:
+        h.write(html_string)
+        
+
 
     path_to_wkhtmltopdf = r'D:\\Django\\PROJECT\\invoice_pdf\\wkhtmltopdf\\bin\\wkhtmltopdf.exe'  # Update this to your path
 
     config = pdfkit.configuration(wkhtmltopdf=path_to_wkhtmltopdf)
 
     try:
-        pdfkit.from_file(html_file_path, 'output.pdf', configuration=config, options={'enable-local-file-access': ""})
+        pdfkit.from_file(html_file_path1, 'output.pdf', configuration=config, options={'enable-local-file-access': ""})
         # print(output)
     except OSError as e:
         print(f"Error generating PDF: {e}")
         return render(request, 'error_page.html', {'message': 'Error generating PDF'})
 
     return FileResponse(open('output.pdf', 'rb'), as_attachment=True, filename='invoice.pdf')
+
+
+
+

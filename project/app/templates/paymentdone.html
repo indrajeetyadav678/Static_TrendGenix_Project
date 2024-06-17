@@ -175,8 +175,9 @@
                       style="width:100px;">
                   </td>
                   <td>
-                    Invoice: inv_ONLIbEiSaR2Acf<br>
+                    Invoice ID: inv_ONLIbEiSaR2Acf<br>
                     Payment ID: pay_ONLIK6o0THY71L<br>
+                    Order ID :order_ONLI5y58Spjhro<br/>
                     Date: June 16, 2024, 7:01 a.m.<br>
                     Status: Paid<br>
                   </td>
@@ -190,19 +191,19 @@
                 <tr>
                   <td>
                     <h4>Billing Address</h4>
-                    Name : {{invoice.customer_details.name}}<br/>
-                    Email :  {{invoice.customer_details.email}}<br/>
-                    Contact : {{invoice.customer_details.contact}}<br/>
-                    Address : {{invoice.customer_details.billing_address.line1}}<br/>
-                    Zipcode :{{invoice.customer_details.billing_address.zipcode}} <br/>
+                    Name : INDRAJEET YADAV<br />
+                    Email : indrajeetyadu36@gmail.com<br />
+                    Contact : 9755306511<br />
+                    Address : Mahagaon jadeed, post-Digwad,teh.-Rehti ,Sehore, Madhya Pradesh<br />
+                    Zipcode :466331 <br />
                   </td>
                   <td>
                     <h4>Shipping Address</h4>
-                    Name : {{user_name.Name}}<br/>
-                    Email :  {{user_name.Email}}<br/>
-                    Contact : {{user_name.Number}}<br/>
-                    Address : {{invoice.customer_details.billing_address.line1}}<br/>
-                    Zipcode :{{invoice.customer_details.billing_address.zipcode}} <br/>
+                    Name : indrajeet<br />
+                    Email : indra@gmail.com<br />
+                    Contact : 9755306511<br />
+                    Address : Mahagaon jadeed, post-Digwad,teh.-Rehti ,Sehore, Madhya Pradesh<br />
+                    Zipcode :466331 <br />
                   </td>
                 </tr>
               </table>
@@ -220,15 +221,26 @@
             <td>Item</td>
             <td>Price</td>
           </tr>
-        {% item in invoice.line_items %}
+
+          
           <tr>
-            <td>{{item.name}}</td>
-            <td>{{item.amount}}</td>
+            <td>Casual T-Shirt With Half Sleeves And Spread Collar</td>
+            <td>692</td>
           </tr>
-          {% endfor %}
-          <tr class="total">
+          
+          <tr>
+            <td>PATCHWORK PRINT MINI DRESS</td>
+            <td>2840</td>
+          </tr>
+          
+          <tr>
+            <td>MINI PAREO SKIRT WITH FRETWORK AND FLORAL PRINT</td>
+            <td>2212</td>
+          </tr>
+          
+          <tr class="total" style="background-color: #d9e3e0;">
             <td>Total Amount:</td>
-            <td>{{invoice.amount}}</td>
+            <td>5744</td>
           </tr>
         </table>
       </div>
@@ -237,7 +249,7 @@
   </div>
 
   <script>
-    const paymentData = 'pay_ONLIK6o0THY71L';
+    const paymentData = 'order_ONLI5y58Spjhro';
     if (paymentData) {
       window.confirm(
         "Thank you for your purchase. Your payment has been processed successfully"
