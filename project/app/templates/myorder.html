@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content%}
+<div id="myorderpage_body">
+    <div>
+        <table id="myorder_table">
+            <thead id="myorder_header">
+                <tr>
+                    <th>Order_id</th>
+                    <th>Payment_id</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>invoice</th>
+                    <th style="width: 100px;">Edit</th>
+                    <th style="width: 100px;">Delete</th>
+                </tr>
+            </thead>
+            <tbody id="myoder_body">
+                {% for i in invoice_data %}
+                <tr>
+                    <td class="colw-25">{{i.Order_id | default:'none'}}</td>
+                    <td>{{i.Payment_id | default:'none'}}</td>
+                    <td>Rs&nbsp;&nbsp;{{i.Amount_paid | default:'none'}}.00/-</td>
+                    <td>{{i.Status | default:'none'}}</td>
+                    <td><a href="{% url 'myoderinvoice' pk=i.Invoice_id %}">Views invoice</a></td>
+                    <td style="width: 100px;"><i class="fa-solid fa-file-pen"></i></td>
+                    <td style="width: 100px;"><i class="fa-solid fa-trash"></i></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+{% endblock %}

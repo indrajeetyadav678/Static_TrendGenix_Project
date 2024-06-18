@@ -88,18 +88,20 @@
         {% else %}
         <img src="https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745" alt="" id="prof_image" />
         {% endif %}<br />
-        <form action="{% url 'editpro' %}" method="post">
-            {% csrf_token %}
-            <input type="text" name="accounttype" value="user_profile" id="" hidden>
-            <input type="email" value="{{user_name.Email}}" name="email" id="" hidden>
-            <input id="editpro_btn" type="submit" value="Edit Profile">
-        </form>
-        <form action="{% url 'changepass' %}" method="post">
-            {% csrf_token %}
-            <input type="email" value="{{user_name.Email}}" name="email" id="" hidden>
-            <input id="editpro_btn" type="submit" value="Change password">
-        </form>
-
+        <div style="width: 100%; height: auto; text-align: left; padding-left: 15px;">
+            <form action="{% url 'editpro' %}" method="post">
+                {% csrf_token %}
+                <input type="text" name="accounttype" value="user_profile" id="" hidden>
+                <input type="email" value="{{user_name.Email}}" name="email" id="" hidden>
+                <input id="editpro_btn" type="submit" value="Edit Profile">
+            </form>
+            <form action="{% url 'changepass' %}" method="post">
+                {% csrf_token %}
+                <input type="email" value="{{user_name.Email}}" name="email" id="" hidden>
+                <input id="editpro_btn" type="submit" value="Change password">
+            </form>
+            <a href="{% url 'myorder' %}" style=" color: rgb(155, 155, 218); margin-left: 10px;">My Order</a>
+        </div>
         <div id="user_account_info">
             <label>{{user_name.About}}</label>
             {% if user_name.Username %}
@@ -161,8 +163,8 @@
         </div>
         <div id="Admin_deskname">ADMIN DASHBOARD</div>
         <div id="admin_profile_Icon" onclick="pro_info(1)">
-            {% if admin_name.Profile %}
-            <img src="{{media_url}}{{admin_name.Profile}}" alt="" id="usericon_img" />
+            {% if admin_user.Profile %}
+            <img src="{{media_url}}{{admin_user.Profile}}" alt="" id="usericon_img" />
             {% else %}
             <img id="usericon"
                 src="https://static.vecteezy.com/system/resources/thumbnails/004/607/791/small_2x/man-face-emotive-icon-smiling-male-character-in-blue-shirt-flat-illustration-isolated-on-white-happy-human-psychological-portrait-positive-emotions-user-avatar-for-app-web-design-vector.jpg"
@@ -178,8 +180,8 @@
     </ul>
 
     <div id="profile_box">
-        {% if user_name.Profile %}
-        <img id="usericon" onclick="pro_info(1)" src="{{media_url}}{{user_name.Profile}}" alt="Profile Image" />
+        {% if admin_user.Profile %}
+        <img id="usericon" onclick="pro_info(1)" src="{{media_url}}{{admin_user.Profile}}" alt="Profile Image" />
         {% else %}
         <img id="usericon" onclick="pro_info(1)"
             src="https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745"

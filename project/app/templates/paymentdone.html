@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>invoice</title>
+  <title>Invoice</title>
   <style>
     body {
       margin: 0;
@@ -13,7 +13,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 120vh;
+      height: 140vh;
     }
 
     .container {
@@ -21,7 +21,7 @@
       background: white;
       padding: 40px;
       border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
     }
 
     .success-icon {
@@ -154,18 +154,14 @@
     .button-like:hover {
       background-color: #0056b3;
     }
-    #pdf_downloadbtn{
-      position: absolute;
-      top:20px;
-      right: 15px;
+
+    #pdf_downloadbtn {
+      color: rgb(21, 21, 100)
     }
   </style>
 </head>
 
 <body>
-  <button id="pdf_downloadbtn">
-    <a href="/invoice_load/order_ONLI5y58Spjhro/" class="button-like">Download invoice</a>
-  </button>
   <div class="container">
     <div id="invoice_body">
       <div class="invoice-box">
@@ -175,14 +171,14 @@
               <table>
                 <tr>
                   <td class="title">
-                    <img src="https://cdn.freebiesupply.com/logos/large/2x/trigenix-logo-png-transparent.png"
+                    <img src="https://www.brandbucket.com/sites/default/files/logo_uploads/167474/large_trendgenix_0.png"
                       style="width:100px;">
                   </td>
                   <td>
-                    Invoice ID: inv_ONLIbEiSaR2Acf<br>
-                    Payment ID: pay_ONLIK6o0THY71L<br>
-                    Order ID :order_ONLI5y58Spjhro<br/>
-                    Date: June 16, 2024, 7:01 a.m.<br>
+                    Invoice ID: inv_OO9Ge3GZR3aX0M<br>
+                    Payment ID: pay_OO9GLvtmYuWfUk<br>
+                    Order ID :order_OO9Ch9zsa3QL3n<br />
+                    Date: June 18, 2024, 7:54 a.m.<br>
                     Status: Paid<br>
                   </td>
                 </tr>
@@ -195,19 +191,19 @@
                 <tr>
                   <td>
                     <h4>Billing Address</h4>
-                    Name : INDRAJEET YADAV<br />
-                    Email : indrajeetyadu36@gmail.com<br />
-                    Contact : 9755306511<br />
-                    Address : Mahagaon jadeed, post-Digwad,teh.-Rehti ,Sehore, Madhya Pradesh<br />
-                    Zipcode :466331 <br />
+                    Name : sumit jadon<br />
+                    Email : sumitjadon026@gmail.com<br />
+                    Contact : 8976543478<br />
+                    Address : Aliya Maholla Sarswati Nagar Vidish Madhya Pradesh<br />
+                    Zipcode :464001 <br />
                   </td>
                   <td>
                     <h4>Shipping Address</h4>
-                    Name : indrajeet<br />
-                    Email : indra@gmail.com<br />
-                    Contact : 9755306511<br />
-                    Address : Mahagaon jadeed, post-Digwad,teh.-Rehti ,Sehore, Madhya Pradesh<br />
-                    Zipcode :466331 <br />
+                    Name : sumit jadon<br />
+                    Email : sumitjadon026@gmail.com<br />
+                    Contact : 8976543478<br />
+                    Address : Aliya Maholla Sarswati Nagar Vidish Madhya Pradesh<br />
+                    Zipcode :464001 <br />
                   </td>
                 </tr>
               </table>
@@ -215,12 +211,9 @@
           </tr>
           <tr class="heading">
             <td>Payment Method</td>
-            <td>Check #</td>
+            <td>wallet</td>
           </tr>
-          <tr class="details">
-            <td>Check</td>
-            <td>pay_ONLIK6o0THY71L</td>
-          </tr>
+          
           <tr class="heading">
             <td>Item</td>
             <td>Price</td>
@@ -228,27 +221,46 @@
 
           
           <tr>
+            <td>PATCHWORK PRINT MINI DRESS</td>
+            <td>Rs&nbsp;&nbsp;2840.00/-</td>
+          </tr>
+          
+          <tr>
             <td>MINI PAREO SKIRT WITH FRETWORK AND FLORAL PRINT</td>
-            <td>2212</td>
+            <td>Rs&nbsp;&nbsp;2212.00/-</td>
+          </tr>
+          
+          <tr>
+            <td>Casual T-Shirt With Half Sleeves And Spread Collar</td>
+            <td>Rs&nbsp;&nbsp;692.00/-</td>
           </tr>
           
           <tr class="total" style="background-color: #d9e3e0;">
             <td>Total Amount:</td>
-            <td>2212</td>
+            <td>Rs&nbsp;&nbsp;5744.00/-</td>
           </tr>
         </table>
       </div>
+    </div><br /><br />
+    <div id="pdf_downbtn" style="display: none;">
+      <a id="downloadLink" href="/invoice_load/order_OO9Ch9zsa3QL3n/">Download invoice</a>
     </div>
-
   </div>
 
   <script>
-    const paymentData = 'order_ONLI5y58Spjhro';
-    if (paymentData) {
-      window.confirm(
-        "Thank you for your purchase. Your payment has been processed successfully"
-      );
-    }
+    document.addEventListener('DOMContentLoaded', function () {
+      const downloadLink = document.getElementById('downloadLink');
+      if (downloadLink) {
+        downloadLink.click();
+      }
+
+      const paymentData = 'order_OO9Ch9zsa3QL3n';
+      if (paymentData) {
+        window.confirm(
+          "Thank you for your purchase. Your payment has been processed successfully"
+        );
+      }
+    });
   </script>
 </body>
 

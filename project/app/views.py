@@ -466,27 +466,27 @@ def increment(request):
     prod_id = int(request.POST.get('incr'))
     total_MRP = 0
     total_amount = 0
-    tax = 0
+    total_discount=0
     shippingcharge = 40
-    Quantity = 0
+    Quantity=0
     pro_data = []
 
     for item in addcart:
-        print('==============================')
-        print(prod_id)
-        print(type(prod_id))
-        print(item['id'])
-        print(type(item['id']))
+        # print('==============================')
+        # print(prod_id)
+        # print(type(prod_id))
+        # print(item['id'])
+        # print(type(item['id']))
         if prod_id == item['id']:
-            print('==============================')
+            # print('==============================')
             pquantity=item['Quantity']
             # print(type(pquantity))
             pquantity=pquantity+1
             item['Quantity']=pquantity
             # print(item['Quantity'])
-            print('==============================')
-
+            # print('==============================')
             break  
+
     request.session['addtocart'] = addcart
     addcart = request.session.get('addtocart', [])
     try:
@@ -505,20 +505,24 @@ def increment(request):
         total_amount += pro_value.Prod_Price * item['Quantity']
         total_MRP += pro_value.Prod_MRP * item['Quantity']
         Quantity += item['Quantity']
+        total_discount += pro_value.Discount
 
-    tax = int(round((total_amount * 12) / 100, 0))
+
+    # tax = int(round((total_amount * 12) / 100, 0))
     
-    discount = total_MRP - total_amount
-    Total_pay_amount = total_amount + shippingcharge + tax
+    tax=int(total_amount*12/100)
+    gross_amount = total_MRP + shippingcharge+tax
+    net_amount=gross_amount-total_discount
 
     billamount = {
         'total_amount': total_amount,
         'total_MRP': total_MRP,
-        'discount': discount,
+        'discount': total_discount,
         'tax': tax,
         'shippingcharge': shippingcharge,
-        'Total_pay_amount': Total_pay_amount,
-        'Quantity': Quantity
+        'gross_amount':gross_amount,
+        'Total_pay_amount': net_amount,
+        'Quantity':Quantity
     }
     Context = {
         'user_name': user_info,
@@ -541,17 +545,17 @@ def decrement(request):
     prod_id = int(request.POST.get('decr'))
     total_MRP = 0
     total_amount = 0
-    tax = 0
+    total_discount=0
     shippingcharge = 40
-    Quantity = 0
+    Quantity=0
     pro_data = []
 
     for item in addcart:
-        print('==============================')
-        print(prod_id)
-        print(type(prod_id))
-        print(item['id'])
-        print(type(item['id']))
+        # print('==============================')
+        # print(prod_id)
+        # print(type(prod_id))
+        # print(item['id'])
+        # print(type(item['id']))
         if prod_id == item['id']:
             # print('==============================')
             pquantity=item['Quantity']
@@ -578,23 +582,25 @@ def decrement(request):
         }
         pro_data.append(pro_quantitydata)
         
-        total_amount += pro_value.Prod_Net_amount * item['Quantity']
+        total_amount += pro_value.Prod_Price * item['Quantity']
         total_MRP += pro_value.Prod_MRP * item['Quantity']
         Quantity += item['Quantity']
+        total_discount += pro_value.Discount
 
-    tax = int(round((total_amount * 12) / 100, 0))
-    
-    discount = total_MRP - total_amount
-    Total_pay_amount = total_amount + shippingcharge + tax
+    # tax = int(round((total_amount * 12) / 100, 0))
+    tax=int(total_amount*12/100)
+    gross_amount = total_MRP + shippingcharge+tax
+    net_amount=gross_amount-total_discount
 
     billamount = {
         'total_amount': total_amount,
         'total_MRP': total_MRP,
-        'discount': discount,
+        'discount': total_discount,
         'tax': tax,
         'shippingcharge': shippingcharge,
-        'Total_pay_amount': Total_pay_amount,
-        'Quantity': Quantity
+        'gross_amount':gross_amount,
+        'Total_pay_amount': net_amount,
+        'Quantity':Quantity 
     }
     Context = {
         'user_name': user_info,
@@ -610,25 +616,25 @@ def removeadd_cart(request, pk):
     User_id = request.session.get('User_id')
     user_info = get_object_or_404(RegistrationModel, id=User_id)
     addcart = request.session.get('addtocart', [])
-    print(addcart)
+    # print(addcart)
     total_MRP = 0
     total_amount = 0
+    total_discount=0
     tax = 0
     shippingcharge = 40
     Quantity = 0
     pro_data = []
 
-    for i in range(len(addcart)):
-        print('==============================')
+    for item in addcart:
+        print(item['id'])
         print(pk)
-        print(type(pk))
-        print(addcart[i]['id'])
-        print(type(addcart[i]['id']))
-        if pk == addcart[i]['id']:
-            # print('==============================')
-            del addcart[i]
-            # print('==============================')
+        if int(pk)==int(item['id']):
+            print('==============================')
+            addcart.remove(item)
+            print('==============================')
             break
+        else:
+            print("error")
 
     request.session['addtocart'] = addcart
     addcart = request.session.get('addtocart', [])
@@ -638,7 +644,7 @@ def removeadd_cart(request, pk):
         cart_no=0
     for item in addcart:
         pro_value = Productmodel.objects.get(id=item['id'])
-        print(item['Quantity'])
+        # print(item['Quantity'])
         pro_quantitydata = {
             'pro_value': pro_value,
             'Quantity': item['Quantity']
@@ -648,20 +654,23 @@ def removeadd_cart(request, pk):
         total_amount += pro_value.Prod_Price * item['Quantity']
         total_MRP += pro_value.Prod_MRP * item['Quantity']
         Quantity += item['Quantity']
+        total_discount += pro_value.Discount
 
-    tax = int(round((total_amount * 12) / 100, 0))
-    
-    discount = total_MRP - total_amount
-    Total_pay_amount = total_amount + shippingcharge + tax
+
+    # tax = int(round((total_amount * 12) / 100, 0))
+    tax=int(total_amount*12/100)
+    gross_amount = total_MRP + shippingcharge+tax
+    net_amount=gross_amount-total_discount
 
     billamount = {
         'total_amount': total_amount,
         'total_MRP': total_MRP,
-        'discount': discount,
+        'discount': total_discount,
         'tax': tax,
         'shippingcharge': shippingcharge,
-        'Total_pay_amount': Total_pay_amount,
-        'Quantity': Quantity
+        'gross_amount':gross_amount,
+        'Total_pay_amount': net_amount,
+        'Quantity':Quantity
     }
     Context = {
         'user_name': user_info,
@@ -710,23 +719,23 @@ def cartpage(request):
             for item in addcart:
                 print(item)
                 pro_value = get_object_or_404(Productmodel, id=item['id'])
-                print(pro_value.Prod_Price,'-------------------- 3 ----')
+                # print(pro_value.Prod_Price,'-------------------- 3 ----')
                 pro_quantitydata = {
                     'pro_value': pro_value,
                     'Quantity': item['Quantity']
                 }
-                print(pro_value,'-----------------  04-------')
+                # print(pro_value,'-----------------  04-------')
                 pro_data.append(pro_quantitydata)
-                print(pro_quantitydata,"<-------------")
+                # print(pro_quantitydata,"<-------------")
                 total_amount += pro_value.Prod_Price * item['Quantity']
-                print("total_amount------------>",total_amount)
+                # print("total_amount------------>",total_amount)
                 total_MRP += pro_value.Prod_MRP * item['Quantity']
-                print("total_MRP------------>",total_MRP)
+                # print("total_MRP------------>",total_MRP)
                 Quantity += item['Quantity']
-                print("Quantity------------>",Quantity)
+                # print("Quantity------------>",Quantity)
                 total_discount += pro_value.Discount
-                print("total_discount------------>",total_discount)
-                print(pro_value,'-----------------  05-------')
+                # print("total_discount------------>",total_discount)
+                # print(pro_value,'-----------------  05-------')
 
             # total_amount= total_MRP -  total_discount    
             tax=int(total_amount*12/100)
@@ -1095,8 +1104,6 @@ def making_payment(request):
     addcart = request.session.get('addtocart', [])
     cart_no = len(addcart)
     
-    payment_method = request.POST.get('payment_method')
-    print(payment_method)
     razorpay_payment_id = request.POST.get('razorpay_payment_id')
     print(razorpay_payment_id)
     razorpay_order_id = request.POST.get('razorpay_order_id')
@@ -1149,7 +1156,7 @@ def making_payment(request):
                     "country": "india"
                 },
                 "shipping_address": {
-                    "line1": billing_address,
+                    "line1": shipping_address,
                     "line2": "",
                     "zipcode": zip,
                     "city": city,
@@ -1161,11 +1168,17 @@ def making_payment(request):
         }
         print('------------------ 3.5 -------------------------------')
         invoice = client.invoice.create(data=invoice_data)
-        print(invoice)
+        # print(invoice)
         global invoice_data_value
         invoice_data_value=invoice
-        
-        
+
+        payment_method=client.order.payments(razorpay_order_id)
+        print("----------> payment_method",payment_method)
+        print(payment_method['items'][0]['method'])
+        try:
+            payment_type=payment_method['items'][0][payment_method['items'][0]['method']]
+        except:
+            pass
         Invoicemodel.objects.create(
             Invoice_id=invoice['id'],
             Customer_id=user_info.id,
@@ -1177,8 +1190,10 @@ def making_payment(request):
             Amount_paid=invoice['amount_due'],
             Amount_due=invoice['amount_paid'],
             Currency=invoice['currency'],
+            Payment_method=payment_method['items'][0]['method'],
             Billing_address = billing_address,
             Shipping_address = billing_address,
+            Email_id=user_info.Email,
             Status="Paid"
         )
         print('------------------ 5 -------------------------------')
@@ -1199,6 +1214,7 @@ def making_payment(request):
             'payment_data': payment_data,
             "invoice_data": invoice_data,
             "purchase_data": purchase_data,
+            'payment_type':payment_type
         }
         
         return render(request, 'invoice.html', context)
@@ -1451,3 +1467,75 @@ def invoice_load(request, pk):
         return render(request, 'error_page.html', {'message': 'Error generating PDF'})
 
     return FileResponse(open(pdf_file_path, 'rb'), as_attachment=True, filename='invoice.pdf')
+
+# -======================= My order  ===========================
+
+def myorder(request):
+    User_id=request.session.get('User_id')
+    user_info=get_object_or_404(RegistrationModel, id=User_id)
+    addcart = request.session.get('addtocart')
+    try:
+        cart_no=len(addcart)
+    except:
+        cart_no=0
+    invoice_data = Invoicemodel.objects.filter(Email_id= user_info.Email)
+    print(type(invoice_data))
+    if len(invoice_data)==0:
+        Order_list = PaymentdataModel.objects.filter(Email=user_info.Email)
+        invoice_data=[]
+        for i in Order_list:
+            try:
+                data = Invoicemodel.objects.get(Order_id=i.Order_id)
+                # print(data)
+                invoice_data.append(data)
+                # print(invoice_data)
+            except:
+                continue
+        # print('---------------------------------------->3')
+    
+    Context={
+        'user_name':user_info,
+        'addcartno': cart_no,
+        'media_url': settings.MEDIA_URL,
+        'invoice_data':invoice_data
+    }
+    print('==================== ==============  ============')
+    return render(request, 'myorder.html', Context )
+
+
+def myoderinvoice(request, pk):
+    User_id=request.session.get('User_id')
+    user_info=get_object_or_404(RegistrationModel, id=User_id)
+    addcart = request.session.get('addtocart')
+    try:
+        cart_no=len(addcart)
+    except:
+        cart_no=0
+    invoice_data = Invoicemodel.objects.filter(Email_id= user_info.Email)
+    print(type(invoice_data))
+    if len(invoice_data)==0:
+        Order_list = PaymentdataModel.objects.filter(Email=user_info.Email)
+        invoice_data=[]
+        for i in Order_list:
+            try:
+                data = Invoicemodel.objects.get(Order_id=i.Order_id)
+                # print(data)
+                invoice_data.append(data)
+                # print(invoice_data)
+            except:
+                continue
+
+    Context={
+        'user_name':user_info,
+        'addcartno': cart_no,
+        'media_url': settings.MEDIA_URL,
+        'invoice_data':invoice_data
+    }
+    print('-------------------------------------')
+    try:
+        print('-------------------------------------1')
+        pdf_file_path = os.path.join(settings.BASE_DIR,'invoice_pdf',f'{pk}.pdf')
+        print('---------------2',pdf_file_path)
+        return FileResponse(open(pdf_file_path, 'rb'))
+    except:
+        return render(request, 'myorder.html',Context )

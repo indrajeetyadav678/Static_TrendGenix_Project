@@ -52,16 +52,15 @@
         </tbody>
     </table>
 </div>
-<!-- ------------- Pyment Model CRUD ----------------------------------- -->
+<!-- ------------- Invoice Model CRUD ----------------------------------- -->
 
 
 <div id="payment_transition_container">
-    <h1>Order and Payment (Invoice) Status Data</h1>
+    <h1>Invoice Status Data</h1>
     <table style="width: 100%;">
         <thead id="paydata_hearder">
             <tr >
                 <th>Invoice_id</th>
-                <th>invoice_number</th>
                 <th>Customer_id</th>
                 <th>Customer_Name</th>
                 <th>Customer_Email</th>
@@ -88,8 +87,8 @@
                 <td>{{i.Shipping_address}}</td>
                 <td>{{i.Billingtime}}</td>
                 <td>{{i.Status}}</td>
-                <td><a href="#">views</a></td>
-                <td><a href="#">View Invoice</a></td>
+                <td><a href="#">View product detail</a></td>
+                <td><a href="{% url 'invoiceview' pk=i.Invoice_id  %}">View Invoice</a></td>
                 <td><a href="#">Edit</a></td>
                 <td><a href="{% url 'deletpay' pk=i.id%}">Delete</a></td>
             </tr>

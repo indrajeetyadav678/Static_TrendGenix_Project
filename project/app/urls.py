@@ -52,6 +52,10 @@ urlpatterns=[
     # ============= userdashboard =========================================
     path('customerquery', customerquery, name='customerquery'),
 
+    # ================ my order =================================
+    path('myorder', myorder, name='myorder'),
+    path('myoderinvoice<str:pk>/', myoderinvoice, name='myoderinvoice'),
+    
 
 ]
 

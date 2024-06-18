@@ -136,6 +136,7 @@ class Invoicemodel(models.Model):
     Customer_id=models.CharField(max_length=255, blank=True)
     Order_id=models.CharField(max_length=255, blank=True)
     Payment_id=models.CharField(max_length=255, blank=True)
+    Payment_method=models.CharField(max_length=255, blank=True)
     Gross_amount=models.IntegerField(blank=True)
     Tax_amount=models.IntegerField(blank=True)
     Amount=models.IntegerField(blank=True)
@@ -147,6 +148,7 @@ class Invoicemodel(models.Model):
     Billingtime=models.DateTimeField(auto_now=True)
     Status=models.CharField(max_length=255, blank=True)
     Invoice_pdf=models.FileField(upload_to='../invoice_pdf/', null=True)
+    Email_id=models.EmailField(null= True)
 
     def __str__(self):
         return self.Customer_id

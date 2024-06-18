@@ -41,6 +41,8 @@ urlpatterns=[
     path('deletpay/<int:pk>/',deletpay, name='deletpay'),
     path('deletoder/<int:pk>/',deletoder, name='deletoder'),
     path('deletpurch_prod/<int:pk>/',deletpurch_prod, name='deletpurch_prod'),
+    # ------ invoice view -----------------
+    path('invoiceview/<str:pk>/',invoiceview, name='invoiceview'),
 
 
 

@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse,FileResponse
 from .models import*
 from datetime import datetime
 from django.core.mail import send_mail
@@ -26,11 +26,20 @@ def dashbordindex(request):
     Admin_id=request.session.get('Admin_id')
     admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
     customer_data=RegistrationModel.objects.all()
+    total_customer_quantity=len(customer_data)
+    invoice_data=Invoicemodel.objects.all()
+    global total_sell
+    total_sell=0
+    for i in invoice_data:
+        total_sell+=i.Amount_paid
+
     print(customer_data)
     Context={
         'media_url': settings.MEDIA_URL,
         'admin_user':admin_info,
-        'customer':customer_data
+        'customer':customer_data,
+        "customer_no":total_customer_quantity,
+        'monthly_sell':total_sell
     }
     return render(request, 'dashboardindex.html', Context) 
 # ------------------------ register data CRUD -----------------------
@@ -40,13 +49,16 @@ def editregistdata(request, pk):
     Admin_id=request.session.get('Admin_id')
     admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
     customer_data=RegistrationModel.objects.all()
+    total_customer_quantity=len(customer_data)
     print(customer_data)
     Context={
         'media_url': settings.MEDIA_URL,
         'admin_user':admin_info,
         'customer':customer_data,
         'registform':Registrationform,
-        'editdata':data
+        'editdata':data,
+        "customer_no":total_customer_quantity,
+        'monthly_sell':total_sell
     }
     return render(request, 'dashboardindex.html', Context)
 
@@ -56,11 +68,14 @@ def deletregistdata(request, pk):
     Admin_id=request.session.get('Admin_id')
     admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
     customer_data=RegistrationModel.objects.all()
+    total_customer_quantity=len(customer_data)
     print(customer_data)
     Context={
         'media_url': settings.MEDIA_URL,
         'admin_user':admin_info,
-        'customer':customer_data
+        'customer':customer_data,
+        "customer_no":total_customer_quantity,
+        'monthly_sell':total_sell
     }
     return render(request, 'dashboardindex.html', Context)
 
@@ -85,12 +100,16 @@ def updateeditregistdata(request):
     Admin_id=request.session.get('Admin_id')
     admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
     customer_data=RegistrationModel.objects.all()
+    total_customer_quantity=len(customer_data)
+
     print(customer_data)
     Context={
         'media_url': settings.MEDIA_URL,
         'admin_user':admin_info,
         'customer':customer_data,
-        'key':'Data Suceesfully Updated'
+        'key':'Data Suceesfully Updated',
+        "customer_no":total_customer_quantity,
+        'monthly_sell':total_sell
     }
     return render(request, 'dashboardindex.html', Context)
 
@@ -222,7 +241,7 @@ def userdata(request):
 
 def deletpay(request, pk):
     try:
-        data=PaymentdataModel.objects.get(id=pk)
+        data=Invoicemodel.objects.get(id=pk)
         data.delete()
         msg="Data Deleted Successfully"
     except:
@@ -300,6 +319,34 @@ def deletpurch_prod(request, pk):
         # 'key':msg
     }
     return render(request, 'userdata.html', Context)
+
+
+# ------------------------ invoice model (invoice view) -----------------------
+import os
+
+def invoiceview(request, pk):
+    Admin_id=request.session.get('Admin_id')
+    admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
+    customer_data=RegistrationModel.objects.all()
+    print(customer_data)
+    invoiceData = Invoicemodel.objects.all()
+    Purchaseproductdata = Purchaseproduct.objects.all()
+    Paymentdata = PaymentdataModel.objects.all()
+    
+    try:
+        pdf_file_path = os.path.join(settings.BASE_DIR,'invoice_pdf',f'{pk}.pdf')
+        return FileResponse(open(pdf_file_path, 'rb'))
+    except:
+        Context={
+            'media_url': settings.MEDIA_URL,
+            'admin_user':admin_info,
+            'customer':customer_data,
+            'all_invoice':invoiceData,
+            'purchase_data':Purchaseproductdata,
+            'Paymentdata':Paymentdata,
+            'key':'Data does not exist'
+        }
+        return render(request, 'userdata.html', Context)
 
 
 

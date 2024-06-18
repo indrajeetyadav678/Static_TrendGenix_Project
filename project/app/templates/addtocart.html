@@ -68,7 +68,7 @@
                 "prefill": {
                     "name": "{{ user_name.Name }}",
                     "email": "{{ user_name.Email }}",
-                    "contact": "9000090000"
+                    "contact": "{{user_name.Number}}"
                 },
                 "notes": {
                     "address": "Cybrom Technology MP Nagar Zone-1, Bhopal, Madhya Pradesh"
@@ -91,7 +91,7 @@
                 "handler": function (response) {
                     var paymentForm = document.getElementById('payment-form');
                     var input;
-
+                    
                     input = document.createElement('input');
                     input.type = 'hidden';
                     input.name = 'razorpay_payment_id';
@@ -109,12 +109,6 @@
                     input.name = 'razorpay_signature';
                     input.value = response.razorpay_signature;
                     paymentForm.appendChild(input);
-
-                    var methodInput = document.createElement('input');
-                    methodInput.type = 'hidden';
-                    methodInput.name = 'payment_method';
-                    methodInput.value = response.payment_method;
-                    paymentForm.appendChild(methodInput);
 
                     paymentForm.submit();
                 }
@@ -139,6 +133,8 @@
             <div id="addcart_imagediv">
                 <img src="{{ media_url }}{{ i.pro_value.Prod_Image1 }}" alt="">
             </div>
+
+
             <div id="addcartprod_detail">
                 <label> Price ₹ {{ i.pro_value.Prod_Price }}</label><br />
                 <label>Offer {{ i.pro_value.Prod_Offer }}</label><br />
@@ -159,13 +155,14 @@
                     </form>
                 </div>
             </div>
+
             <div id="addcart_price">
                 <div id="ProdDetail_box">
                     {{ i.pro_value.Prod_Detail }}
                 </div>
                 <div id="paymentbuy_btn">
                     {% if buyproduct %}
-                    <form id="payment-form" action="{% url 'buyproduct_payment' %}" method="post">
+                    <form id="payment-form" action="" method="post">
                         {% csrf_token %}
                         <input type="number" name="pid" value="{{ i.pro_value.id }}" hidden>
                         <button type="submit" id="rzp-button1">Pay with Razorpay</button>
@@ -181,6 +178,7 @@
                     {% endif %}
                 </div>
             </div>
+            
             <div id="addcart_deletebtn">
                 <a href="{% url 'removeadd_cart' pk=i.pro_value.id %}">
                     <i class="fa-solid fa-trash"></i>
