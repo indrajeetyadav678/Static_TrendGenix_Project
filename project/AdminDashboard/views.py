@@ -7,7 +7,7 @@ from .models import*
 from datetime import datetime
 from django.core.mail import send_mail
 from django.conf import settings
-from django.views.decorators.csrf import csrf_exempt
+# from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404
 from app.forms import*
 from datetime import datetime
@@ -141,7 +141,7 @@ def editproductdata(request, pk):
         'media_url': settings.MEDIA_URL,
         'admin_user':admin_info,
         'prop':product_data,
-        'Productdataform':Productmodelform,
+        'Productdataform':Productmodelform(instance=data),
         'editdata':data
     }
     return render(request, 'productdata.html', Context)
