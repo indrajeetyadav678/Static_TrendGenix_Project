@@ -44,6 +44,9 @@ urlpatterns=[
     # ------ invoice view -----------------
     path('invoiceview/<str:pk>/',invoiceview, name='invoiceview'),
 
+    # =================== Home Setting Page =====================================
+    path('homesetting/',homesetting, name='homesetting'),
+
 
 
 

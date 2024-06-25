@@ -34,7 +34,7 @@
             <div style="text-align: center; font-size: 22px; font-weight: 900; margin-bottom: 10px;">Update Form</div>
             <div id="editregist_input">
                 <label c for="inputBirthday">Profile</label><br />
-                <input type="file" name="profile"  src="">
+                <input type="file" name="profile"  src="{{editdata.Profile}}">
             </div>
             <div id="editregist_input">
                 <label c for="inputBirthday">Name</label><br />
@@ -70,6 +70,13 @@
                 <label c for="inputBirthday">Password</label><br />
                 <input type="password" name="password" value="{{editdata.Password | default:'edit'}}" id="">
             </div>
+            <div id="editregist_input">
+                <label c for="inputBirthday">Role</label><br />
+                <select name="role" id="">
+                    <option value="customer">Customer</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
             <input type="submit" id="editregist_submitbtn" value="Update Data">
         </form>
 
@@ -80,7 +87,7 @@
 
 {% else %}
 <div id="registration_data">
-    <div style="width:100%; height: 60px; background-color: rgb(24, 23, 82); color:whitesmoke">
+    <div style="width:100%; height: 50px; background-color:transparent; color:rgb(10, 18, 52)" class="d-flex align-items-center justify-content-center">
         <h4>User Data Table</h4>
     </div>
     <div id="userdatatable_slider">
@@ -95,6 +102,7 @@
                     <th>Address</th>
                     <th>Contact</th>
                     <th>Birthday</th>
+                    <th>Role</th>
                     <th>Password</th>
                     <th>edit/update</th>
                     <th>delete</th>
@@ -112,6 +120,61 @@
                     <td style="width:200px;">{{i.Address}}</td>
                     <td style="width:150px;">{{i.Number}}</td>
                     <td style="width:150px;">{{i.Birthday}}</td>
+                    <td style="width:150px;">{{i.Role}}</td>
+                    <td style="width:150px;">{{i.Password}}</td>
+                    <td style="width:120px;">
+                        <button id="register_editbtn">
+                            <a href="{% url 'editregistdata' pk=i.id %}">Edit</a>
+                        </button>
+                    </td>
+                    <td style="width:80px;">
+                        <button id="delete_editbtn">
+                            <a href="{% url 'deletregistdata' pk=i.id %}">Delete</a>
+                        </button>
+                    </td>
+                    {% endfor %}
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+<hr width="100" size="2" color="black">
+   
+<div id="registration_data">
+    <div style="width:100%; height: 50px; background-color: transparent; color:rgb(8, 8, 43)" class="d-flex align-items-center justify-content-center fs-3">
+        <h4>Admin user Data Table</h4>
+    </div>
+    <div id="userdatatable_slider">
+        <table>
+            <thead id="register_data_heading">
+                <tr>
+                    <th>Profile</th>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>About</th>
+                    <th>Address</th>
+                    <th>Contact</th>
+                    <th>Birthday</th>
+                    <th>Role</th>
+                    <th>Password</th>
+                    <th>edit/update</th>
+                    <th>delete</th>
+                </tr>
+            </thead>
+            <tbody id="register_data_body">
+                {% for i in admin %}
+                <tr>
+                    <td><img style="width:45px; height: 45px; border-radius: 50%;" src="{{media_url}}{{i.Profile}}"
+                            alt=""></td>
+                    <td style="width:100px;">{{i.Name}}</td>
+                    <td style="width:150px;">{{i.Username}}</td>
+                    <td style="width:150px;">{{i.Email}}</td>
+                    <td style="width:200px;">{{i.About}}</td>
+                    <td style="width:200px;">{{i.Address}}</td>
+                    <td style="width:150px;">{{i.Number}}</td>
+                    <td style="width:150px;">{{i.Birthday}}</td>
+                    <td style="width:150px;">{{i.Role}}</td>
                     <td style="width:150px;">{{i.Password}}</td>
                     <td style="width:120px;">
                         <button id="register_editbtn">

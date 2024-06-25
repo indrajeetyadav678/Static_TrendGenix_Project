@@ -112,17 +112,12 @@ def signup(request):
 def logindata(request):
     email=request.POST.get('email')
     password=request.POST.get('password')
-    login_type=request.POST.get('login_type')
-    # print(login_type)
-    username=RegistrationModel.objects.filter(Email=email)
-    if login_type=='none':
-        msg="Choose your login Type"
-        return render(request, 'login.html', {'key1': msg})
-    elif login_type =='customer':
-        if username:
+    user=RegistrationModel.objects.filter(Email=email)
+    if user:
+        user=RegistrationModel.objects.get(Email=email)
+        if user.Role=='customer':
             data=RegistrationModel.objects.get(Email=email)
-            print("*********************************************")
-            
+            print("*********************************************")      
             Password= data.Password
             if Password==password:
                 msg="Welcome To "+data.Name
@@ -139,18 +134,12 @@ def logindata(request):
             else:
                 msg="Enter Password is Wrong Please Enter Correct Password"
                 return render(request, 'login.html', {'key1': msg})
-        else:
-            msg="Userid doesnot exist Please create Account"
-            return render(request, 'register.html', {'key1': msg})
-    elif login_type =="admin":
-        if username:
+        elif user.Role =="admin":
             data=RegistrationModel.objects.get(Email=email)
-            print(data.Name)
-            print(data)
+            # print(data.Name)
             Password= data.Password
             if Password==password:
                 request.session['Admin_id'] = data.id 
-
                 Admin_id=request.session.get('Admin_id')
                 admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
                 msg="Welcome To "+data.Name
@@ -163,9 +152,9 @@ def logindata(request):
             else:
                 msg="Enter Password is Wrong Please Enter Correct Password"
                 return render(request, 'login.html', {'key1': msg})
-        else:
-            msg="Userid doesnot exist Please create Account"
-            return render(request, 'register.html', {'key1': msg})
+    else:
+        msg="Userid doesnot exist Please create Account"
+        return render(request, 'register.html', {'key1': msg})
         
 # ============================== logout ===================================
 def logout(request):

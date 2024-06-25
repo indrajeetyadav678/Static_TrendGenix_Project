@@ -25,7 +25,8 @@ def Adminlogout(request):
 def dashbordindex(request):
     Admin_id=request.session.get('Admin_id')
     admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
-    customer_data=RegistrationModel.objects.all()
+    customer_data=RegistrationModel.objects.filter(Role='customer')
+    admin_data=RegistrationModel.objects.filter(Role='admin')
     total_customer_quantity=len(customer_data)
     invoice_data=Invoicemodel.objects.all()
     global total_sell
@@ -34,10 +35,12 @@ def dashbordindex(request):
         total_sell+=i.Amount_paid
 
     print(customer_data)
+    total_sell= 100
     Context={
         'media_url': settings.MEDIA_URL,
         'admin_user':admin_info,
         'customer':customer_data,
+        'admin':admin_data,
         "customer_no":total_customer_quantity,
         'monthly_sell':total_sell
     }
@@ -48,13 +51,16 @@ def editregistdata(request, pk):
     
     Admin_id=request.session.get('Admin_id')
     admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
-    customer_data=RegistrationModel.objects.all()
+    customer_data=RegistrationModel.objects.filter(Role='customer')
+    admin_data=RegistrationModel.objects.filter(Role='admin')
     total_customer_quantity=len(customer_data)
     print(customer_data)
+    total_sell=100
     Context={
         'media_url': settings.MEDIA_URL,
         'admin_user':admin_info,
         'customer':customer_data,
+        'admin':admin_data,
         'registform':Registrationform,
         'editdata':data,
         "customer_no":total_customer_quantity,
@@ -67,13 +73,15 @@ def deletregistdata(request, pk):
     data.delete()
     Admin_id=request.session.get('Admin_id')
     admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
-    customer_data=RegistrationModel.objects.all()
+    customer_data=RegistrationModel.objects.filter(Role='customer')
+    admin_data=RegistrationModel.objects.filter(Role='admin')
     total_customer_quantity=len(customer_data)
     print(customer_data)
     Context={
         'media_url': settings.MEDIA_URL,
         'admin_user':admin_info,
         'customer':customer_data,
+        'admin':admin_data,
         "customer_no":total_customer_quantity,
         'monthly_sell':total_sell
     }
@@ -84,8 +92,6 @@ def deletregistdata(request, pk):
 def updateeditregistdata(request):
     print(request.FILES)
     print(request.POST)
-
-
     data=RegistrationModel.objects.get(Email=request.POST['email'])
     data.Profile=request.FILES.get('profile')
     data.Name=request.POST['name']
@@ -94,19 +100,23 @@ def updateeditregistdata(request):
     data.Address=request.POST['address']
     data.Number=request.POST['number']
     data.Password=request.POST['password']
+    data.Role=request.POST['role']
     data.Birthday=request.POST['birthday']
     data.About=request.POST['about']
     data.save()
     Admin_id=request.session.get('Admin_id')
     admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
-    customer_data=RegistrationModel.objects.all()
+    customer_data=RegistrationModel.objects.filter(Role='customer')
+    admin_data=RegistrationModel.objects.filter(Role='admin')
     total_customer_quantity=len(customer_data)
+    total_sell = 100
 
     print(customer_data)
     Context={
         'media_url': settings.MEDIA_URL,
         'admin_user':admin_info,
         'customer':customer_data,
+        'admin':admin_data,
         'key':'Data Suceesfully Updated',
         "customer_no":total_customer_quantity,
         'monthly_sell':total_sell
@@ -549,3 +559,12 @@ def product_show1(request):
 
 
 #=================== User Dashboard login after Navition =============
+def homesetting(request):
+    Admin_id=request.session.get('Admin_id')
+    admin_info=get_object_or_404(RegistrationModel, id=Admin_id)
+    Context={
+        'admin_user':admin_info, 
+        'media_url': settings.MEDIA_URL,
+        'carouselform':indexcarouselform
+    }
+    return render(request, 'homesetting.html', Context)

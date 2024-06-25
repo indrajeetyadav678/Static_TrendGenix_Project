@@ -1,8 +1,12 @@
 from django.db import models
+# from django.core.validators import RegexValidator
 
 # Create your models here.\
 # ========================== 1. User Registration Model ==============================
-
+role=(
+    ('customer', 'customer'),
+    ('admin', 'admin')
+)
 class RegistrationModel(models.Model):
     Profile=models.ImageField(null=True, upload_to=True)
     About=models.TextField( null=True)
@@ -13,6 +17,18 @@ class RegistrationModel(models.Model):
     Number=models.IntegerField()
     Password=models.CharField(max_length=20)
     Birthday=models.DateField(null=True)
+    Role=models.CharField(max_length=20, default='customer', choices=role)
+    # year_range = models.CharField(
+    #     max_length=9,
+    #     validators=[
+    #         RegexValidator(
+    #             regex=r'^\d{4}-\d{4}$',
+    #             message='Year range must be in the format YYYY-YYYY',
+    #             code='invalid_year_range'
+    #         ),
+    #     ]
+    # )
+
 
     def __str__(self):
         return self.Email

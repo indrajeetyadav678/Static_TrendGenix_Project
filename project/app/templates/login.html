@@ -6,11 +6,6 @@
         <h2 id="form_type"> Login</h2>
         <form action="{% url 'logindata' %}" method="post">
             {% csrf_token %}
-            <select name="login_type" id="logintype">
-                <option value="none" name="login_type" id="sel_typenone">Choose Login Type</option>
-                <option value="customer" name="login_type" id="sel_typenone">Customer</option>
-                <option value="admin" name="login_type" id="sel_typenone">Admin</option>
-            </select><br /><br />
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Login with Email/Number</label>
                 <input type="email" name="email" class="form-control" id="exampleFormControlInput1"

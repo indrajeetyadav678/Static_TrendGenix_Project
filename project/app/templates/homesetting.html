@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content%}
+<div>
+<form action="" method="post">
+    {% csrf_token %}
+    <h3>Carouse data adding form</h3>
+    {{carouselform}}
+    <input type="submit" value="Submit" class="p-3 bg-primary rounded-3">
+</form>
+</div>
+
+
+<h1>Home setting</h1>
+{% endblock %}
